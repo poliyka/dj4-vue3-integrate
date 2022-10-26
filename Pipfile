@@ -1,0 +1,40 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "*"
+django-environ = "*"
+ipython = "*"
+psycopg2-binary = "*"
+django-compressor = "*"
+django-sass-processor = "*"
+djangorestframework = "*"
+drf-spectacular = "*"
+drf-spectacular-sidecar = "*"
+django-cors-headers = "*"
+Pillow = "*"
+rsa = "*"
+# dj-registry = "*"
+pandas = "*"
+openpyxl = "*"
+freezegun = "*"
+uwsgi = "*"
+numpy = "*"
+Faker = "*"
+django-extensions = "*"
+pyparsing = "*"
+graphviz = "*"
+pydot = "*"
+drf-jwt = "*"
+django-allauth = "*"
+channels = "*"
+
+[dev-packages]
+isort = "*"
+black = "*"
+libsass = "*"
+
+[requires]
+python_version = "3.10"

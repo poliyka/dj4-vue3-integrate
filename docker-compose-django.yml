@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    container_name: django
+    entrypoint: './entrypoint.sh'
+    # platform: linux/amd64
+    restart: always
+    depends_on:
+      - django-db
+    env_file: .env
+    environment:
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - ./django:/home/appuser/app/django
+      - ./Pipfile:/home/appuser/app/Pipfile
+      # - ./Pipfile.lock:/home/appuser/app/Pipfile.lock
+      - ./django/static_collected:/django/static_collected
+      - ./uwsgi.ini:/home/appuser/app/uwsgi.ini
+      - uwsgi-log:/tmp
+    networks:
+      - django-net
+
+  django-nginx:
+    container_name: django-nginx
+    image: nginx
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 3002:3002
+    volumes:
+      - ./django/media:/django/media
+      - ./django/static_collected:/django/static_collected
+    restart: always
+    depends_on:
+      - django
+    networks:
+      - django-net
+
+volumes:
+  uwsgi-log:
+
+networks:
+  django-net:
+    driver: bridge
+
