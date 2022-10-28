@@ -8,7 +8,7 @@ Make sure dependence install following command
 sudo apt-get install libpq-dev python3-dev
 ```
 
-Make sure your python version is 3.9. If not. You must install `pipenv` or other virtualenv for python 3.9.
+Make sure your python version is 3.10. If not. You must install `pipenv` or other virtualenv for python 3.10.
 
 Initialize database by following command.
 

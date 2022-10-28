@@ -1,4 +1,18 @@
 PYVENV_PREFIX=pipenv run
+DOCKER_COMPOSE=docker-compose
+
+# docker
+build:
+	$(DOCKER_COMPOSE) build
+
+cleanbuild:
+	$(DOCKER_COMPOSE) build --no-cache
+
+up:
+	$(DOCKER_COMPOSE) up --build
+
+down:
+	$(DOCKER_COMPOSE) down -v
 
 # backend
 migrate:
@@ -6,6 +20,9 @@ migrate:
 
 makemigrations:
 	$(PYVENV_PREFIX) python backend/manage.py makemigrations
+
+collection:
+	$(PYVENV_PREFIX) python backend/manage.py collectstatic
 
 rm-migrations:
 	find . -path '*/migrations/__init__.py' -exec truncate -s 0 {} + -o -path '*/migrations/*' -delete

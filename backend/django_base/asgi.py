@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 
 import os
 
-from django.conf import settings
+import environ
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{settings.DEV}")
+env = environ.Env()
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{env('DEV')}")
 
 application = get_asgi_application()

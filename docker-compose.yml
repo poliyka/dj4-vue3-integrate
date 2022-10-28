@@ -16,11 +16,14 @@ services:
       DEBUG: ${DEBUG}
       SECRET_KEY: ${SECRET_KEY}
       DATABASE_URL: ${DATABASE_URL}
+      DEV: ${DEV}
+    ports:
+      - 3003:3003
     volumes:
-      - ./django:/home/appuser/app/django
+      - ./backend:/home/appuser/app/django
       - ./Pipfile:/home/appuser/app/Pipfile
       # - ./Pipfile.lock:/home/appuser/app/Pipfile.lock
-      - ./django/static_collected:/django/static_collected
+      - ./backend/static_collected:/django/static_collected
       - ./uwsgi.ini:/home/appuser/app/uwsgi.ini
       - uwsgi-log:/tmp
     networks:
@@ -32,18 +35,33 @@ services:
     build:
       context: docker/nginx
       dockerfile: Dockerfile
-    ports:
-      - 3002:3002
+    # ports:
+    #   - 3002:3002
     volumes:
-      - ./django/media:/django/media
-      - ./django/static_collected:/django/static_collected
+      - ./backend/media:/django/media
+      - ./backend/static_collected:/django/static_collected
     restart: always
     depends_on:
       - django
     networks:
       - django-net
 
+  django-db:
+    image: postgres:14.5
+    container_name: django-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    networks:
+      - django-net
+
 volumes:
+  pgdata:
   uwsgi-log:
 
 networks:
