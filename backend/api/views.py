@@ -22,7 +22,6 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
-
 # https://www.django-rest-framework.org/api-guide/status-codes/
 from rest_framework.status import (
     HTTP_200_OK,
