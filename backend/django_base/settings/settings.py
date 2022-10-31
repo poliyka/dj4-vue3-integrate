@@ -57,17 +57,20 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "sass_processor",
     "rest_framework",
+    "rest_framework.authtoken",
     # "drf_yasg",
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "corsheaders",
-    # "registry",
+    "registry",
     "compressor",
     "django_extensions",
     # Oauth
     "allauth",
     "allauth.account",
     # "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration"
 ]
 
 LOCAL_APPS = [

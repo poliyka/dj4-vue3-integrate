@@ -51,7 +51,7 @@ class UserDataApiView(APIView):
         summary="UserDataPost",
         description="使用者資訊",
         responses={200: str, 401: str},
-        request=UserSerializer(),
+        request=UserSerializer,
     )
     def post(self, request, *args, **kw):
 

@@ -8,7 +8,9 @@ app_name = "api"
 
 urlpatterns = [
     # rest auth
-    path("user-data/", UserDataApiView.as_view(), name="user-data")
+    path("user-data/", UserDataApiView.as_view(), name="user-data"),
+    path("accounts/", include("dj_rest_auth.urls"), name="accounts"),
+    path('accounts/registration/', include('dj_rest_auth.registration.urls'), name="registration")
 ]
 
 if settings.DEV in ["dev", "stage"]:
