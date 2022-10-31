@@ -13,6 +13,35 @@ MIDDLEWARE.extend(
     ]
 )
 
+# CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    "http://127.0.0.1:9000",
+    "http://localhost:9000",
+)
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    "VIEW",
+)
+CORS_ALLOW_HEADERS = [
+    "XMLHttpRequest",
+    "X_FILENAME",
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
 # schema 圖表化設定
 GRAPH_MODELS = {
     "all_applications": True,

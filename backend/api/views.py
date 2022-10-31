@@ -40,6 +40,7 @@ class UserDataApiView(APIView):
     @extend_schema(
         tags=["System"], summary="UserData", description="使用者資訊", responses={200: str, 401: str}
     )
+    @csrf_protect
     def get(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
         User = get_user_model()
         # flash query prevent cache user
@@ -55,6 +56,7 @@ class UserDataApiView(APIView):
         responses={200: str, 401: str},
         request=UserSerializer,
     )
+    @csrf_protect
     def post(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
 
         userSerializer = UserSerializer(data=request.data)
