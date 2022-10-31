@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -37,5 +39,5 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     raw_id_fields = ("user",)
 
-    def view_name(self, obj):
+    def view_name(self, obj: Profile) -> Any:
         return obj.name

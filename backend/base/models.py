@@ -40,6 +40,6 @@ class Profile(BaseTimeModel):
     address = models.CharField("聯絡地址", max_length=256, blank=True, null=True)
     note = models.TextField("備註", blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """String for representing the Model object."""
         return f"{self.user.username}/{self.user.__str__()}"

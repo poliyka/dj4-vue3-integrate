@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import Group, User
@@ -7,7 +8,7 @@ from django.core import serializers
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Max
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -19,6 +20,8 @@ from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+
+
 
 # https://www.django-rest-framework.org/api-guide/status-codes/
 from rest_framework.status import (
@@ -38,7 +41,7 @@ class UserDataApiView(APIView):
     @extend_schema(
         tags=["System"], summary="UserData", description="使用者資訊", responses={200: str, 401: str}
     )
-    def get(self, request, *args, **kw):
+    def get(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
         User = get_user_model()
         # flash query prevent cache user
         current_user = User.objects.filter(id=request.user.id).first()
@@ -53,11 +56,10 @@ class UserDataApiView(APIView):
         responses={200: str, 401: str},
         request=UserSerializer,
     )
-    def post(self, request, *args, **kw):
+    def post(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
 
         userSerializer = UserSerializer(data=request.data)
 
         if not userSerializer.is_valid():
-            return Response(userSerializer.errors, status=HTTP_400_BAD_REQUEST)
-
+            return JsonResponse(userSerializer.errors, status=HTTP_400_BAD_REQUEST)
         return JsonResponse(userSerializer.data, safe=True)

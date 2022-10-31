@@ -7,7 +7,7 @@ import sys
 DEV = os.environ.get("DEV")
 
 
-def main():
+def main() -> None:
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{DEV}")
     try:

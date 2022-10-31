@@ -174,7 +174,7 @@ STATICFILES_FINDERS = [
     "sass_processor.finders.CssFinder",
 ]
 
-SASS_PROCESSOR_INCLUDE_DIRS = []
+# SASS_PROCESSOR_INCLUDE_DIRS = []
 
 # Authentication api
 REST_FRAMEWORK = {

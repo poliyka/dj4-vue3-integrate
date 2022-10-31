@@ -1,5 +1,9 @@
 import os
+
+# Typing
+from argparse import ArgumentParser
 from getpass import getpass
+from typing import Any
 
 from base.models import Profile
 from django.conf import settings
@@ -20,10 +24,10 @@ class Command(BaseCommand):
     REG_RSA_PUBLISH_KEY = "init.rsa_publish_key"
     REG_TIME_TRAVEL = "init.time_travel"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: ArgumentParser) -> None:
         parser.add_argument("-f", "--force", action="store_true", help="force import")
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
         if options["force"]:
             self.stdout.write("Clear registry...")
             if self.REG_RSA_PRIVATE_KEY in reg:
@@ -60,7 +64,7 @@ class Command(BaseCommand):
                 enabled=False,
             )
 
-    def create_superuser(self):
+    def create_superuser(self) -> None:
         username = os.environ.get("DJANGO_SUPERUSER_USERNAME") or input("Please enter username: ")
         email = os.environ.get("DJANGO_SUPERUSER_EMAIL") or input("Please enter email: ")
         password = os.environ.get("DJANGO_SUPERUSER_PASSWORD") or getpass("Please enter password: ")

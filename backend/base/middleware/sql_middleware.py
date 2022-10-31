@@ -8,10 +8,11 @@ Updated statements to make it Python 3 friendly.
 
 from django.db import connection
 from django.conf import settings
+from typing import Any
 import os
 
 
-def terminal_width():
+def terminal_width() -> int:
     """
     Function to compute the terminal width.
     """
@@ -34,8 +35,8 @@ def terminal_width():
     return width
 
 
-def SqlPrintingMiddleware(get_response):
-    def middleware(request):
+def SqlPrintingMiddleware(get_response: Any) -> Any:
+    def middleware(request: Any) -> Any:
         response = get_response(request)
         if (
             not settings.DEBUG
