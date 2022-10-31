@@ -74,7 +74,7 @@ module.exports = configure(function (/* ctx */) {
       // ignorePublicFolder: true,
       // minify: false,
       // polyfillModulePreload: true,
-      distDir: 'dist',
+      distDir: '../backend/dist',
 
       extendViteConf (viteConf) {
         viteConf.build.assetsDir = 'static'

@@ -1,5 +1,12 @@
 from .settings import *
 
+# Database
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
+DATABASES = {
+    "default": env.db(),
+}
+
 MIDDLEWARE.extend(
     [
         "base.middleware.sql_middleware.SqlPrintingMiddleware",
