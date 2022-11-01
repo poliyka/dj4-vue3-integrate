@@ -17,8 +17,4 @@ export interface Meta {
   totalCount: number;
 }
 
-export interface ICsrfTokenHeader {
-  'X-CSRFTOKEN': string;
-}
-
 export type HandleAfterBirthday = () => void;

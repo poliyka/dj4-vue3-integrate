@@ -15,13 +15,7 @@
 
           <q-toolbar-title> DSA System Login </q-toolbar-title>
 
-          <q-btn
-            flat
-            round
-            dense
-            :icon="themeMode"
-            @click="onSwitchMode"
-          />
+          <q-btn flat round dense :icon="themeMode" @click="onSwitchMode" />
         </q-toolbar>
       </q-header>
 
@@ -67,6 +61,15 @@
                 flat
                 class="q-ml-sm"
               />
+              <q-btn label="Get" type="button" color="accent" @click="onGet" />
+              <q-btn
+                label="Post"
+                type="button"
+                color="accent"
+                flat
+                class="q-ml-sm"
+                @click="onPost"
+              />
             </div>
           </q-form>
         </q-page>
@@ -83,7 +86,7 @@ import { useQuasar } from 'quasar';
 import { ThemeMode } from 'src/utils/Enum';
 // import { Cookies } from 'quasar';
 import { useRouter } from 'vue-router';
-import { userLogin } from 'src/api/system';
+import { userLogin, userGet, userPost } from 'src/api/system';
 import { switchMode } from 'src/utils/Utils';
 
 export default defineComponent({
@@ -109,10 +112,13 @@ export default defineComponent({
 
     const v$ = useVuelidate(rules, formData);
 
+    // Function
     const onSubmit = async (): Promise<void> => {
       await userLogin(formData);
+      const jcsToken = $q.localStorage.getItem('jcsToken');
+
       // TODO: ajax 後端確認登入狀態
-      if (false) {
+      if (jcsToken) {
         $q.notify({
           color: 'red-5',
           textColor: 'white',
@@ -128,11 +134,20 @@ export default defineComponent({
         $q.notify({
           color: 'green-4',
           textColor: 'white',
-          icon: 'cloud_done',
+          icon: 'success',
+          position: 'top',
           message: 'Submitted',
         });
         router.push({ name: 'search' });
       }
+    };
+
+    const onGet = async (): Promise<void> => {
+      await userGet();
+    };
+
+    const onPost = async (): Promise<void> => {
+      await userPost();
     };
 
     const onReset = (): void => {
@@ -155,6 +170,8 @@ export default defineComponent({
       onSwitchMode,
       onSubmit,
       onReset,
+      onGet,
+      onPost,
     };
   },
 });

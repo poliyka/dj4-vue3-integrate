@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import { Notify, QNotifyCreateOptions } from 'quasar';
+import { Notify, QNotifyCreateOptions, LocalStorage, Cookies } from 'quasar';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -34,7 +34,8 @@ if (process.env.DEV) {
 api.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    config.headers['Authorization'] = localStorage.getItem('token');
+    config.headers['Authorization'] = LocalStorage.getItem('jcsToken');
+    config.headers['x-csrftoken'] = Cookies.get('csrftoken')
     return config;
   },
   function (error) {
@@ -45,12 +46,13 @@ api.interceptors.request.use(
 
 // On response
 api.interceptors.response.use(
+
   function (response) {
     // Do something with response data
     return response;
   },
-  function (error) {
 
+  function (error) {
     // Show up notify
     const notifyKwargs = {
       type: 'negative',
@@ -63,6 +65,10 @@ api.interceptors.response.use(
 
     if (error.response) {
       switch (error.response.status) {
+        case 400:
+          debugger
+          Notify.create({...notifyKwargs, message: '參數錯誤'});
+          break;
         case 401:
           Notify.create({...notifyKwargs, message: '請先登入'});
           break;
@@ -82,7 +88,7 @@ api.interceptors.response.use(
       }
     }
     if (!window.navigator.onLine) {
-      alert('網路出了點問題，請重新連線後重整網頁');
+      Notify.create({...notifyKwargs, message: '網路出了點問題，請重新連線後重整網頁'});
       return;
     }
     return Promise.reject(error);
