@@ -11,6 +11,7 @@ from django.db.models import Max
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
@@ -40,7 +41,6 @@ class UserDataApiView(APIView):
     @extend_schema(
         tags=["System"], summary="UserData", description="使用者資訊", responses={200: str, 401: str}
     )
-    @csrf_protect
     def get(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
         User = get_user_model()
         # flash query prevent cache user
@@ -56,7 +56,7 @@ class UserDataApiView(APIView):
         responses={200: str, 401: str},
         request=UserSerializer,
     )
-    @csrf_protect
+    @method_decorator(csrf_protect)
     def post(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
 
         userSerializer = UserSerializer(data=request.data)

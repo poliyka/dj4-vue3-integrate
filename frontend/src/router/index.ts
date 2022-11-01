@@ -41,8 +41,8 @@ export default route(function (/* { store, ssrContext } */) {
       // this route requires auth, check if logged in
       // if not, redirect to login page.
       // TODO: 寫入導向位置
-      console.log("🚀 ~ file: index.ts ~ line 45 ~ Router.beforeEach ~ Cookies.get('session')", Cookies.get('session'))
-      if (!Cookies.has('session')) {
+      console.log("🚀 ~ file: index.ts ~ line 45 ~ Router.beforeEach ~ Cookies.get('session')", Cookies.get('sessionid'))
+      if (!Cookies.has('sessionid')) {
         next({ name: 'login' });
       } else {
         next(); // go to wherever I'm going

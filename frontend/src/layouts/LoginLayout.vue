@@ -110,12 +110,7 @@ export default defineComponent({
     const v$ = useVuelidate(rules, formData);
 
     const onSubmit = async (): Promise<void> => {
-      const res = await userLogin(formData);
-      console.log(
-        '🚀 ~ file: LoginLayout.vue ~ line 118 ~ onSubmit ~ res',
-        res
-      );
-
+      await userLogin(formData);
       // TODO: ajax 後端確認登入狀態
       if (false) {
         $q.notify({

@@ -1,7 +1,7 @@
-import { SwitchMode } from 'src/types/Utils';
+import { TSwitchMode } from 'src/types/Utils';
 import { ThemeMode } from 'src/utils/Enum';
 
-export const switchMode: SwitchMode = ($q, themeMode) => {
+export const switchMode: TSwitchMode = ($q, themeMode) => {
   // A function that is used to switch between dark and light mode.
   $q.dark.set(!$q.dark.isActive);
   if ($q.dark.isActive) {
@@ -10,3 +10,4 @@ export const switchMode: SwitchMode = ($q, themeMode) => {
     themeMode.value = ThemeMode.LightMode;
   }
 };
+

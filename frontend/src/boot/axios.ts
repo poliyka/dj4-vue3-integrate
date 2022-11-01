@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import { Notify, Cookies } from 'quasar';
+import { Notify, QNotifyCreateOptions } from 'quasar';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -19,13 +19,16 @@ const api = axios.create({
   baseURL: `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
-    'X-CSRFTOKEN': Cookies.get('csrftoken'),
   },
   timeout: 20000,
 });
 
-//CORS
-api.defaults.withCredentials = true;
+// 在開發環境下才啟用 CORS
+// 並直接模擬登入首頁取得 csrf token
+if (process.env.DEV) {
+  api.defaults.withCredentials = true;
+  api.get('', { withCredentials: true });
+}
 
 // On request
 api.interceptors.request.use(
@@ -47,28 +50,35 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
-    Notify.create({
-      type: 'positive',
-      color: 'positive',
-      timeout: 1000,
-      position: 'center',
-      message: 'Yeah. Data saved. Great Job!',
-    });
+
+    // Show up notify
+    const notifyKwargs = {
+      type: 'negative',
+      color: 'negative',
+      timeout: 3000,
+      position: 'top',
+      message: error.message,
+    } as QNotifyCreateOptions;
+
+
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          console.log('請先登入');
+          Notify.create({...notifyKwargs, message: '請先登入'});
+          break;
+        case 403:
+          Notify.create({...notifyKwargs, message: '權限不足'});
           break;
         case 404:
-          console.log('找不到頁面');
+          Notify.create({...notifyKwargs, message: '找不到頁面'});
           // go to 404 page
           break;
         case 500:
-          console.log('程式發生問題');
+          Notify.create({...notifyKwargs, message: '程式發生問題'});
           // go to 500 page
           break;
         default:
-          console.log(error.message);
+          Notify.create(notifyKwargs);
       }
     }
     if (!window.navigator.onLine) {
