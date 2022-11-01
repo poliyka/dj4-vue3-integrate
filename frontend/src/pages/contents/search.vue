@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Menu, Meta } from 'src/types/Types'
+import { Menu, Meta } from 'src/types/Types';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
 

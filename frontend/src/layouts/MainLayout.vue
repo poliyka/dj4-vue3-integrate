@@ -42,7 +42,6 @@ import MenuComponent from 'components/sidebar/MenuComponent.vue';
 import { useMenuStore } from 'stores/menu';
 import { storeToRefs } from 'pinia';
 
-
 export default defineComponent({
   name: 'MainLayout',
 

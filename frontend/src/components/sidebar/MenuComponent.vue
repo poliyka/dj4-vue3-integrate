@@ -47,7 +47,7 @@ export default defineComponent({
     const { path } = toRefs(props);
     const router = useRouter();
     const active = computed(() => {
-      return router.currentRoute.value.path == path.value
+      return router.currentRoute.value.path == path.value;
     });
 
     return { active, props };

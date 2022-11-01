@@ -14,6 +14,13 @@ up:
 down:
 	$(DOCKER_COMPOSE) down -v
 
+# frontend
+run-frontend:
+	cd frontend; npm run dev
+
+build-frontend:
+	cd frontend; npm run build
+
 # backend
 migrate:
 	$(PYVENV_PREFIX) python backend/manage.py migrate

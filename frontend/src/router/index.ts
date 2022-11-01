@@ -7,7 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
-import { Cookies } from 'quasar'
+import { Cookies } from 'quasar';
 
 /*
  * If not building with SSR mode, you can

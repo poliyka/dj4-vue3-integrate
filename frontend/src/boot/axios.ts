@@ -35,7 +35,7 @@ api.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     config.headers['Authorization'] = LocalStorage.getItem('jcsToken');
-    config.headers['x-csrftoken'] = Cookies.get('csrftoken')
+    config.headers['x-csrftoken'] = Cookies.get('csrftoken');
     return config;
   },
   function (error) {
@@ -46,7 +46,6 @@ api.interceptors.request.use(
 
 // On response
 api.interceptors.response.use(
-
   function (response) {
     // Do something with response data
     return response;
@@ -62,25 +61,23 @@ api.interceptors.response.use(
       message: error.message,
     } as QNotifyCreateOptions;
 
-
     if (error.response) {
       switch (error.response.status) {
         case 400:
-          debugger
-          Notify.create({...notifyKwargs, message: '參數錯誤'});
+          Notify.create({ ...notifyKwargs, message: '參數錯誤' });
           break;
         case 401:
-          Notify.create({...notifyKwargs, message: '請先登入'});
+          Notify.create({ ...notifyKwargs, message: '請先登入' });
           break;
         case 403:
-          Notify.create({...notifyKwargs, message: '權限不足'});
+          Notify.create({ ...notifyKwargs, message: '權限不足' });
           break;
         case 404:
-          Notify.create({...notifyKwargs, message: '找不到頁面'});
+          Notify.create({ ...notifyKwargs, message: '找不到頁面' });
           // go to 404 page
           break;
         case 500:
-          Notify.create({...notifyKwargs, message: '程式發生問題'});
+          Notify.create({ ...notifyKwargs, message: '程式發生問題' });
           // go to 500 page
           break;
         default:
@@ -88,7 +85,10 @@ api.interceptors.response.use(
       }
     }
     if (!window.navigator.onLine) {
-      Notify.create({...notifyKwargs, message: '網路出了點問題，請重新連線後重整網頁'});
+      Notify.create({
+        ...notifyKwargs,
+        message: '網路出了點問題，請重新連線後重整網頁',
+      });
       return;
     }
     return Promise.reject(error);

@@ -36,6 +36,5 @@ export const useMenuStore = defineStore('menu', {
     // }
   },
 
-  actions: {
-  },
+  actions: {},
 });

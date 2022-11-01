@@ -22,7 +22,10 @@ export const userGet = async () => {
 };
 
 export const userPost = async () => {
-  const res = await api.post('api/v1/user-data/', {email: 'test', username: 'aaa'});
+  const res = await api.post('api/v1/user-data/', {
+    email: 'test',
+    username: 'aaa',
+  });
   console.log('userPost');
   return res;
 };

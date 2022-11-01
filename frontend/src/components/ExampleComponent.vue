@@ -18,19 +18,19 @@
     />
     爺爺今年已經 {{ states.old }} 歲了
     <button @click="handleAfterBirthday">幫爺爺慶生結束</button>
-    <img :src="image" alt="">
+    <img :src="image" alt="" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, computed, ref, Ref, toRefs } from 'vue';
-import { Menu, Meta } from 'src/types/Types'
+import { Menu, Meta } from 'src/types/Types';
 import { useQuasar } from 'quasar';
 import { watch, reactive } from 'vue';
 import { api } from 'boot/axios';
-import { injectStrict, statesKey, genKey } from 'src/utils/Injects'
+import { injectStrict, statesKey, genKey } from 'src/utils/Injects';
 
-import image from '/icons/favicon-128x128.png'
+import image from '/icons/favicon-128x128.png';
 
 interface Student {
   firstName: string;

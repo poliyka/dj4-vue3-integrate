@@ -10,4 +10,3 @@ export const switchMode: TSwitchMode = ($q, themeMode) => {
     themeMode.value = ThemeMode.LightMode;
   }
 };
-
