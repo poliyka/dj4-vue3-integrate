@@ -62,6 +62,10 @@ db.sqlite3
 db.sqlite3-journal
 static_collected
 
+# TODO: delete on prod
+**/migrations/*
+!**/migrations/__init__.py
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -272,6 +276,3 @@ blurred.xlsx
 # Built Visual Studio Code Extensions
 *.vsix
 
-# migrations on dev
-migrations/*
-!migrations/__init__.py
