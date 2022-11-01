@@ -27,6 +27,9 @@ format-fe:
 lint-fe:
 	cd frontend; npm run lint
 
+install-fe:
+	cd frontend; npm install $(a)
+
 # backend
 format-be:
 	$(PYVENV_PREFIX) black backend
