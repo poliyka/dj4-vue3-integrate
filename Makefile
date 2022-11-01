@@ -15,13 +15,58 @@ down:
 	$(DOCKER_COMPOSE) down -v
 
 # frontend
-run-frontend:
+run-fe:
 	cd frontend; npm run dev
 
-build-frontend:
+build-fe:
 	cd frontend; npm run build
 
+format-fe:
+	cd frontend; npm run build
+
+lint-fe:
+	cd frontend; npm run lint
+
 # backend
+format-be:
+	$(PYVENV_PREFIX) black backend
+	$(PYVENV_PREFIX) isort backend
+
+lint-be:
+	$(PYVENV_PREFIX) flake8 backend
+
+test-be:
+	$(PYVENV_PREFIX) python backend/manage.py test backend/
+
+test-be-tag:
+	$(PYVENV_PREFIX) python backend/manage.py test backend/ --tag=$(t)
+
+test-be-path:
+	$(PYVENV_PREFIX) python backend/manage.py test $(p)
+
+shell-be:
+	$(PYVENV_PREFIX) python backend/manage.py shell
+
+run-be:
+	$(PYVENV_PREFIX) python backend/manage.py runserver 0.0.0.0:3002
+
+create-user:
+	$(PYVENV_PREFIX) python backend/manage.py createsuperuser
+
+schema-be:
+	$(PYVENV_PREFIX) python backend/manage.py spectacular --file schema.yml
+
+# none: insert demo data
+# -f, --force : force clear origin data
+demo-be:
+	$(PYVENV_PREFIX) python backend/manage.py simulate $(a)
+
+# none: initialize database
+# -f, --force : force clear registry first
+init-be:
+	$(PYVENV_PREFIX) python backend/manage.py initialize $(a)
+
+# db
 migrate:
 	$(PYVENV_PREFIX) python backend/manage.py migrate
 
@@ -34,43 +79,6 @@ collection:
 rm-migrations:
 	find . -path '*/migrations/__init__.py' -exec truncate -s 0 {} + -o -path '*/migrations/*' -delete
 
-format:
-	$(PYVENV_PREFIX) black backend
-	$(PYVENV_PREFIX) isort backend
-
-lint:
-	$(PYVENV_PREFIX) flake8 backend
-
-test-backend:
-	$(PYVENV_PREFIX) python backend/manage.py test backend/
-
-test-backend-tag:
-	$(PYVENV_PREFIX) python backend/manage.py test backend/ --tag=$(t)
-
-test-backend-path:
-	$(PYVENV_PREFIX) python backend/manage.py test $(p)
-
-shell:
-	$(PYVENV_PREFIX) python backend/manage.py shell
-
-run-backend:
-	$(PYVENV_PREFIX) python backend/manage.py runserver 0.0.0.0:3002
-
-create-user:
-	$(PYVENV_PREFIX) python backend/manage.py createsuperuser
-
-schema:
-	$(PYVENV_PREFIX) python backend/manage.py spectacular --file schema.yml
-
-# none: initialize database
-# -f, --force : force clear registry first
-demo:
-	$(PYVENV_PREFIX) python backend/manage.py simulate $(a)
-
-# none: initialize database
-# -f, --force : force clear registry first
-init-backend-db:
-	$(PYVENV_PREFIX) python backend/manage.py initialize $(a)
 
 # Schema 關係圖
 erd:

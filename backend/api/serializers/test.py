@@ -1,7 +1,7 @@
-from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
-from rest_framework import serializers
 from base.models import Profile
 from django.contrib.auth.models import Permission, User
+from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
+from rest_framework import serializers
 
 
 @extend_schema_serializer(

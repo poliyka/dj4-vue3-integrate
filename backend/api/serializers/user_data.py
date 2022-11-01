@@ -1,6 +1,6 @@
-from rest_framework import serializers
 from base.models import Profile
 from django.contrib.auth.models import Permission, User
+from rest_framework import serializers
 
 # https://github.com/axnsan12/drf-yasg/blob/master/testproj/snippets/serializers.py#L48
 
@@ -12,11 +12,12 @@ class PermissionSerializer(serializers.ModelSerializer):
         model = Permission
         fields = ("name", "codename")
 
-class ProfileSerializer(serializers.ModelSerializer):
 
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         exclude = ("id", "user", "created_at")
+
 
 class UserDataSerializer(serializers.ModelSerializer):
 
@@ -24,4 +25,12 @@ class UserDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ("password", "first_name", "last_name", "last_login", "is_active", "user_permissions", "groups")
+        exclude = (
+            "password",
+            "first_name",
+            "last_name",
+            "last_login",
+            "is_active",
+            "user_permissions",
+            "groups",
+        )

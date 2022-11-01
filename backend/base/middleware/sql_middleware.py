@@ -6,10 +6,11 @@ Ignoring static file requests and a certain useless admin request from triggerin
 Updated statements to make it Python 3 friendly.
 """
 
-from django.db import connection
-from django.conf import settings
-from typing import Any
 import os
+from typing import Any
+
+from django.conf import settings
+from django.db import connection
 
 
 def terminal_width() -> int:
@@ -18,7 +19,9 @@ def terminal_width() -> int:
     """
     width = 0
     try:
-        import struct, fcntl, termios
+        import fcntl
+        import struct
+        import termios
 
         s = struct.pack("HHHH", 0, 0, 0, 0)
         x = fcntl.ioctl(1, termios.TIOCGWINSZ, s)
@@ -64,7 +67,8 @@ def SqlPrintingMiddleware(get_response: Any) -> Any:
         replace_tuple = (" " * indentation, str(total_time))
         print("%s\033[1;32m[TOTAL TIME: %s seconds]\033[0m" % replace_tuple)
         print(
-            "%s\033[1;32m[TOTAL QUERIES: %s]\033[0m" % (" " * indentation, len(connection.queries))
+            "%s\033[1;32m[TOTAL QUERIES: %s]\033[0m"
+            % (" " * indentation, len(connection.queries))
         )
         return response
 

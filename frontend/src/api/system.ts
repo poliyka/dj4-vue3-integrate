@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios';
-import { Cookies, LocalStorage, SessionStorage } from 'quasar';
+import { LocalStorage } from 'quasar';
 
 import type { TUserLogin } from 'src/types/Utils.d';
 

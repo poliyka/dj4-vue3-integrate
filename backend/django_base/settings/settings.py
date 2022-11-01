@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
-import os
 import environ
 
 env = environ.Env(
@@ -70,7 +70,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     # "allauth.socialaccount",
     "dj_rest_auth",
-    "dj_rest_auth.registration"
+    "dj_rest_auth.registration",
 ]
 
 LOCAL_APPS = [
@@ -110,8 +110,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "django_base.wsgi.application"
-
-
 
 
 # Password validation

@@ -33,8 +33,12 @@ class Profile(BaseTimeModel):
     # information
     name = models.CharField("姓名", max_length=32, blank=True, null=True)
     birth = models.DateField("生日", blank=True, null=True)
-    gender = models.CharField("性別", max_length=16, choices=Gender.choices, blank=True, null=True)
-    identity = models.CharField("身分證字號", max_length=16, blank=True, null=True, unique=True)
+    gender = models.CharField(
+        "性別", max_length=16, choices=Gender.choices, blank=True, null=True
+    )
+    identity = models.CharField(
+        "身分證字號", max_length=16, blank=True, null=True, unique=True
+    )
     tel = models.CharField("住家電話", max_length=16, blank=True, null=True)
     mobile = models.CharField("行動電話", max_length=32, blank=True, null=True)
     address = models.CharField("聯絡地址", max_length=256, blank=True, null=True)

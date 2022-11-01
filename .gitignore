@@ -271,3 +271,7 @@ blurred.xlsx
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# migrations on dev
+migrations/*
+!migrations/__init__.py

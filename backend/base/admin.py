@@ -1,10 +1,9 @@
 from typing import Any
 
+from base.models import Profile
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-
-from base.models import Profile
 
 admin.site.unregister(User)
 
