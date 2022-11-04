@@ -76,6 +76,7 @@
       </q-page-container>
     </q-layout>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -189,3 +190,6 @@ export default defineComponent({
   max-width: 30em;
 }
 </style>
+
+
+

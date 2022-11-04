@@ -30,6 +30,7 @@ pydot = "*"
 django-allauth = "*"
 channels = "*"
 dj-rest-auth = "*"
+django-redis = "*"
 
 [dev-packages]
 isort = "*"

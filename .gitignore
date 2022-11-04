@@ -148,7 +148,7 @@ cython_debug/
 
 
 # Logs
-logs
+logs/*
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -276,3 +276,7 @@ blurred.xlsx
 # Built Visual Studio Code Extensions
 *.vsix
 
+
+# Ignore redis binary dump (dump.rdb) files
+*.rdb
+redis.conf

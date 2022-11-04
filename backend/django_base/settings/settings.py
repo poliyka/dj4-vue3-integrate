@@ -209,3 +209,21 @@ EMAIL_PORT = 587  # TLS通訊埠號
 EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
 EMAIL_HOST_USER = "dwqd853@gmail.com"  # 寄件者電子郵件
 EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
+
+# Redis Cache
+# see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}/{env('DJANGO_REDIS_db')}",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": env("DJANGO_REDIS_PASSWORD"),
+        },
+    }
+}
+
+# Using Redis cache session login
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
