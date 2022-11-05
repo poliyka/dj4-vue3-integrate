@@ -2,6 +2,9 @@ FROM redis:7.0.5
 
 USER root
 
-COPY docker/redis/config/logrotate /etc/logrotate.d/
+COPY docker/redis/config/redis_logrotate.conf /etc/
 
-RUN chmod 777 -R /etc/logrotate.d/*
+RUN apt-get update && apt-get -y install logrotate vim
+
+RUN logrotate -f /etc/redis_logrotate.conf && \
+    echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf

@@ -1,24 +1,24 @@
-version: '3.8'
+version: "3.8"
 services:
   redis:
-    # build:
-    #   context: .
-    #   dockerfile: docker/redis/Dockerfile
-    image: redis:7.0.5
+    build:
+      context: .
+      dockerfile: docker/redis/Dockerfile
     restart: always
     env_file:
       - .env
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./docker/redis/data:/data
       - ./docker/redis/logs:/var/log/redis
       - ./docker/redis/config/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/redis/config/redis_logrotate:/etc/logrotate.d/redis_logrotate
     sysctls:
       - net.core.somaxconn=1024
-    command: >
-            sh -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf
-            && redis-server /usr/local/etc/redis/redis.conf --requirepass ${DJANGO_REDIS_PASSWORD}"
-
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        "redis-server /usr/local/etc/redis/redis.conf --requirepass ${DJANGO_REDIS_PASSWORD} --loglevel ${DJANGO_REDIS_LOG_LEVEL}",
+      ]
