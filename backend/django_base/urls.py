@@ -20,15 +20,8 @@ from django.urls import include, path
 from django.views.generic.base import TemplateView
 
 urlpatterns = (
-    # statics
-    [
-        static(url, document_root=root)[0]
-        for url, root in settings.FRONTEND_STATIC_ROOT.items()
-    ]
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # main path
-    + [
+    [
         path("", TemplateView.as_view(template_name="index.html")),
         path("api/", include("api.urls")),
         path("accounts/", include("allauth.urls")),
@@ -38,9 +31,19 @@ urlpatterns = (
 if settings.DEV in ["dev", "stage"]:
     # local
     urlpatterns.extend(
-        [
-            path("admin/", admin.site.urls),
-        ]
+        (
+            # statics
+            [
+                static(static_url, document_root=static_root)[0]
+                for static_url, static_root in settings.FRONTEND_STATIC_ROOT.items()
+            ]
+            + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+            + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+            # admin
+            + [
+                path("admin/", admin.site.urls),
+            ]
+        )
     )
 elif settings.DEV == "prod":
     # prod

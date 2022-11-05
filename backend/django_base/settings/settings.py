@@ -148,6 +148,7 @@ USE_TZ = True
 
 STATIC_URL = "static_collected/"
 
+# 前後端整合 key: value 對應 url: path
 FRONTEND_STATIC_ROOT = {
     "static/": os.path.join(BASE_DIR, "dist/static"),
     "icons/": os.path.join(BASE_DIR, "dist/icons"),

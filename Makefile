@@ -56,6 +56,9 @@ run-be:
 create-user:
 	$(PYVENV_PREFIX) python backend/manage.py createsuperuser
 
+create-schema:
+	$(PYVENV_PREFIX) python backend/manage.py createschema
+
 schema-be:
 	$(PYVENV_PREFIX) python backend/manage.py spectacular --file schema.yml
 

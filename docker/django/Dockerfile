@@ -9,8 +9,6 @@ RUN apt-get update -y && \
     apt-get install build-essential -y --no-install-recommends && \
     pip install pipenv --no-cache-dir
 
-# RUN pip install pipenv --no-cache-dir
-
 USER appuser
 RUN mkdir /home/appuser/app
 WORKDIR /home/appuser/app
