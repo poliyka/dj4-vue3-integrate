@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>DSA Web UI</q-toolbar-title>
+        <q-toolbar-title>DVA Web UI</q-toolbar-title>
 
         <div>Current User Component</div>
       </q-toolbar>

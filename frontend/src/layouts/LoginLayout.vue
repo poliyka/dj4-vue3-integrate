@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fit row justify-center items-center content-center _dsa-login-container"
+    class="fit row justify-center items-center content-center _dva-login-container"
   >
     <q-layout
       view="lHh lpr lFf"
       container
-      class="shadow-2 rounded-borders _dsa-login-layout"
+      class="shadow-2 rounded-borders _dva-login-layout"
     >
       <q-header elevated>
         <q-toolbar>
@@ -13,7 +13,7 @@
             <q-icon name="login"></q-icon>
           </q-avatar>
 
-          <q-toolbar-title> DSA System Login </q-toolbar-title>
+          <q-toolbar-title> DVA System Login </q-toolbar-title>
 
           <q-btn flat round dense :icon="themeMode" @click="onSwitchMode" />
         </q-toolbar>
@@ -179,10 +179,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-._dsa-login-container {
+._dva-login-container {
   min-height: 100vh;
 }
-._dsa-login-layout {
+._dva-login-layout {
   overflow: auto;
   min-height: 30em;
   max-height: 30em;

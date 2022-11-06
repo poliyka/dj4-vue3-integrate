@@ -1,14 +1,30 @@
-# Gpim Django Doumentation
+# Django4 Vue3(quasar) integrate docker
 
-## Dev environment at local
+## Setup environment
 
-Make sure dependence install following command
+Make sure dependence and install by following command
 
 ```sh
-sudo apt-get install libpq-dev python3-dev
+sudo apt-get install libpq-dev python3-dev make
 ```
 
-Make sure your python version is 3.10. If not. You must install `pipenv` or other virtualenv for python 3.10.
+Make sure your python version is up to 3.10, If not. You can install `pyenv`, `pipenv` or other virtualenv for python, at this project we use `pipenv` control python version.
+
+So you can find requirement library in `Pipfile`, Please install it.
+
+---
+
+## Setup development environment
+
+In the local we need to prepare `sqlite` or `postgresql` database, and `redis` for cache.
+
+To convenient for different environment, we use `docker` to setup development environment.
+
+- `docker-compose.yml` is for all in one development environment
+- `docker-compose-db.yml` is for part of database environment
+- `docker-compose-redis.yml` is for part of redis environment
+
+> There has three developing environments, `dev`, `stage`, `prod`, you can find three `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
 
 Initialize database by following command.
 
