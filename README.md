@@ -24,7 +24,7 @@ To convenient for different environment, we use `docker` to setup development en
 - `docker-compose-db.yml` is for part of database environment
 - `docker-compose-redis.yml` is for part of redis environment
 
-> There has three developing environments, `dev`, `stage`, `prod`, you can find three `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
+> There has three developing environments, `dev`, `stage`, `prod`, you can find each `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
 
 Initialize database by following command.
 
