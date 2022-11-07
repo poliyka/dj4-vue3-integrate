@@ -8,7 +8,7 @@ In backend `django4` new feature like native `redis` to cache user session, `drf
 
 In frontend `vue3` used `typescript` and `quasar` framework to build project, If you want to know more about `quasar` please visit [quasar](https://quasar.dev/). We setup the default `axios` error handler, `axios` interceptor, `vue-router` and `vuex` store. And then we leave the example page for you to build your own project faster.
 
-> If you wish to use other frontend framework, you can remove `frontend` folder and then add your own frontend framework. Just notice that you need to fix build out path in `backed/dist` and assertDir = `static`.
+> ⚠️ If you wish to use other frontend framework, you can remove `frontend` folder and then add your own frontend framework. Just notice that you need to fix build out path in `backed/dist` and assertDir = `static`.
 
 ## Setup environment
 
