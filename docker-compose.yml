@@ -26,8 +26,7 @@ services:
     volumes:
       - ./backend:/home/appuser/app/django
       - ./Pipfile:/home/appuser/app/Pipfile
-      # - ./Pipfile.lock:/home/appuser/app/Pipfile.lock
-      - ./backend/static_collected:/django/static_collected
+      - ./Pipfile.lock:/home/appuser/app/Pipfile.lock
       - ./uwsgi.ini:/home/appuser/app/uwsgi.ini
       - uwsgi-log:/tmp
     networks:

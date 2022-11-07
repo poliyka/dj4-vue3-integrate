@@ -22,7 +22,7 @@ build-fe:
 	cd frontend; npm run build
 
 format-fe:
-	cd frontend; npm run build
+	cd frontend; npm run format
 
 lint-fe:
 	cd frontend; npm run lint
@@ -79,7 +79,7 @@ migrate:
 makemigrations:
 	$(PYVENV_PREFIX) python backend/manage.py makemigrations
 
-collection:
+collectstatic:
 	$(PYVENV_PREFIX) python backend/manage.py collectstatic
 
 rm-migrations:
