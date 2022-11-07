@@ -1,30 +1,56 @@
 # dj4-vue3-integrate
 
-## What is dj4-vue3-integrate?
+## Background
 
-This is integrate `django` version `4` and `vue` version `3` project scaffolding
+`Dj4-vue3-integrate` is a project scaffolding integrating `django` version `4` and `vue` version `3`.
 
-In backend `django4` new feature like native `redis` to cache user session, `drf-spectacular` to build REST-ful api etc. And then custom setup process, there are all command in `Makefile` just need to use `make` command then you can setup everything.
+### Fronend
 
-In frontend `vue3` used `typescript` and `quasar` framework to build project, If you want to know more about `quasar` please visit [quasar](https://quasar.dev/). We setup the default `axios` error handler, `axios` interceptor, `vue-router` and `vuex` store. And then we leave the example page for you to build your own project faster.
+- Used `vue3`, `typescript`, and `quasar` framework to build project.
+  ( Detailed about `quasar`, please visit [quasar](https://quasar.dev/). )
 
-> ⚠️ If you wish to use other frontend framework, you can remove `frontend` folder and then add your own frontend framework. Just notice that you need to fix build out path in `backed/dist` and assertDir = `static`.
+### Backend
 
-## Setup environment
+- Used `django4`.
+- New feature
+  - Use native `redis` to cache user session
+  - Use `drf-spectacular` to build REST-ful api
 
-### Make sure dependence and install by following command
+### Custom setup process
+
+- Use `make` command to execute `Makefile` to setup everything
+- We setup the default `axios` error handler, `axios` interceptor, `vue-router` and `vuex` store.
+- There's an example page for you to build your own project faster.
+
+#### For using other frontend framework (Optional)
+
+1. remove `frontend` folder
+2. add your own frontend framework
+
+> ⭐️ **NOTICE**
+>
+> - fix build out path in `backed/dist`
+> - make assertDir = `static`
+
+## Install
+
+Make sure dependencies and installation.
+Go check them out by following command if you don't have them locally installed.
 
 ```sh
 sudo apt-get install libpq-dev python3-dev make
 ```
 
-Make sure your python version is up to 3.10, If not. You can install `pyenv`, `pipenv` or other virtualenv for python, at this project we use `pipenv` control python version.
+This project uses `pipenv` control python version, so make sure your python version is up to 3.10.
+If not, You can install `pyenv`, `pipenv` or other virtualenv for python.
 
-So you can find requirement library in `Pipfile`, Please install it.
-
----
+Install requirement library in `Pipfile`.
 
 ## Setup development environment
+
+### Makefile
+
+In order to make it easier, we use `make`, look up more commands in `Makefile` file.
 
 ### In local development
 
@@ -47,27 +73,30 @@ make build-fe # build frontend
 make run-fe # run up frontend dev server
 ```
 
-## Dev environment at docker
+### Dev environment in docker
 
-In the local we need to prepare `sqlite` or `postgresql` database, and `redis` for cache.
+Need to prepare `sqlite` or `postgresql` database, and `redis` for cache in local.
 
-To convenient for developing different environment, we use `docker` to setup development environment.
+In order to make it more convenient for developing in different environment, we use `docker`.
+
+Files description:
 
 - `docker-compose.yml` is for all in one development environment
 - `docker-compose-db.yml` is for part of database environment
 - `docker-compose-redis.yml` is for part of redis environment
 
-It provide setup `postgresql` and `redis` database. And then you can focus on your project.
+Files above provide setup `postgresql` and `redis` database for you to focus on your project.
 
-> ⚠️ For `Redis`, you need to copy `redis.conf.example` to `redis.conf` and then change settings.
+> ⭐️ **NOTICE** : For `Redis`, you need to copy `redis.conf.example` to `redis.conf` and then change settings.
 
-Or you can use `make up` command to preview prod environment, it will use `docker-compose.yml` to setup environment.
+You can use `make up` command to preview prod environment, it will use `docker-compose.yml` to setup environment.
 
-> ⚠️ There has three developing environments, `dev`, `docker`, `prod`, you can find each `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
+> ⭐️ **NOTICE** : There are three developing environments : `dev`, `docker`, `prod`.
+> There are three corresponding `.env.*.example` files in the root directory, you can copy it and rename to `.env` and change your environment variable.
 
 ### Build it for the first time
 
-Use the following command to build without cache
+Use following command to build the project without cache.
 
 ```sh
 make cleanbuild
@@ -75,19 +104,25 @@ make cleanbuild
 
 ### Start the environment
 
+Use following command to start the environment.
+
 ```sh
 make up
 ```
 
 ### Tear everything down
 
-If something went wrong and you want to destroy everything, use the following command
+Use following command if something is wrong and you want to destroy everything.
 
 ```sh
 make down
 ```
 
-In this setup, only the DB service would use the created volume for the database data (/var/lib/postgresql/data/). For the other containers, the main folders are actually a mount to the host. Therefore you can edit the files on the host, and the server running inside the container would get the update and reflect the edited files. The major mount points would be:
+Only the DB service would use the created volume for the database data (`/var/lib/postgresql/data/`) in this setup.
+
+For other containers, you can edit the files on the host, and the server running inside the container would update and reflect those edited files.
+
+Major mount points would be as below :
 
 - `backend/`
 - `package.json`
@@ -96,21 +131,14 @@ In this setup, only the DB service would use the created volume for the database
 - `Pipfile.lock`
 - `uwsgi.ini`
 
-## Makefile
+## VScode guide
 
-In order to make it easier, we use `make` to make the command easy.
+### VScode guide - debug
 
-Looking for more command at `Makefile` file.
+Currently, microsoft support `vscode` debug for `django` and `vue` projects.
 
----
-
-## Vscode debug guide
-
-Currently, microsoft support `vscode` debug for `django` and `vue` project.
-
-First, you need to install `vscode` extension `Python` and `Debugger for Chrome`.
-
-Second, you need to create `.vscode/launch.json` file, and then copy the following content.
+1. Install `vscode` extension `Python` and `Debugger for Chrome`.
+2. Create `.vscode/launch.json` file, then copy the following content.
 
 ```json
 {
@@ -141,13 +169,12 @@ Second, you need to create `.vscode/launch.json` file, and then copy the followi
 }
 ```
 
-## VScode tasks guide
+### VScode guide - tasks
 
-This is good way for clean up all data and restart new environment when you development at local.
+This is good way to clean up all data and restart new environment when you develope locally.
 
-Create `settings.json` file in your `.vscode` folder. Then insert following context.
-
-Replace python path by you own.
+- Create `settings.json` file in your `.vscode` folder. Then insert following context.
+- Replace python path by you own.
 
 ```json
 {
@@ -155,9 +182,7 @@ Replace python path by you own.
 }
 ```
 
-Create `tasks.json` file in your `.vscode` folder. Then run `Init django` task.
-
-Then it will automatically run all tasks.
+- Create `tasks.json` file in your `.vscode` folder. Then run `Init django` task, it will automatically run all tasks.
 
 ```json
 {
