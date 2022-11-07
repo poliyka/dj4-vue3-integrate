@@ -1,5 +1,25 @@
 # dj4-vue3-integrate
 
+- [dj4-vue3-integrate](#dj4-vue3-integrate)
+  - [Background](#background)
+    - [Fronend](#fronend)
+    - [Backend](#backend)
+    - [Custom setup process](#custom-setup-process)
+      - [For using other frontend framework (Optional)](#for-using-other-frontend-framework-optional)
+  - [Install](#install)
+  - [Setup development environment](#setup-development-environment)
+    - [Makefile](#makefile)
+    - [In local development](#in-local-development)
+    - [Dev environment in docker](#dev-environment-in-docker)
+    - [Build it for the first time](#build-it-for-the-first-time)
+    - [Start the environment](#start-the-environment)
+    - [Tear everything down](#tear-everything-down)
+  - [VScode guide](#vscode-guide)
+    - [VScode guide - debug](#vscode-guide---debug)
+    - [VScode guide - tasks](#vscode-guide---tasks)
+
+---
+
 ## Background
 
 `Dj4-vue3-integrate` is a project scaffolding integrating `django` version `4` and `vue` version `3`.
