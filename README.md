@@ -59,11 +59,11 @@ To convenient for developing different environment, we use `docker` to setup dev
 
 It provide setup `postgresql` and `redis` database. And then you can focus on your project.
 
-> For `Redis`, you need to copy `redis.conf.example` to `redis.conf` and then change settings.
+> ⚠️ For `Redis`, you need to copy `redis.conf.example` to `redis.conf` and then change settings.
 
 Or you can use `make up` command to preview prod environment, it will use `docker-compose.yml` to setup environment.
 
-> There has three developing environments, `dev`, `docker`, `prod`, you can find each `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
+> ⚠️ There has three developing environments, `dev`, `docker`, `prod`, you can find each `.env.*.example` file in the root directory, you can copy it and rename to `.env` and fill the environment variable.
 
 ### Build it for the first time
 
