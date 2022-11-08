@@ -39,7 +39,7 @@
 ### Custom setup process
 
 - Use `make` command to execute `Makefile` to setup everything
-- We setup the default `axios` error handler, `axios` interceptor, `vue-router` and `vuex` store.
+- We setup the default `axios` error handler, `axios` interceptor, `vue-router` and `pinia` store.
 - There's an example page for you to build your own project faster.
 
 #### For using other frontend framework (Optional)
