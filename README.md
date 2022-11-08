@@ -257,7 +257,7 @@ This is good way to clean up all data and restart new environment when you devel
         "kind": "build",
         "isDefault": true
       }
-    }
+    },
     {
       "label": "Init django",
       "dependsOn": ["Init db data"],
