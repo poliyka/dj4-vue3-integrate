@@ -2,29 +2,30 @@
 
 - [dj4-vue3-integrate](#dj4-vue3-integrate)
   - [Background](#background)
-    - [Fronend](#fronend)
+    - [Frontend](#frontend)
     - [Backend](#backend)
     - [Custom setup process](#custom-setup-process)
       - [For using other frontend framework (Optional)](#for-using-other-frontend-framework-optional)
   - [Install](#install)
   - [Setup development environment](#setup-development-environment)
     - [Makefile](#makefile)
-    - [In local development](#in-local-development)
+    - [Local development](#local-development)
     - [Dev environment in docker](#dev-environment-in-docker)
     - [Build it for the first time](#build-it-for-the-first-time)
     - [Start the environment](#start-the-environment)
     - [Tear everything down](#tear-everything-down)
   - [VScode guide](#vscode-guide)
     - [VScode guide - debug](#vscode-guide---debug)
+      - [Usage](#usage)
     - [VScode guide - tasks](#vscode-guide---tasks)
 
 ---
 
 ## Background
 
-`Dj4-vue3-integrate` is a project scaffolding integrating `django` version `4` and `vue` version `3`.
+`Dj4-vue3-integrate` is a project scaffolding which integrates `django` version `4` and `vue` version `3`.
 
-### Fronend
+### Frontend
 
 - Used `vue3`, `typescript`, and `quasar` framework to build project.
   ( Detailed about `quasar`, please visit [quasar](https://quasar.dev/). )
@@ -54,7 +55,7 @@
 
 ## Install
 
-Make sure dependencies and installation.
+Make sure below dependencies have been installed.
 Go check them out by following command if you don't have them locally installed.
 
 ```sh
@@ -64,7 +65,9 @@ sudo apt-get install libpq-dev python3-dev make
 This project uses `pipenv` control python version, so make sure your python version is up to 3.10.
 If not, You can install `pyenv`, `pipenv` or other virtualenv for python.
 
-Install requirement library in `Pipfile`.
+> ⭐️ NOTICE
+>
+> - Install requirement library in `Pipfile`.
 
 ## Setup development environment
 
@@ -72,25 +75,25 @@ Install requirement library in `Pipfile`.
 
 In order to make it easier, we use `make`, look up more commands in `Makefile` file.
 
-### In local development
+### Local development
 
-Initialize database by following command.
+Initialize database by following commands.
 
 ```sh
-make createschema # not need todo if you use sqlite
+make createschema # if you use sqlite, skip this command
 make makemigrations
 make migrate
-make init-be # setup superuser
-make collectstatic # need on prod env
-make run-be # run up server
+make init-be # setup superuser etc
+make collectstatic # execute this command in prod env
+make run-be # start up server
 ```
 
-Initialize frontend by following command.
+Initialize frontend by following commands.
 
 ```sh
-make install-fe # install package
+make install-fe # install packages
 make build-fe # build frontend
-make run-fe # run up frontend dev server
+make run-fe # start up frontend dev server
 ```
 
 ### Dev environment in docker
@@ -140,7 +143,7 @@ make down
 
 Only the DB service would use the created volume for the database data (`/var/lib/postgresql/data/`) in this setup.
 
-For other containers, you can edit the files on the host, and the server running inside the container would update and reflect those edited files.
+For other containers, the main folders are actually a mount to the host. Therefore you can edit the files on the host, and the server running inside the container would update the files simultaneously.
 
 Major mount points would be as below :
 
@@ -155,7 +158,9 @@ Major mount points would be as below :
 
 ### VScode guide - debug
 
-Currently, microsoft support `vscode` debug for `django` and `vue` projects.
+`Vscode` provides `debug tool` for `django` and `vue` projects.
+
+#### Usage
 
 1. Install `vscode` extension `Python` and `Debugger for Chrome`.
 2. Create `.vscode/launch.json` file, then copy the following content.
