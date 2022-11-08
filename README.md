@@ -222,7 +222,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create db schema",
       "dependsOn": ["Remove migrations"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make createschema",
+      "command": "source ${config:python.pythonPath}; make create-schema",
       "group": {
         "kind": "build",
         "isDefault": true
