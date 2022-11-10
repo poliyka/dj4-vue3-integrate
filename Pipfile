@@ -4,10 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "*"
+Django = "==4.1"
 django-environ = "*"
 ipython = "*"
-psycopg2-binary = "*"
 django-compressor = "*"
 django-sass-processor = "*"
 djangorestframework = "*"
@@ -31,6 +30,7 @@ django-allauth = "*"
 channels = "*"
 dj-rest-auth = "*"
 django-redis = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 isort = "*"

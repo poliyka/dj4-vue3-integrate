@@ -55,6 +55,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "debug_toolbar",
     "sass_processor",
     "rest_framework",
     "rest_framework.authtoken",

@@ -5,7 +5,7 @@ from .settings import *
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')}"},
         "NAME": env("POSTGRES_DB"),
         "USER": env("POSTGRES_USER"),

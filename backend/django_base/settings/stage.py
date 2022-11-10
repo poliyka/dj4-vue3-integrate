@@ -5,7 +5,7 @@ from .settings import *
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')}"},
         "NAME": env("POSTGRES_DB"),
         "USER": env("POSTGRES_USER"),
@@ -15,6 +15,11 @@ DATABASES = {
     }
 }
 
+# Debug toolbar
+MIDDLEWARE.insert(0,  'debug_toolbar.middleware.DebugToolbarMiddleware')
+INTERNAL_IPS=('127.0.0.1', 'localhost')
+
+# Print sql
 MIDDLEWARE.extend(
     [
         "base.middleware.sql_middleware.SqlPrintingMiddleware",

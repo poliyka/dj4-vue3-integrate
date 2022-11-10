@@ -30,6 +30,8 @@ urlpatterns = (
 
 if settings.DEV in ["dev", "stage"]:
     # local
+    import debug_toolbar
+
     urlpatterns.extend(
         (
             # statics
@@ -42,6 +44,7 @@ if settings.DEV in ["dev", "stage"]:
             # admin
             + [
                 path("admin/", admin.site.urls),
+                path('__debug__/', include(debug_toolbar.urls)),
             ]
         )
     )
