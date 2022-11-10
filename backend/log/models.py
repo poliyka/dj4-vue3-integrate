@@ -2,9 +2,19 @@ from base.models import BaseTimeModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from psqlextra.types import PostgresPartitioningMethod
+from psqlextra.models import PostgresPartitionedModel
+from psqlextra.manager import PostgresManager
 
-class Log(BaseTimeModel):
+
+class Log(PostgresPartitionedModel, BaseTimeModel):
     """Log model"""
+
+    class PartitioningMeta:
+        method = PostgresPartitioningMethod.RANGE
+        key = ["created_at"]
+
+    objects = PostgresManager()
 
     class Level(models.TextChoices):
         DEBUG = "debug", _("Debug")
@@ -31,4 +41,4 @@ class Log(BaseTimeModel):
 
     def __str__(self) -> str:
         """String for representing the Model object."""
-        return f"[{self.level}]{self.message}"
+        return f"[{self.level}] {self.method}"

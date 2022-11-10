@@ -52,6 +52,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
@@ -72,6 +73,8 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    # partition table
+    "psqlextra",
 ]
 
 LOCAL_APPS = [
@@ -229,3 +232,6 @@ CACHES = {
 # Using Redis cache session login
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+# Partition table manager
+PSQLEXTRA_PARTITIONING_MANAGER = "base.postgresql.partition.manager"
