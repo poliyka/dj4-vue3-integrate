@@ -5,8 +5,9 @@ from django.conf import settings
 CELERY_RESULT_BACKEND = f"{settings.REDIS_URL}/15"
 
 # 指定時區，預設是 UTC
-# CELERY_TIMEZONE = settings.TIME_ZONE
-# CELERY_ENABLE_UTC = False
+CELERY_TIMEZONE = settings.TIME_ZONE
+CELERY_ENABLE_UTC = False
+DJANGO_CELERY_BEAT_TZ_AWARE = False
 
 # celery 序列化與反序列化配置
 CELERY_TASK_SERIALIZER = "json"
@@ -32,4 +33,3 @@ CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_URL = f"{settings.REDIS_URL}/14"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-# DJANGO_CELERY_BEAT_TZ_AWARE = False

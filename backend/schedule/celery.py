@@ -29,16 +29,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{env('DEV
 # ★★★ 此處須注意(若本地沒有redis卻設置redis預設 -> 則會顯示10061連線錯誤)
 app = Celery("schedule")
 
-# app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # 從單獨的配置模組中載入配置
+# app.config_from_object("django.conf:settings", namespace="CELERY")
 app.config_from_object("schedule.celeryConfig", namespace="CELERY")
 
 # 設定app自動載入任務
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-
-# 解決時區問題,定時任務啟動就迴圈輸出
-app.now = timezone.now
 
 
 # 允許root用戶運行celery
