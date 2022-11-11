@@ -257,10 +257,11 @@
         },
         "dj-registry": {
             "hashes": [
-                "sha256:c59aa675fc69194cdfdf1b3b204f01c04b1071e1a912c0e42a148740b1e7089a"
+                "sha256:754ccff84920a3a3d1a4bf81ee290ec36a0af638c0097f4014504c3f2a7247bf",
+                "sha256:d986ce677907fcaab94bf293dbac6141e7de1b6c4437de81a6fc5033759c4a0f"
             ],
             "index": "pypi",
-            "version": "==0.2"
+            "version": "==0.2.1"
         },
         "dj-rest-auth": {
             "hashes": [
@@ -271,11 +272,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:031ccb717782f6af83a0063a1957686e87cb4581ea61b47b3e9addf60687989a",
-                "sha256:032f8a6fc7cf05ccd1214e4a2e21dfcd6a23b9d575c6573cacc8c67828dbe642"
+                "sha256:18ba8efa36b69cfcd4b670d0fa187c6fe7506596f0ababe580e16909bcdec121",
+                "sha256:3adc285124244724a394fa9b9839cc8cd116faf7d159554c43ecdaa8cdf0b94d"
             ],
             "index": "pypi",
-            "version": "==4.1"
+            "version": "==3.2.16"
         },
         "django-allauth": {
             "hashes": [
@@ -347,6 +348,14 @@
             ],
             "index": "pypi",
             "version": "==3.2.1"
+        },
+        "django-postgres-extra": {
+            "hashes": [
+                "sha256:0ab6a54e0b24159d6fc2b110bca44c98e3b11471c6b236eb0b5c27e8912fd9e0",
+                "sha256:ee405f9d3560fbe9bd0bd4ad6c5a33f15a38ce50c34d9fe8cdf0b9f7f3409c9d"
+            ],
+            "index": "pypi",
+            "version": "==2.0.6"
         },
         "django-redis": {
             "hashes": [

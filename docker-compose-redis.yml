@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: docker/redis/Dockerfile
+    container_name: django-redis
     restart: always
     env_file:
       - .env

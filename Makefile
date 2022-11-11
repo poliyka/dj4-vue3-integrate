@@ -79,6 +79,12 @@ migrate:
 makemigrations:
 	$(PYVENV_PREFIX) python backend/manage.py makemigrations
 
+pgmakemigrations:
+	$(PYVENV_PREFIX) python backend/manage.py pgmakemigrations
+
+pgpartition:
+	$(PYVENV_PREFIX) python backend/manage.py pgpartition
+
 collectstatic:
 	$(PYVENV_PREFIX) python backend/manage.py collectstatic
 

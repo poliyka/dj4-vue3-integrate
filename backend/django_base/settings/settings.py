@@ -52,6 +52,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
@@ -72,6 +73,8 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    # partition table
+    "psqlextra",
     "django_celery_results",
     "django_celery_beat",
 ]
@@ -237,3 +240,6 @@ SESSION_CACHE_ALIAS = "default"
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BROKER_URL = f'redis://{env("DJANGO_REDIS_HOST")}:{env("DJANGO_REDIS_PORT")}/14'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# Partition table manager
+PSQLEXTRA_PARTITIONING_MANAGER = "base.postgresql.partition.manager"
