@@ -8,11 +8,21 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 """
 
 import os
+from pathlib import Path
 
+import environ
 from django.core.asgi import get_asgi_application
 
-DEV = os.environ.get("DEV")
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{DEV}")
+env = environ.Env(
+    DEBUG=(bool, False),
+    STRESS_TEST=(bool, False),
+    ALLOWED_HOSTS=(list, []),
+)
+
+environ.Env.read_env(BASE_DIR / ".env")
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{env('DEV')}")
 
 application = get_asgi_application()

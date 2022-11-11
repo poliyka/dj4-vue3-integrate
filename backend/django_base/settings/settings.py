@@ -18,7 +18,6 @@ import environ
 
 env = environ.Env(
     DEBUG=(bool, False),
-    ELASTIC_SSL=(bool, False),
     STRESS_TEST=(bool, False),
     ALLOWED_HOSTS=(list, []),
 )
