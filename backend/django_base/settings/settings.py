@@ -72,11 +72,14 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "django_celery_results",
+    "django_celery_beat",
 ]
 
 LOCAL_APPS = [
     "log",
     "base",
+    "schedule",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -229,3 +232,8 @@ CACHES = {
 # Using Redis cache session login
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+# Celery setings
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = f'redis://{env("DJANGO_REDIS_HOST")}:{env("DJANGO_REDIS_PORT")}/14'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

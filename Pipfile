@@ -32,6 +32,8 @@ dj-rest-auth = "*"
 django-redis = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
 
 [dev-packages]
 isort = "*"
