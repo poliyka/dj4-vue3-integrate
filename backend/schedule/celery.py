@@ -2,51 +2,78 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery, platforms
 from celery.schedules import crontab
+from django.conf import settings
+from django.utils import timezone
+from pathlib import Path
+from kombu import Queue
 from datetime import timedelta
-from kombu import Queue  # 用於多任務列隊
 
-# django_DRF 為專案名稱
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "schedule.settings")
+import environ
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+env = environ.Env(
+    DEBUG=(bool, False),
+    ELASTIC_SSL=(bool, False),
+    STRESS_TEST=(bool, False),
+    ALLOWED_HOSTS=(list, []),
+)
+
+environ.Env.read_env(BASE_DIR / ".env")
+
+# schedule 為專案名稱
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{env('DEV')}")
 
 # 使用redis作為中間人(broker)
 # 使用redis作為定時任務存取地方(backend)
 # 預設redis為本地127.0.0.1:6379/1(redis)
 # ★★★ 此處須注意(若本地沒有redis卻設置redis預設 -> 則會顯示10061連線錯誤)
-app = Celery("Django_DRF", backend="redis://127.0.0.1:6379/14", broker="redis://127.0.0.1:6379/15")
+app = Celery("schedule")
 
-# Using a string here means the worker don't have to serialize
-# the configuration object to child processes.
-# - namespace='CELERY' means all celery-related configuration keys
-#   should have a `CELERY_` prefix.
-app.config_from_object("django.conf:settings", namespace="CELERY")
+# app.config_from_object("django.conf:settings", namespace="CELERY")
 
-# 預設任務名稱為tasks用意為此，此行會加載已經有註冊的app.task.py檔案
-app.autodiscover_tasks()
-# 設定任務進入哪個列隊 (在開啟worker時，可以分別進行)
-app.conf.task_routes = {
-    "AppName1.tasks.TF_postingJob": {"queue": "tasks_one"},
-    "AppName2.tasks.MLO_dailyDataJob": {"queue": "tasks_two"},
-}
-# 設定列隊路由
-app.conf.task_queues = (
-    Queue("tasks_one", routing_key="tasks_one"),
-    Queue("tasks_two", routing_key="tasks_two"),
-)
+# 從單獨的配置模組中載入配置
+app.config_from_object("schedule.celeryConfig", namespace="CELERY")
+
+# 設定app自動載入任務
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+# 解決時區問題,定時任務啟動就迴圈輸出
+app.now = timezone.now
+
+
 # 允許root用戶運行celery
 platforms.C_FORCE_ROOT = True
+
 # 有出錯會顯示於此
 @app.task(bind=True)
 def debug_task(self):
     print("Request: {0!r}".format(self.request))
 
 
+# 設定任務進入哪個列隊 (在開啟worker時，可以分別進行)
+app.conf.task_routes = {
+    "autoGenLogPartitionTable": {"queue": "tasks_one"},
+    "testTask": {"queue": "tasks_two"},
+}
+
+# 設定列隊路由
+app.conf.task_queues = (
+    Queue("tasks_one", routing_key="tasks_one"),
+    Queue("tasks_two", routing_key="tasks_two"),
+)
+
 # 固定的定時任務
 app.conf.update(
-    CELERYBEAT_SCHEDULE={
-        "JobName": {  # 任務名稱
-            "task": "app.tasks.functionName",  # 執行的任務
-            "schedule": timedelta(seconds=5),  # 週期多久一次
-            "args": (),  # 此處可帶參數
-        }
+    CELERY_BEAT_SCHEDULE={
+        "autoGenLogPartitionTable": {
+            "task": "autoGenLogPartitionTable",
+            "schedule": timedelta(seconds=10),
+            "args": ([],),
+        },
+        "testTask": {
+            "task": "testTask",
+            "schedule": timedelta(seconds=10),
+            "args": ([],),
+        },
     }
 )

@@ -33,6 +33,7 @@ django-redis = "*"
 django-debug-toolbar = "*"
 django-postgres-extra = "*"
 psycopg2 = "*"
+celery = "*"
 django-celery-beat = "*"
 django-celery-results = "*"
 

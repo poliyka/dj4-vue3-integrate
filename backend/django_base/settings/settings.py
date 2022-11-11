@@ -147,7 +147,10 @@ TIME_ZONE = "Asia/Taipei"
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -220,10 +223,14 @@ EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 
 # Redis Cache
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
+REDIS_URL = (
+    f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
+)
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}/{env('DJANGO_REDIS_DB')}",
+        "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
@@ -235,11 +242,6 @@ CACHES = {
 # Using Redis cache session login
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
-
-# Celery setings
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = f'redis://{env("DJANGO_REDIS_HOST")}:{env("DJANGO_REDIS_PORT")}/14'
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Partition table manager
 PSQLEXTRA_PARTITIONING_MANAGER = "base.postgresql.partition.manager"

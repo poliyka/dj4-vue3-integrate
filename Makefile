@@ -72,6 +72,13 @@ demo-be:
 init-be:
 	$(PYVENV_PREFIX) python backend/manage.py initialize $(a)
 
+# celery
+run-celery:
+	cd backend; $(PYVENV_PREFIX) celery -A schedule worker -l info
+
+run-celery-beat:
+	cd backend; $(PYVENV_PREFIX) celery -A schedule beat -l info
+
 # db
 migrate:
 	$(PYVENV_PREFIX) python backend/manage.py migrate
