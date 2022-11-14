@@ -1,3 +1,4 @@
+// interfaces
 export interface States {
   name: string;
   old: number;
@@ -16,5 +17,3 @@ export interface Menu {
 export interface Meta {
   totalCount: number;
 }
-
-export type HandleAfterBirthday = () => void;

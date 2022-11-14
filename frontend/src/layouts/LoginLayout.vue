@@ -76,7 +76,6 @@
       </q-page-container>
     </q-layout>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -84,11 +83,11 @@ import { defineComponent, ref, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
-import { ThemeMode } from 'src/utils/Enum';
 // import { Cookies } from 'quasar';
 import { useRouter } from 'vue-router';
 import { userLogin, userGet, userPost } from 'src/api/system';
 import { switchMode } from 'src/utils/Utils';
+import { EThemeMode } from 'src/utils/Enum';
 
 export default defineComponent({
   name: 'LoginLayout',
@@ -99,7 +98,7 @@ export default defineComponent({
     const router = useRouter();
 
     // Define attr
-    const themeMode = ref<string>(ThemeMode.DarkMode);
+    const themeMode = ref<EThemeMode>(EThemeMode.DarkMode);
     const formData = reactive({
       username: '',
       password: '',
@@ -190,6 +189,3 @@ export default defineComponent({
   max-width: 30em;
 }
 </style>
-
-
-
