@@ -73,11 +73,11 @@ api.interceptors.response.use(
           Notify.create({ ...notifyKwargs, message: '權限不足' });
           break;
         case 404:
-          Notify.create({ ...notifyKwargs, message: '找不到頁面' });
+          Notify.create({ ...notifyKwargs, message: '找不到相關頁面' });
           // go to 404 page
           break;
         case 500:
-          Notify.create({ ...notifyKwargs, message: '程式發生問題' });
+          Notify.create({ ...notifyKwargs, message: '網站發生錯誤，請稍後再做嘗試' });
           // go to 500 page
           break;
         default:

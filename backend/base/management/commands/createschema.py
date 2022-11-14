@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
-from django.core.management.base import BaseCommand, CommandError
 from typing import Any
 
+from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 
 
@@ -21,4 +21,3 @@ class Command(BaseCommand):
                 cursor.execute("CREATE SCHEMA django;")
             except Exception as err:
                 self.stdout.write(str(err))
-

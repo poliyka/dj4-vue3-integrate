@@ -6,7 +6,6 @@ import type { TUserLogin } from 'src/types/Utils.d';
 const API_VERSION = process.env.API_VERSION;
 
 export const userLogin: TUserLogin = async (loginFormData) => {
-  // TODO: 先刪除掉原有的 sessionid
   const res = await api.post(
     `api/${API_VERSION}/accounts/login/`,
     loginFormData
@@ -16,13 +15,13 @@ export const userLogin: TUserLogin = async (loginFormData) => {
 };
 
 export const userGet = async () => {
-  const res = await api.get('api/v1/user-data/');
+  const res = await api.get(`api/${API_VERSION}/user-data/`);
   console.log('userGet');
   return res;
 };
 
 export const userPost = async () => {
-  const res = await api.post('api/v1/user-data/', {
+  const res = await api.post(`api/${API_VERSION}/user-data/`, {
     email: 'test',
     username: 'aaa',
   });

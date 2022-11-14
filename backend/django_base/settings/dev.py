@@ -8,8 +8,8 @@ DATABASES = {
 }
 
 # Debug toolbar
-MIDDLEWARE.insert(0,  'debug_toolbar.middleware.DebugToolbarMiddleware')
-INTERNAL_IPS=('127.0.0.1', 'localhost')
+MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+INTERNAL_IPS = ("127.0.0.1", "localhost")
 
 # Print sql
 MIDDLEWARE.extend(
@@ -54,19 +54,15 @@ GRAPH_MODELS = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Django",
-    "DESCRIPTION": "Your project description",
+    "TITLE": "Dj4-swagger",
+    "DESCRIPTION": "提供 API 文件",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
     "SWAGGER_UI_SETTINGS": {
         "url": "/api/schema",
     },
-}
-
-SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
-    # OTHER SETTINGS
 }

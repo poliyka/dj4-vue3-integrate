@@ -24,7 +24,6 @@ urlpatterns = (
     [
         path("", TemplateView.as_view(template_name="index.html")),
         path("api/", include("api.urls")),
-        path("accounts/", include("allauth.urls")),
     ]
 )
 
@@ -44,7 +43,7 @@ if settings.DEV in ["dev", "stage"]:
             # admin
             + [
                 path("admin/", admin.site.urls),
-                path('__debug__/', include(debug_toolbar.urls)),
+                path("__debug__/", include(debug_toolbar.urls)),
             ]
         )
     )
