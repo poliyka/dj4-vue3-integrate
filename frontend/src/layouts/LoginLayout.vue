@@ -51,7 +51,6 @@
             <!-- <pre class="language-json">
               {{ v$.username.$invalid }}
             </pre> -->
-
             <div>
               <q-btn label="Submit" type="submit" color="primary" />
               <q-btn
@@ -60,15 +59,6 @@
                 color="primary"
                 flat
                 class="q-ml-sm"
-              />
-              <q-btn label="Get" type="button" color="accent" @click="onGet" />
-              <q-btn
-                label="Post"
-                type="button"
-                color="accent"
-                flat
-                class="q-ml-sm"
-                @click="onPost"
               />
             </div>
           </q-form>
@@ -85,7 +75,7 @@ import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 // import { Cookies } from 'quasar';
 import { useRouter } from 'vue-router';
-import { userLogin, userGet, userPost } from 'src/api/system';
+import { userLogin } from 'src/api/system';
 import { switchMode } from 'src/utils/Utils';
 import { EThemeMode } from 'src/utils/Enum';
 
@@ -115,39 +105,30 @@ export default defineComponent({
     // Function
     const onSubmit = async (): Promise<void> => {
       await userLogin(formData);
-      const jcsToken = $q.localStorage.getItem('jcsToken');
+      const jwtRefreshToken = $q.localStorage.getItem('jwtRefreshToken');
 
-      // TODO: ajax 後端確認登入狀態
-      if (jcsToken) {
+      if (!jwtRefreshToken) {
+        // 查無 token 表示登入失敗
         $q.notify({
-          color: 'red-5',
+          color: 'negative',
           textColor: 'white',
-          icon: 'warning',
+          icon: 'error',
+          position: 'top',
           message:
             'Access error! Please confirm that your account or password is correct.',
         });
       } else {
-        // Cookies.set('session', 'test', {
-        //   expires: 30,
-        //   secure: true,
-        // });
+        // 登入成功
         $q.notify({
-          color: 'green-4',
+          color: 'positive',
           textColor: 'white',
-          icon: 'success',
+          icon: 'check_circle',
           position: 'top',
-          message: 'Submitted',
+          message: 'Login success!',
         });
+        // 重新導向到首頁
         router.push({ name: 'search' });
       }
-    };
-
-    const onGet = async (): Promise<void> => {
-      await userGet();
-    };
-
-    const onPost = async (): Promise<void> => {
-      await userPost();
     };
 
     const onReset = (): void => {
@@ -170,8 +151,6 @@ export default defineComponent({
       onSwitchMode,
       onSubmit,
       onReset,
-      onGet,
-      onPost,
     };
   },
 });

@@ -6,6 +6,17 @@
       :menus="menus"
       :meta="meta"
     ></example-component>
+    <div>
+      <q-btn label="Get" type="button" color="accent" @click="onGet" />
+      <q-btn
+        label="Post"
+        type="button"
+        color="accent"
+        flat
+        class="q-ml-sm"
+        @click="onPost"
+      />
+    </div>
   </q-page>
 </template>
 
@@ -13,6 +24,7 @@
 import { Menu, Meta } from 'src/types/Types';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
+import { userGet, userPost } from 'src/api/system';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -43,7 +55,20 @@ export default defineComponent({
     const meta = ref<Meta>({
       totalCount: 1200,
     });
-    return { menus, meta };
+
+    const onGet = async (): Promise<void> => {
+      await userGet();
+    };
+
+    const onPost = async (): Promise<void> => {
+      await userPost();
+    };
+    return {
+      menus,
+      meta,
+      onGet,
+      onPost,
+    };
   },
 });
 </script>

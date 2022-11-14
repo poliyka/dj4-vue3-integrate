@@ -14,8 +14,11 @@ from rest_framework.permissions import IsAuthenticated
 # https://www.django-rest-framework.org/api-guide/status-codes/
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from dj_rest_auth.jwt_auth import JWTCookieAuthentication
 
 class UserDataApiView(APIView):
+    authentication_classes = [JWTCookieAuthentication]
     permission_classes = [IsAuthenticated]
     parser_classes = (FormParser, MultiPartParser, JSONParser)
 

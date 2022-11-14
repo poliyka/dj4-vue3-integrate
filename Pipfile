@@ -32,6 +32,7 @@ dj-rest-auth = "*"
 django-redis = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 isort = "*"

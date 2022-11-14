@@ -55,7 +55,7 @@ GRAPH_MODELS = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Dj4-swagger",
-    "DESCRIPTION": "提供 API 文件",
+    "DESCRIPTION": "Dev",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS

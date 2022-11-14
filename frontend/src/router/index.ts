@@ -7,7 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
-import { Cookies } from 'quasar';
+import { LocalStorage } from 'quasar';
 
 /*
  * If not building with SSR mode, you can
@@ -40,8 +40,8 @@ export default route(function (/* { store, ssrContext } */) {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       // this route requires auth, check if logged in
       // if not, redirect to login page.
-      // TODO: 寫入導向位置
-      if (!Cookies.has('sessionid')) {
+      const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
+      if (!jwtRefreshToken) {
         next({ name: 'login' });
       } else {
         next(); // go to wherever I'm going

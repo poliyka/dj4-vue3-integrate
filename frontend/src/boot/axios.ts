@@ -30,72 +30,108 @@ if (process.env.DEV) {
   api.get('', { withCredentials: true });
 }
 
-// On request
-api.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    config.headers['Authorization'] = LocalStorage.getItem('jcsToken');
-    config.headers['x-csrftoken'] = Cookies.get('csrftoken');
-    return config;
-  },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+export default boot(({ app, router }) => {
 
-// On response
-api.interceptors.response.use(
-  function (response) {
-    // Do something with response data
-    return response;
-  },
+  // On request
+  api.interceptors.request.use(
+    function (config) {
+      // Do something before request is sent
+      config.headers['x-csrftoken'] = Cookies.get('csrftoken');
+      return config;
+    },
+    function (error) {
+      // Do something with request error
+      return Promise.reject(error);
+    }
+  );
 
-  function (error) {
-    // Show up notify
-    const notifyKwargs = {
-      type: 'negative',
-      color: 'negative',
-      timeout: 3000,
-      position: 'top',
-      message: error.message,
-    } as QNotifyCreateOptions;
+  // On response
+  api.interceptors.response.use(
+    function (response) {
+      // Do something with response data
+      return response;
+    },
 
-    if (error.response) {
-      switch (error.response.status) {
-        case 400:
-          Notify.create({ ...notifyKwargs, message: '參數錯誤' });
-          break;
-        case 401:
-          Notify.create({ ...notifyKwargs, message: '請先登入' });
-          break;
-        case 403:
-          Notify.create({ ...notifyKwargs, message: '權限不足' });
-          break;
-        case 404:
-          Notify.create({ ...notifyKwargs, message: '找不到相關頁面' });
-          // go to 404 page
-          break;
-        case 500:
-          Notify.create({ ...notifyKwargs, message: '網站發生錯誤，請稍後再做嘗試' });
-          // go to 500 page
-          break;
-        default:
-          Notify.create(notifyKwargs);
+    function (error) {
+      // Show up notify
+      const notifyKwargs = {
+        type: 'negative',
+        color: 'negative',
+        timeout: 3000,
+        position: 'top',
+        message: error.message,
+      } as QNotifyCreateOptions;
+
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            Notify.create({ ...notifyKwargs, message: '參數錯誤' });
+            break;
+          case 401:
+            // 當不是 refresh token 作業發生 401 才需要更新 access token 並重發
+            // 如果是就略過此刷新 access token 作業，直接不處理(因為 catch 已經攔截處理更新失敗的情況了)
+            const refreshTokenUrl = '/api/accounts/token/refresh/';
+            const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
+            const originalRequest = error.config;
+
+            if (error.config.url !== refreshTokenUrl) {
+              return api
+                .post(refreshTokenUrl, { refresh: jwtRefreshToken })
+                .then((res) => {
+                  // [更新 access_token 成功]
+
+                  // 刷新 storage (其他呼叫 api 的地方都會從此處取得新 access_token)
+                  LocalStorage.set('jwtToken', res.data.access);
+                  LocalStorage.set('jwtRefreshToken', res.data.refresh);
+
+                  // 刷新原始 request 的 access_token
+                  originalRequest.cookies =
+                    'Bearer ' + res.data.access;
+
+                  // 重送 request (with new access_token)
+                  return axios(originalRequest);
+                })
+                .catch((err) => {
+                  // [更新 access_token 失敗] ( e.g. refresh_token 過期無效)
+                  LocalStorage.set('jwtToken', null);
+                  LocalStorage.set('jwtRefreshToken', null);
+
+                  Notify.create({ ...notifyKwargs, message: '作業逾時或無相關使用授權，請重新登入' });
+                  router.push({ name: 'login' });
+                  return Promise.reject(err);
+                });
+            }
+
+            break;
+          case 403:
+            Notify.create({ ...notifyKwargs, message: '權限不足' });
+            break;
+          case 404:
+            Notify.create({ ...notifyKwargs, message: '找不到相關頁面' });
+            // go to 404 page
+            break;
+          case 500:
+            Notify.create({
+              ...notifyKwargs,
+              message: '網站發生錯誤，請稍後再做嘗試',
+            });
+            // go to 500 page
+            break;
+          default:
+            Notify.create(notifyKwargs);
+        }
       }
+      if (!window.navigator.onLine) {
+        Notify.create({
+          ...notifyKwargs,
+          message: '網路出了點問題，請重新連線後重整網頁',
+        });
+        return;
+      }
+      return Promise.reject(error);
     }
-    if (!window.navigator.onLine) {
-      Notify.create({
-        ...notifyKwargs,
-        message: '網路出了點問題，請重新連線後重整網頁',
-      });
-      return;
-    }
-    return Promise.reject(error);
-  }
-);
+  );
 
-export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
