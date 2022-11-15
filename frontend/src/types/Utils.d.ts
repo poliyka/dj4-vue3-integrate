@@ -1,14 +1,25 @@
 import type { Ref } from 'vue';
-import type { QVueGlobals } from 'quasar';
-import type { AxiosResponse } from 'axios';
+import type { QVueGlobals, QNotifyCreateOptions } from 'quasar';
+import type { AxiosResponse, AxiosInstance } from 'axios';
 import type { LoginFormData } from 'src/types/Api';
 import type { EThemeMode } from 'src/utils/Enum';
+import type { Router } from 'vue-router';
+import type { TUserStore } from 'src/types/Types';
 
 export type TSwitchMode = ($q: QVueGlobals, themeMode: Ref<EThemeMode>) => void;
+
+export type TGetUserData = (user: Ref<TUserStore>) => void;
 
 export type TUserLogin = (
   loginFormData: LoginFormData
 ) => Promise<AxiosResponse>;
 
-// functions
 export type HandleAfterBirthday = () => void;
+
+export type TStatusHandler = (
+  api: AxiosInstance,
+  error: any,
+  router: Router,
+  errNotifyKw: QNotifyCreateOptions
+) => Promise<AxiosResponse> | void;
+

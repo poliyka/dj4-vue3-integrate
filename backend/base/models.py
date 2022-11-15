@@ -29,7 +29,6 @@ class Profile(BaseTimeModel):
     )
 
     # information
-    name = models.CharField("姓名", max_length=32, blank=True, null=True)
     birth = models.DateField("生日", blank=True, null=True)
     gender = models.CharField(
         "性別", max_length=16, choices=Gender.choices, blank=True, null=True

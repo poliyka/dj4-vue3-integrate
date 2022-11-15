@@ -17,3 +17,10 @@ export interface Menu {
 export interface Meta {
   totalCount: number;
 }
+
+export interface TUserStore {
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  username: string;
+}

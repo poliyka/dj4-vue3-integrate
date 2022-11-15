@@ -154,6 +154,7 @@ STATIC_URL = "static_collected/"
 FRONTEND_STATIC_ROOT = {
     "static/": os.path.join(BASE_DIR, "dist/static"),
     "icons/": os.path.join(BASE_DIR, "dist/icons"),
+    "imgs/": os.path.join(BASE_DIR, "dist/imgs"),
     "favicon.ico/": os.path.join(BASE_DIR, "dist/favicon.ico"),
 }
 
@@ -195,8 +196,8 @@ JWT_AUTH_COOKIE = "jwt-auth"
 JWT_AUTH_REFRESH_COOKIE = "jwt-refresh-token"
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(hours=4),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=10),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,

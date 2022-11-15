@@ -36,12 +36,13 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   // Get Session and Redirect path when user without login
+
   Router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       // this route requires auth, check if logged in
       // if not, redirect to login page.
-      const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
-      if (!jwtRefreshToken) {
+      const isLogin = LocalStorage.getItem('jwtToken');
+      if (!isLogin) {
         next({ name: 'login' });
       } else {
         next(); // go to wherever I'm going

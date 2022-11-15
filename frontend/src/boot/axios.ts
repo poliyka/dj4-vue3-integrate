@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import { Notify, QNotifyCreateOptions, LocalStorage, Cookies } from 'quasar';
+import { Notify, QNotifyCreateOptions, Cookies } from 'quasar';
+import { status401Handler, status400Handler } from 'src/utils/Utils';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -31,7 +32,6 @@ if (process.env.DEV) {
 }
 
 export default boot(({ app, router }) => {
-
   // On request
   api.interceptors.request.use(
     function (config) {
@@ -54,7 +54,7 @@ export default boot(({ app, router }) => {
 
     function (error) {
       // Show up notify
-      const notifyKwargs = {
+      const errNotifyKw = {
         type: 'negative',
         color: 'negative',
         timeout: 3000,
@@ -65,65 +65,34 @@ export default boot(({ app, router }) => {
       if (error.response) {
         switch (error.response.status) {
           case 400:
-            Notify.create({ ...notifyKwargs, message: '參數錯誤' });
+            const res400 = status400Handler(api, error, router, errNotifyKw);
+            if (res400) res400;
             break;
           case 401:
-            // 當不是 refresh token 作業發生 401 才需要更新 access token 並重發
-            // 如果是就略過此刷新 access token 作業，直接不處理(因為 catch 已經攔截處理更新失敗的情況了)
-            const refreshTokenUrl = '/api/accounts/token/refresh/';
-            const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
-            const originalRequest = error.config;
-
-            if (error.config.url !== refreshTokenUrl) {
-              return api
-                .post(refreshTokenUrl, { refresh: jwtRefreshToken })
-                .then((res) => {
-                  // [更新 access_token 成功]
-
-                  // 刷新 storage (其他呼叫 api 的地方都會從此處取得新 access_token)
-                  LocalStorage.set('jwtToken', res.data.access);
-                  LocalStorage.set('jwtRefreshToken', res.data.refresh);
-
-                  // 刷新原始 request 的 access_token
-                  originalRequest.cookies =
-                    'Bearer ' + res.data.access;
-
-                  // 重送 request (with new access_token)
-                  return axios(originalRequest);
-                })
-                .catch((err) => {
-                  // [更新 access_token 失敗] ( e.g. refresh_token 過期無效)
-                  LocalStorage.set('jwtToken', null);
-                  LocalStorage.set('jwtRefreshToken', null);
-
-                  Notify.create({ ...notifyKwargs, message: '作業逾時或無相關使用授權，請重新登入' });
-                  router.push({ name: 'login' });
-                  return Promise.reject(err);
-                });
-            }
-
+            const res401 = status401Handler(api, error, router, errNotifyKw);
+            if (res401) res401;
             break;
           case 403:
-            Notify.create({ ...notifyKwargs, message: '權限不足' });
+            Notify.create({ ...errNotifyKw, message: '權限不足' });
             break;
           case 404:
-            Notify.create({ ...notifyKwargs, message: '找不到相關頁面' });
+            Notify.create({ ...errNotifyKw, message: '找不到相關頁面' });
             // go to 404 page
             break;
           case 500:
             Notify.create({
-              ...notifyKwargs,
+              ...errNotifyKw,
               message: '網站發生錯誤，請稍後再做嘗試',
             });
             // go to 500 page
             break;
           default:
-            Notify.create(notifyKwargs);
+            Notify.create(errNotifyKw);
         }
       }
       if (!window.navigator.onLine) {
         Notify.create({
-          ...notifyKwargs,
+          ...errNotifyKw,
           message: '網路出了點問題，請重新連線後重整網頁',
         });
         return;
