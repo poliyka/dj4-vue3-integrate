@@ -3,9 +3,22 @@ from .settings import *
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": env.db(),
-}
+if env("DATABASE_URL", default=None):
+    DATABASES = {
+        "default": env.db(),
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')}"},
+            "NAME": env("POSTGRES_DB"),
+            "USER": env("POSTGRES_USER"),
+            "PASSWORD": env("POSTGRES_PASSWORD"),
+            "HOST": env("POSTGRES_HOST"),
+            "PORT": env("POSTGRES_PORT"),
+        }
+    }
 
 # Debug toolbar
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")

@@ -20,4 +20,4 @@ class Command(BaseCommand):
             try:
                 cursor.execute("CREATE SCHEMA django;")
             except Exception as err:
-                self.stdout.write(str(err))
+                self.stdout.write("Sqlite does not support schema.")

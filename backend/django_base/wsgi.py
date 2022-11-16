@@ -15,11 +15,7 @@ from django.core.wsgi import get_wsgi_application
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-env = environ.Env(
-    DEBUG=(bool, False),
-    STRESS_TEST=(bool, False),
-    ALLOWED_HOSTS=(list, []),
-)
+env = environ.Env()
 
 environ.Env.read_env(BASE_DIR / ".env")
 
