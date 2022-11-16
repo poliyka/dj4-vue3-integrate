@@ -45,10 +45,6 @@ export default boot(({ app, router }) => {
     }
   );
 
-  // translate 遞迴 to english
-  const translateRecursive = (obj: any) => {
-
-
   // On response
   api.interceptors.response.use(
     function (response) {
