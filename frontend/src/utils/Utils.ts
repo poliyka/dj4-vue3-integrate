@@ -71,10 +71,14 @@ export const status401Handler: TStatusHandler = (
   router,
   errNotifyKw
 ) => {
-  const refreshTokenUrl = '/api/accounts/token/refresh/';
+  const refreshTokenUrl = 'api/accounts/token/refresh/';
   const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
   const originalRequest = error.config;
-  if (error.config.url !== refreshTokenUrl) {
+  const excludeUrls = ['api/accounts/logout/'];
+  if (
+    error.config.url !== refreshTokenUrl &&
+    _.indexOf(excludeUrls, error.config.url) === -1
+  ) {
     return api
       .post(refreshTokenUrl, { refresh: jwtRefreshToken })
       .then((res) => {
@@ -102,5 +106,12 @@ export const status401Handler: TStatusHandler = (
         router.push({ name: 'login' });
         return Promise.reject(err);
       });
+  }
+
+  else if (_.indexOf(excludeUrls, error.config.url) > 0){
+    Notify.create({
+      ...errNotifyKw,
+      message: '網站發生錯誤，請稍後再做嘗試',
+    });
   }
 };

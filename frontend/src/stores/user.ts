@@ -15,5 +15,12 @@ export const useUserStore = defineStore('user', {
 
   getters: {},
 
-  actions: {},
+  actions: {
+    logout() {
+      this.user.firstName = '';
+      this.user.lastName = '';
+      this.user.avatar = '';
+      this.user.username = '';
+    },
+  },
 });

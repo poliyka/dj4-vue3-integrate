@@ -8,11 +8,15 @@ import type { TUserStore } from 'src/types/Types';
 
 export type TSwitchMode = ($q: QVueGlobals, themeMode: Ref<EThemeMode>) => void;
 
-export type TGetUserData = (user: Ref<TUserStore>) => Promise<AxiosResponse<RUserData>>;
+export type TGetUserData = (
+  user: Ref<TUserStore>
+) => Promise<AxiosResponse<RUserData>>;
 
 export type TUserLogin = (
   loginFormData: LoginFormData
 ) => Promise<AxiosResponse>;
+
+export type TUserLogout = () => Promise<AxiosResponse>;
 
 export type HandleAfterBirthday = () => void;
 
@@ -22,4 +26,3 @@ export type TStatusHandler = (
   router: Router,
   errNotifyKw: QNotifyCreateOptions
 ) => Promise<AxiosResponse> | void;
-

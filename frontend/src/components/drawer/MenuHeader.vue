@@ -9,6 +9,8 @@
         <q-avatar size="56px">
           <img :src="computeAvatar" />
         </q-avatar>
+
+        <DrawerMenuHeaderPopup />
       </q-btn>
 
       <div class="text-weight-bold">
@@ -28,9 +30,15 @@ import { useAsyncState } from '@vueuse/core';
 import { useUserStore } from 'stores/user';
 import { storeToRefs } from 'pinia';
 import defaultAvatar from '/imgs/avatar.png';
+import DrawerMenuHeaderPopup from './MenuHeaderPopup.vue';
 
 export default defineComponent({
-  name: 'MenuHeaderComponent',
+  name: 'DrawerMenuHeader',
+
+  components: {
+    DrawerMenuHeaderPopup,
+  },
+
   setup() {
     // use store
     const userStore = useUserStore();

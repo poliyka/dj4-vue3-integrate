@@ -1,7 +1,7 @@
 import { api } from 'src/boot/axios';
 import { LocalStorage } from 'quasar';
 
-import type { TGetUserData } from './../types/Utils.d';
+import type { TGetUserData, TUserLogout } from 'src/types/Utils';
 import type { TUserLogin } from 'src/types/Utils.d';
 import { sourcePathControl } from 'src/utils/Utils';
 import defaultAvatar from '/imgs/avatar.png';
@@ -16,9 +16,19 @@ const API_VERSION = process.env.API_VERSION;
  */
 export const userLoginApi: TUserLogin = async (loginFormData) => {
   const res = await api.post('api/accounts/login/', loginFormData);
+  // save the access and refresh tokens to local storage
   LocalStorage.set('jwtToken', res.data.access_token);
   LocalStorage.set('jwtRefreshToken', res.data.refresh_token);
   return res;
+};
+
+export const userLogoutApi: TUserLogout = async () => {
+  const jwtRefreshToken = LocalStorage.getItem('jwtRefreshToken');
+  const res = await api.post('api/accounts/logout/', {refresh: jwtRefreshToken});
+  // remove the access and refresh tokens from local storage
+  LocalStorage.remove('jwtToken');
+  LocalStorage.remove('jwtRefreshToken');
+  return res
 };
 
 export const getUserDataApi: TGetUserData = async (user) => {

@@ -19,7 +19,7 @@
       <!-- left drawer list -->
       <q-scroll-area class="_dva-drawer-scroll-area">
         <q-list padding>
-          <MenuListComponent
+          <DrawerMenuList
             v-for="(m, index) in menu"
             :key="index"
             :index="index"
@@ -29,7 +29,7 @@
       </q-scroll-area>
 
       <!-- left drawer header -->
-      <MenuHeaderComponent />
+      <DrawerMenuHeader />
     </q-drawer>
 
     <q-page-container>
@@ -43,15 +43,15 @@ import { defineComponent, ref } from 'vue';
 import { useMenuStore } from 'stores/menu';
 import { storeToRefs } from 'pinia';
 
-import MenuListComponent from 'src/components/sidebar/MenuListComponent.vue';
-import MenuHeaderComponent from 'src/components/sidebar/MenuHeaderComponent.vue';
+import DrawerMenuList from 'src/components/drawer/MenuList.vue';
+import DrawerMenuHeader from 'src/components/drawer/MenuHeader.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    MenuListComponent,
-    MenuHeaderComponent,
+    DrawerMenuList,
+    DrawerMenuHeader,
   },
 
   setup() {
