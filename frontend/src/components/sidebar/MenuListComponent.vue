@@ -16,7 +16,7 @@ import { defineComponent, computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'MenuComponent',
+  name: 'MenuListComponent',
   props: {
     index: {
       type: Number,
