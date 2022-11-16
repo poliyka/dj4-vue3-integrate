@@ -38,12 +38,13 @@
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img :src="user.avatar" />
+            <img :src="computeAvatar" />
           </q-avatar>
           <div class="text-weight-bold">
-            {{ user.lastName }} {{ user.firstName }}
+            {{ userDataState.last_name }}
+            {{ userDataState.first_name }}
           </div>
-          <div>{{ user.username }}</div>
+          <div>{{ userDataState.username }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -55,12 +56,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import MenuComponent from 'components/sidebar/MenuComponent.vue';
 import { useMenuStore } from 'stores/menu';
 import { useUserStore } from 'stores/user';
 import { storeToRefs } from 'pinia';
-import { getUserData } from 'src/api/system';
+import { getUserDataApi } from 'src/api/system';
+import { useAsyncState } from '@vueuse/core';
+import defaultAvatar from '/imgs/avatar.png';
+import { sourcePathControl } from 'src/utils/Utils';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -70,7 +74,6 @@ export default defineComponent({
   },
 
   setup() {
-
     // use store
     const menuStore = useMenuStore();
     const userStore = useUserStore();
@@ -81,12 +84,33 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
 
     // get userData on beginning
-    getUserData(user);
+    const ASUserData = useAsyncState(
+      getUserDataApi(user).then((res) => res.data),
+      {
+        profile: { avatar: defaultAvatar, birth: '', gender: '' },
+        last_login: '',
+        username: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+      }
+    );
+
+    const computeAvatar = computed(() => {
+      return sourcePathControl(
+        ASUserData.state.value.profile.avatar,
+        defaultAvatar
+      );
+    });
 
     return {
       user,
       menu,
       leftDrawerOpen,
+      userDataState: ASUserData.state,
+      userDataIsReady: ASUserData.isReady,
+      userDataIsLoading: ASUserData.isLoading,
+      computeAvatar: computeAvatar,
     };
   },
 });

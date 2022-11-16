@@ -14,6 +14,31 @@ export const switchMode: TSwitchMode = ($q, themeMode) => {
   }
 };
 
+/**
+ * If the environment is development, prepend the base URL to the source path.
+ * Because on develop on nodejs server, the source path is not correct
+ * We need to prepend the base URL to django server path
+ * @param {string} source - The source path.
+ * @returns A string
+ */
+export const sourcePathControl = (
+  source: string,
+  defaultSource = ''
+): string => {
+  let path = source;
+
+  if (_.isEmpty(source)) {
+    path = defaultSource;
+  }
+
+  if (process.env.DEV) {
+    const baseURL = `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`;
+    path = baseURL + path;
+  }
+
+  return path;
+};
+
 export const status400Handler: TStatusHandler = (
   api,
   error,

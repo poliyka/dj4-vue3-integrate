@@ -36,18 +36,18 @@ class UserDataApiView(APIView):
 
         return JsonResponse(user_data_serializer.data, safe=True)
 
-    @extend_schema(
-        tags=["System"],
-        summary="UserDataPost",
-        description="使用者資訊",
-        responses={200: str, 401: str},
-        request=UserSerializer,
-    )
-    @method_decorator(csrf_protect)
-    def post(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
+    # @extend_schema(
+    #     tags=["System"],
+    #     summary="UserDataPost",
+    #     description="使用者資訊",
+    #     responses={200: str, 401: str},
+    #     request=UserSerializer,
+    # )
+    # @method_decorator(csrf_protect)
+    # def post(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
 
-        userSerializer = UserSerializer(data=request.data)
+    #     userSerializer = UserSerializer(data=request.data)
 
-        if not userSerializer.is_valid():
-            return JsonResponse(userSerializer.errors, status=HTTP_400_BAD_REQUEST)
-        return JsonResponse(userSerializer.data, safe=True)
+    #     if not userSerializer.is_valid():
+    #         return JsonResponse(userSerializer.errors, status=HTTP_400_BAD_REQUEST)
+    #     return JsonResponse(userSerializer.data, safe=True)

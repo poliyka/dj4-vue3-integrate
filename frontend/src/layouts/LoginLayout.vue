@@ -73,9 +73,8 @@ import { defineComponent, ref, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
-// import { Cookies } from 'quasar';
 import { useRouter } from 'vue-router';
-import { userLogin } from 'src/api/system';
+import { userLoginApi } from 'src/api/system';
 import { switchMode } from 'src/utils/Utils';
 import { EThemeMode } from 'src/utils/Enum';
 
@@ -104,7 +103,7 @@ export default defineComponent({
 
     // Function
     const onSubmit = async (): Promise<void> => {
-      await userLogin(formData);
+      await userLoginApi(formData);
       const jwtRefreshToken = $q.localStorage.getItem('jwtRefreshToken');
 
       if (!jwtRefreshToken) {
