@@ -2,8 +2,8 @@ import json
 import logging
 from typing import Any
 
-from api.serializers.test import UserSerializer
-from api.serializers.user_data import UserDataSerializer
+from api.version.v1.serializers.test import UserSerializer
+from api.version.v1.serializers.user_data import UserDataSerializer
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import Group, User
 from django.core import serializers
@@ -16,16 +16,19 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework.decorators import (APIView, action, api_view,
-                                       permission_classes)
+from rest_framework.decorators import APIView, action, api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+
 # https://www.django-rest-framework.org/api-guide/status-codes/
-from rest_framework.status import (HTTP_200_OK, HTTP_201_CREATED,
-                                   HTTP_400_BAD_REQUEST,
-                                   HTTP_406_NOT_ACCEPTABLE)
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_406_NOT_ACCEPTABLE,
+)
 
 
 class UserDataApiView(APIView):

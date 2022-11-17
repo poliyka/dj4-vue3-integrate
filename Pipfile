@@ -31,12 +31,15 @@ channels = "*"
 dj-rest-auth = "*"
 django-redis = "*"
 django-debug-toolbar = "*"
+psycopg2 = "*"
+djangorestframework-simplejwt = "*"
 django-postgres-extra = "*"
 
 [dev-packages]
 isort = "*"
 black = "*"
 libsass = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.10"

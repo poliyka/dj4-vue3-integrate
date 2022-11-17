@@ -1,5 +1,4 @@
 import os
-
 # Typing
 from argparse import ArgumentParser
 from getpass import getpass
@@ -65,9 +64,15 @@ class Command(BaseCommand):
             )
 
     def create_superuser(self) -> None:
-        username = os.environ.get("DJANGO_SUPERUSER_USERNAME") or input("Please enter username: ")
-        email = os.environ.get("DJANGO_SUPERUSER_EMAIL") or input("Please enter email: ")
-        password = os.environ.get("DJANGO_SUPERUSER_PASSWORD") or getpass("Please enter password: ")
+        username = os.environ.get("DJANGO_SUPERUSER_USERNAME") or input(
+            "Please enter username: "
+        )
+        email = os.environ.get("DJANGO_SUPERUSER_EMAIL") or input(
+            "Please enter email: "
+        )
+        password = os.environ.get("DJANGO_SUPERUSER_PASSWORD") or getpass(
+            "Please enter password: "
+        )
 
         if not username:
             self.stdout.write("No given username, abort creating superuser...")

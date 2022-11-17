@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import { Notify, QNotifyCreateOptions, LocalStorage, Cookies } from 'quasar';
+import { Notify, QNotifyCreateOptions, Cookies } from 'quasar';
+import { status401Handler, status400Handler } from 'src/utils/Utils';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -30,72 +31,76 @@ if (process.env.DEV) {
   api.get('', { withCredentials: true });
 }
 
-// On request
-api.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    config.headers['Authorization'] = LocalStorage.getItem('jcsToken');
-    config.headers['x-csrftoken'] = Cookies.get('csrftoken');
-    return config;
-  },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+export default boot(({ app, router }) => {
+  // On request
+  api.interceptors.request.use(
+    function (config) {
+      // Do something before request is sent
+      config.headers['x-csrftoken'] = Cookies.get('csrftoken');
+      return config;
+    },
+    function (error) {
+      // Do something with request error
+      return Promise.reject(error);
+    }
+  );
 
-// On response
-api.interceptors.response.use(
-  function (response) {
-    // Do something with response data
-    return response;
-  },
+  // On response
+  api.interceptors.response.use(
+    function (response) {
+      // Do something with response data
+      return response;
+    },
 
-  function (error) {
-    // Show up notify
-    const notifyKwargs = {
-      type: 'negative',
-      color: 'negative',
-      timeout: 3000,
-      position: 'top',
-      message: error.message,
-    } as QNotifyCreateOptions;
+    function (error) {
+      // Show up notify
+      const errNotifyKw = {
+        type: 'negative',
+        color: 'negative',
+        timeout: 3000,
+        position: 'top',
+        message: error.message,
+      } as QNotifyCreateOptions;
 
-    if (error.response) {
-      switch (error.response.status) {
-        case 400:
-          Notify.create({ ...notifyKwargs, message: '參數錯誤' });
-          break;
-        case 401:
-          Notify.create({ ...notifyKwargs, message: '請先登入' });
-          break;
-        case 403:
-          Notify.create({ ...notifyKwargs, message: '權限不足' });
-          break;
-        case 404:
-          Notify.create({ ...notifyKwargs, message: '找不到頁面' });
-          // go to 404 page
-          break;
-        case 500:
-          Notify.create({ ...notifyKwargs, message: '程式發生問題' });
-          // go to 500 page
-          break;
-        default:
-          Notify.create(notifyKwargs);
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            const res400 = status400Handler(api, error, router, errNotifyKw);
+            if (res400) return res400;
+            break;
+          case 401:
+            const res401 = status401Handler(api, error, router, errNotifyKw);
+            if (res401) return res401;
+            break;
+          case 403:
+            Notify.create({ ...errNotifyKw, message: '權限不足' });
+            break;
+          case 404:
+            Notify.create({ ...errNotifyKw, message: '找不到相關頁面' });
+            // go to 404 page
+            break;
+          case 500:
+            Notify.create({
+              ...errNotifyKw,
+              message: '網站發生錯誤，請稍後再做嘗試',
+            });
+            // go to 500 page
+            break;
+          default:
+            Notify.create(errNotifyKw);
+        }
       }
+      if (!window.navigator.onLine) {
+        Notify.create({
+          ...errNotifyKw,
+          message: '網路出了點問題，請重新連線後重整網頁',
+        });
+        return;
+      }
+      return Promise.reject(error);
     }
-    if (!window.navigator.onLine) {
-      Notify.create({
-        ...notifyKwargs,
-        message: '網路出了點問題，請重新連線後重整網頁',
-      });
-      return;
-    }
-    return Promise.reject(error);
-  }
-);
+  );
 
-export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;

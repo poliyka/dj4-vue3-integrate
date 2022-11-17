@@ -27,7 +27,6 @@ admin.site.register(User, UserInlineAdmin)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         "user",
-        "name",
         "birth",
         "gender",
         "identity",
@@ -35,7 +34,6 @@ class ProfileAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    search_fields = ["name"]
     raw_id_fields = ("user",)
 
     def view_name(self, obj: Profile) -> Any:

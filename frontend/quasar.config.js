@@ -28,7 +28,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios'],
+    boot: ['i18n', 'axios', 'lodash'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -37,7 +37,7 @@ module.exports = configure(function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      'fontawesome-v6',
+      // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -98,10 +98,6 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {
-        dark: true,
-      },
-
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
 
@@ -113,7 +109,22 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify', 'LoadingBar', 'LocalStorage', 'SessionStorage'],
+      plugins: [
+        'Notify',
+        'LoadingBar',
+        'LocalStorage',
+        'SessionStorage',
+        'Cookies',
+      ],
+      config: {
+        dark: true,
+        loadingBar: {
+          skipHijack: true,
+          color: 'positive',
+          size: '2px',
+          position: 'top',
+        },
+      },
     },
 
     // animations: 'all', // --- includes all animations
