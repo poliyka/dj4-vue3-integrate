@@ -109,10 +109,21 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify', 'LoadingBar', 'LocalStorage', 'SessionStorage', 'Cookies'],
+      plugins: [
+        'Notify',
+        'LoadingBar',
+        'LocalStorage',
+        'SessionStorage',
+        'Cookies',
+      ],
       config: {
         dark: true,
-        loadingBar: { color: 'positive', size: '8px', position: 'top' },
+        loadingBar: {
+          skipHijack: true,
+          color: 'positive',
+          size: '2px',
+          position: 'top',
+        },
       },
     },
 
