@@ -7,6 +7,7 @@ from django.utils import timezone
 from pathlib import Path
 from kombu import Queue
 from datetime import timedelta
+from typing import Any
 
 import environ
 
@@ -43,20 +44,18 @@ platforms.C_FORCE_ROOT = True
 
 # 有出錯會顯示於此
 @app.task(bind=True)
-def debug_task(self):
+def debug_task(self: Any) -> None:
     print("Request: {0!r}".format(self.request))
 
 
 # 設定任務進入哪個列隊 (在開啟worker時，可以分別進行)
 app.conf.task_routes = {
     "autoGenLogPartitionTable": {"queue": "tasks_one"},
-    "testTask": {"queue": "tasks_two"},
 }
 
 # 設定列隊路由
 app.conf.task_queues = (
     Queue("tasks_one", routing_key="tasks_one"),
-    Queue("tasks_two", routing_key="tasks_two"),
 )
 
 # 固定的定時任務
@@ -64,12 +63,7 @@ app.conf.update(
     CELERY_BEAT_SCHEDULE={
         "autoGenLogPartitionTable": {
             "task": "autoGenLogPartitionTable",
-            "schedule": timedelta(seconds=10),
-            "args": ([],),
-        },
-        "testTask": {
-            "task": "testTask",
-            "schedule": timedelta(seconds=10),
+            "schedule": timedelta(weeks=8),
             "args": ([],),
         },
     }
