@@ -1,8 +1,6 @@
 {
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
-    "baseUrl": ".",
-    "strictNullChecks": true, // 嚴格檢查 null
-    "noImplicitReturns": true // 禁止隱性回傳
+    "baseUrl": "."
   }
 }

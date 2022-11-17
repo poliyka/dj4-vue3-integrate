@@ -23,7 +23,7 @@ import { reactive } from 'vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'uploadPage',
+  name: 'ContentSchedule',
   setup() {
     const rules = {
       collection: {

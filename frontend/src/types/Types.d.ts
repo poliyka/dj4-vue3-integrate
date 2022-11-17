@@ -1,3 +1,4 @@
+// interfaces
 export interface States {
   name: string;
   old: number;
@@ -17,4 +18,9 @@ export interface Meta {
   totalCount: number;
 }
 
-export type HandleAfterBirthday = () => void;
+export interface TUserStore {
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  username: string;
+}
