@@ -81,8 +81,9 @@ Initialize database by following commands.
 
 ```sh
 make createschema # if you use sqlite, skip this command
-make makemigrations
+make pgmakemigrations # replace with makemigrations
 make migrate
+make pgpartition # create partition table
 make init-be # setup superuser etc
 make collectstatic # execute this command in prod env
 make run-be # start up server
@@ -237,7 +238,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create migrations",
       "dependsOn": ["Create db schema"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make makemigrations",
+      "command": "source ${config:python.pythonPath}; make pgmakemigrations",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -254,8 +255,18 @@ This is good way to clean up all data and restart new environment when you devel
       }
     },
     {
-      "label": "Init db data",
+      "label": "Create partition",
       "dependsOn": ["Migrate DB"],
+      "type": "shell",
+      "command": "source ${config:python.pythonPath}; make pgpartition",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Init db data",
+      "dependsOn": ["Create partition"],
       "type": "shell",
       "command": "source ${config:python.pythonPath}; make init-be",
       "group": {
