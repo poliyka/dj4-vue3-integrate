@@ -25,7 +25,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { sourcePathControl } from 'src/utils/Utils';
-import { getUserDataApi } from 'src/api/system';
+import { getUserDataApi } from 'src/api/v1/system';
 import { useAsyncState } from '@vueuse/core';
 import { useUserStore } from 'stores/user';
 import { storeToRefs } from 'pinia';

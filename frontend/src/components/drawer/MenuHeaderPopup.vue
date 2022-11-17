@@ -4,11 +4,14 @@
       <div class="column">
         <div class="text-h6 q-mb-md">Settings</div>
         <q-list style="min-width: 200px">
-          <q-item clickable v-close-popup @click="onGetUserData">
+          <q-item clickable v-close-popup>
             <q-item-section>editProfile</q-item-section>
           </q-item>
           <q-item clickable v-close-popup>
             <q-item-section>resetPassword</q-item-section>
+          </q-item>
+          <q-item clickable v-close-popup @click="onGetUserData">
+            <q-item-section>getUserData</q-item-section>
           </q-item>
         </q-list>
       </div>
@@ -41,9 +44,10 @@
 import { defineComponent } from 'vue';
 import { useUserStore } from 'stores/user';
 import { storeToRefs } from 'pinia';
-import { userLogoutApi, getUserDataApi } from 'src/api/system';
+import { userLogoutApi } from 'src/api/accounts';
+import { getUserDataApi } from 'src/api/v1/system';
 import { useRouter } from 'vue-router';
-
+import { Notify } from 'quasar';
 
 export default defineComponent({
   name: 'DrawerMenuHeaderPopup',
@@ -62,9 +66,13 @@ export default defineComponent({
     };
 
     const onGetUserData = () => {
-      getUserDataApi(user).then(res => {
-        console.log(res);
-      });
+      getUserDataApi(user).then((res) => {
+        Notify.create({
+          message: JSON.stringify(res.data),
+          color: 'positive',
+          position: 'top',
+        });
+      })
     };
 
     return {

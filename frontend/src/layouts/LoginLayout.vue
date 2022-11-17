@@ -74,7 +74,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-import { userLoginApi } from 'src/api/system';
+import { userLoginApi } from 'src/api/accounts';
 import { switchMode } from 'src/utils/Utils';
 import { EThemeMode } from 'src/utils/Enum';
 
@@ -104,30 +104,18 @@ export default defineComponent({
     // Function
     const onSubmit = async (): Promise<void> => {
       await userLoginApi(formData);
-      const jwtRefreshToken = $q.localStorage.getItem('jwtRefreshToken');
 
-      if (!jwtRefreshToken) {
-        // 查無 token 表示登入失敗
-        $q.notify({
-          color: 'negative',
-          textColor: 'white',
-          icon: 'error',
-          position: 'top',
-          message:
-            'Access error! Please confirm that your account or password is correct.',
-        });
-      } else {
-        // 登入成功
-        $q.notify({
-          color: 'positive',
-          textColor: 'white',
-          icon: 'check_circle',
-          position: 'top',
-          message: 'Login success!',
-        });
-        // 重新導向到首頁
-        router.push({ name: 'search' });
-      }
+      // 登入成功
+      $q.notify({
+        color: 'positive',
+        textColor: 'white',
+        icon: 'check_circle',
+        position: 'top',
+        message: 'Login success!',
+        timeout: 1000,
+      });
+      // 重新導向到首頁
+      router.push({ name: 'dashboard' });
     };
 
     const onReset = (): void => {

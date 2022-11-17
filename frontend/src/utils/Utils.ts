@@ -89,7 +89,7 @@ export const status401Handler: TStatusHandler = (
         LocalStorage.set('jwtRefreshToken', res.data.refresh);
 
         // 刷新原始 request 的 access_token
-        originalRequest.cookies = 'Bearer ' + res.data.access;
+        originalRequest.headers.Authorization = 'Bearer ' + res.data.access
 
         // 重送 request (with new access_token)
         return api(originalRequest);
@@ -106,9 +106,7 @@ export const status401Handler: TStatusHandler = (
         router.push({ name: 'login' });
         return Promise.reject(err);
       });
-  }
-
-  else if (_.indexOf(excludeUrls, error.config.url) > 0){
+  } else if (_.indexOf(excludeUrls, error.config.url) > 0) {
     Notify.create({
       ...errNotifyKw,
       message: '網站發生錯誤，請稍後再做嘗試',

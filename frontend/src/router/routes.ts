@@ -11,28 +11,28 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'home',
     path: '/',
-    redirect: '/search',
+    redirect: '/dashboard',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
-        name: 'search',
-        path: '/search',
-        component: () => import('pages/contents/search.vue'),
+        name: 'dashboard',
+        path: '/dashboard',
+        component: () => import('pages/content/dashboard.vue'),
       },
       {
-        name: 'upload',
-        path: '/upload',
-        component: () => import('pages/contents/upload.vue'),
+        name: 'schedule',
+        path: '/schedule',
+        component: () => import('pages/content/schedule.vue'),
       },
       {
-        name: 'delete',
-        path: '/delete',
-        component: () => import('pages/contents/search.vue'),
+        name: 'jobs',
+        path: '/jobs',
+        component: () => import('pages/content/jobs.vue'),
       },
       {
-        name: 'reverse',
-        path: '/reverse',
-        component: () => import('pages/contents/search.vue'),
+        name: 'history',
+        path: '/history',
+        component: () => import('pages/content/history.vue'),
       },
     ],
     meta: {

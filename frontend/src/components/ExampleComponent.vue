@@ -14,7 +14,7 @@
       glossy
       label="ChangeMode"
       @click="toggleMode"
-      icon="fa fa-recycle"
+      icon="recycle"
     />
     爺爺今年已經 {{ states.old }} 歲了
     <button @click="handleAfterBirthday">幫爺爺慶生結束</button>

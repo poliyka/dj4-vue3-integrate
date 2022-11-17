@@ -66,11 +66,11 @@ export default boot(({ app, router }) => {
         switch (error.response.status) {
           case 400:
             const res400 = status400Handler(api, error, router, errNotifyKw);
-            if (res400) res400;
+            if (res400) return res400;
             break;
           case 401:
             const res401 = status401Handler(api, error, router, errNotifyKw);
-            if (res401) res401;
+            if (res401) return res401;
             break;
           case 403:
             Notify.create({ ...errNotifyKw, message: '權限不足' });
