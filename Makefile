@@ -95,6 +95,9 @@ pgpartition:
 collectstatic:
 	$(PYVENV_PREFIX) python backend/manage.py collectstatic
 
+inspectdb:
+	$(PYVENV_PREFIX) python backend/manage.py inspectdb > ${a}
+
 rm-migrations:
 	find . -path '*/migrations/__init__.py' -exec truncate -s 0 {} + -o -path '*/migrations/*' -delete
 

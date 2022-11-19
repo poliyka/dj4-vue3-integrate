@@ -33,10 +33,18 @@ class Log(PostgresPartitionedModel, BaseTimeModel):
         "方法名稱", max_length=32, help_text="func or class name like 'Login.as_view()'"
     )
     api = models.CharField(
-        "Api路徑", max_length=32, blank=True, null=True, help_text="api path like '/api/v1/xxx'"
+        "Api路徑",
+        max_length=32,
+        blank=True,
+        null=True,
+        help_text="api path like '/api/v1/xxx'",
     )
-    action = models.CharField("執行操作", max_length=16, choices=Action.choices, default=Action.SYSTEM)
-    level = models.CharField("等級", max_length=8, choices=Level.choices, default=Level.INFO)
+    action = models.CharField(
+        "執行操作", max_length=16, choices=Action.choices, default=Action.SYSTEM
+    )
+    level = models.CharField(
+        "等級", max_length=8, choices=Level.choices, default=Level.INFO
+    )
     message = models.TextField("訊息", blank=True, null=True)
 
     def __str__(self) -> str:

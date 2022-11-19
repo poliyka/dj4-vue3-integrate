@@ -4,36 +4,33 @@ export const useMenuStore = defineStore('menu', {
   state: () => ({
     menu: [
       {
-        label: 'Search',
-        caption: 'Inquire journal details',
-        icon: 'fa fa-magnifying-glass',
-        path: '/search',
+        label: 'Dashboard',
+        caption: 'Show all monitor items',
+        icon: 'dashboard',
+        path: '/dashboard',
       },
       {
-        label: 'Upload',
-        caption: 'Upload journal',
-        icon: 'fa fa-upload',
-        path: '/upload',
+        label: 'Schedule',
+        caption: 'Plan up schedule',
+        icon: 'format_list_bulleted_add',
+        path: '/schedule',
       },
       {
-        label: 'Delete',
-        caption: 'Delete journal (not approve)',
-        icon: 'fa fa-trash',
-        path: '/delete',
+        label: 'jobs',
+        caption: 'Plan up jobs',
+        icon: 'work_history',
+        path: '/jobs',
       },
       {
-        label: 'Reverse',
-        caption: 'Reverse journal (approved)',
-        icon: 'fa fa-arrow-rotate-left',
-        path: '/reverse',
+        label: 'History',
+        caption: 'Show all history',
+        icon: 'history',
+        path: '/history',
       },
     ],
   }),
 
   getters: {
-    // doubleCount (state) {
-    //   return state.counter * 2;
-    // }
   },
 
   actions: {},

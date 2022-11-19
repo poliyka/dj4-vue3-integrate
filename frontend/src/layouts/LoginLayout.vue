@@ -51,7 +51,6 @@
             <!-- <pre class="language-json">
               {{ v$.username.$invalid }}
             </pre> -->
-
             <div>
               <q-btn label="Submit" type="submit" color="primary" />
               <q-btn
@@ -61,22 +60,12 @@
                 flat
                 class="q-ml-sm"
               />
-              <q-btn label="Get" type="button" color="accent" @click="onGet" />
-              <q-btn
-                label="Post"
-                type="button"
-                color="accent"
-                flat
-                class="q-ml-sm"
-                @click="onPost"
-              />
             </div>
           </q-form>
         </q-page>
       </q-page-container>
     </q-layout>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -84,11 +73,10 @@ import { defineComponent, ref, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
-import { ThemeMode } from 'src/utils/Enum';
-// import { Cookies } from 'quasar';
 import { useRouter } from 'vue-router';
-import { userLogin, userGet, userPost } from 'src/api/system';
+import { userLoginApi } from 'src/api/accounts';
 import { switchMode } from 'src/utils/Utils';
+import { EThemeMode } from 'src/utils/Enum';
 
 export default defineComponent({
   name: 'LoginLayout',
@@ -99,7 +87,7 @@ export default defineComponent({
     const router = useRouter();
 
     // Define attr
-    const themeMode = ref<string>(ThemeMode.DarkMode);
+    const themeMode = ref<EThemeMode>(EThemeMode.DarkMode);
     const formData = reactive({
       username: '',
       password: '',
@@ -115,40 +103,19 @@ export default defineComponent({
 
     // Function
     const onSubmit = async (): Promise<void> => {
-      await userLogin(formData);
-      const jcsToken = $q.localStorage.getItem('jcsToken');
+      await userLoginApi(formData);
 
-      // TODO: ajax 後端確認登入狀態
-      if (jcsToken) {
-        $q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message:
-            'Access error! Please confirm that your account or password is correct.',
-        });
-      } else {
-        // Cookies.set('session', 'test', {
-        //   expires: 30,
-        //   secure: true,
-        // });
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'success',
-          position: 'top',
-          message: 'Submitted',
-        });
-        router.push({ name: 'search' });
-      }
-    };
-
-    const onGet = async (): Promise<void> => {
-      await userGet();
-    };
-
-    const onPost = async (): Promise<void> => {
-      await userPost();
+      // 登入成功
+      $q.notify({
+        color: 'positive',
+        textColor: 'white',
+        icon: 'check_circle',
+        position: 'top',
+        message: 'Login success!',
+        timeout: 1000,
+      });
+      // 重新導向到首頁
+      router.push({ name: 'dashboard' });
     };
 
     const onReset = (): void => {
@@ -171,8 +138,6 @@ export default defineComponent({
       onSwitchMode,
       onSubmit,
       onReset,
-      onGet,
-      onPost,
     };
   },
 });
@@ -190,6 +155,3 @@ export default defineComponent({
   max-width: 30em;
 }
 </style>
-
-
-

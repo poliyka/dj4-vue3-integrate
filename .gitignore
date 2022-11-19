@@ -11,6 +11,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
+media/
 downloads/
 eggs/
 .eggs/
@@ -257,6 +258,12 @@ dist
 .tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 .vscode-test
 
 # yarn v2
@@ -266,7 +273,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-.vscode
 simulations
 blurred.xlsx
 
@@ -280,3 +286,9 @@ blurred.xlsx
 # Ignore redis binary dump (dump.rdb) files
 *.rdb
 redis.conf
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 from base.models import Profile
-from django.contrib.auth.models import Permission, User
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 # https://github.com/axnsan12/drf-yasg/blob/master/testproj/snippets/serializers.py#L48
@@ -7,16 +7,10 @@ from rest_framework import serializers
 ##################
 # 使用者基本資訊 #
 ##################
-class PermissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Permission
-        fields = ("name", "codename")
-
-
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        exclude = ("id", "user", "created_at")
+        fields = ("avatar", "birth", "gender")
 
 
 class UserDataSerializer(serializers.ModelSerializer):
@@ -26,11 +20,12 @@ class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = (
+            "id",
             "password",
-            "first_name",
-            "last_name",
-            "last_login",
             "is_active",
             "user_permissions",
             "groups",
+            "date_joined",
+            "is_staff",
+            "is_superuser",
         )
