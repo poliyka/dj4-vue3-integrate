@@ -7,6 +7,7 @@ import { defineComponent } from 'vue';
 import { provide, readonly, ref } from 'vue';
 import { statesKey, genKey } from './utils/Injects';
 
+
 const states = ref({
   name: 'James',
   old: 75,
