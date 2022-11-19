@@ -2,6 +2,7 @@
   <q-page class="row items-center justify-evenly">
     {{ $t('success') }} <br />
     {{ $t('failed') }} <br />
+    {{ $t('option') }} <br />
     <q-date v-model="days" multiple />
   </q-page>
 </template>
@@ -14,7 +15,7 @@ export default defineComponent({
   // components: { ExampleComponent },
   setup() {
     return {
-      days: ref([ '2019/02/01', '2019/02/10' ])
+      days: ref(['2019/02/01', '2019/02/10']),
     };
   },
 });

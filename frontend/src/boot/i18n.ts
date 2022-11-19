@@ -26,6 +26,7 @@ export default boot(({ app }) => {
     locale: 'zh-TW',
     // legacy: false,
     globalInjection: true,
+    fallbackFormat: 'en-US',
     messages,
   });
 
