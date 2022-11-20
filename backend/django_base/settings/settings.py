@@ -266,16 +266,16 @@ if env("DJANGO_REDIS_ENABLE", default=False):
     )
 
     CACHES = {
-            "default": {
-                "BACKEND": "django_redis.cache.RedisCache",
-                "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
-                "OPTIONS": {
-                    "CLIENT_CLASS": "django_redis.client.DefaultClient",
-                    "CONNECTION_POOL_KWARGS": {"max_connections": 100},
-                    "PASSWORD": env("DJANGO_REDIS_PASSWORD"),
-                },
-            }
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+                "PASSWORD": env("DJANGO_REDIS_PASSWORD"),
+            },
         }
+    }
 
     # Using Redis cache session login
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
