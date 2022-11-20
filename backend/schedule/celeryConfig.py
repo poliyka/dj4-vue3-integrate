@@ -2,7 +2,8 @@ from django.conf import settings
 
 # Celery settings
 # 指定 Backend
-CELERY_RESULT_BACKEND = f"{settings.REDIS_URL}/15"
+CELERY_RESULT_BACKEND = "django-db"
+# CELERY_RESULT_BACKEND = f"{settings.REDIS_URL}/15"
 
 # 指定時區，預設是 UTC
 CELERY_TIMEZONE = settings.TIME_ZONE
@@ -31,5 +32,4 @@ CELERY_RESULT_EXTENDED = True
 
 # celery beat配置（週期性任務設定）
 CELERY_BROKER_URL = f"{settings.REDIS_URL}/14"
-CELERY_RESULT_BACKEND = "django-db"
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"

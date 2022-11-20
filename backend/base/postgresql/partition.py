@@ -18,7 +18,7 @@ manager = PostgresPartitioningManager(
             model=Log,
             strategy=PostgresCurrentTimePartitioningStrategy(
                 size=PostgresTimePartitionSize(months=1),
-                count=12,
+                count=3,
             ),
         ),
     ]
