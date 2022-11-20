@@ -4,15 +4,17 @@
     {{ $t('failed') }} <br />
     {{ $t('option') }} <br />
     <q-date v-model="days" multiple />
+    <BarChart />
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import BarChart from 'src/components/chart/BarChart.vue';
 
 export default defineComponent({
   name: 'ContentDashboard',
-  // components: { ExampleComponent },
+  components: { BarChart },
   setup() {
     return {
       days: ref(['2019/02/01', '2019/02/10']),
