@@ -252,10 +252,14 @@ EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 # Redis Cache
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
 if env("DJANGO_REDIS_ENABLE", default=False):
+    REDIS_URL = (
+        f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
+    )
+
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": f"redis://{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}/{env('DJANGO_REDIS_DB')}",
+            "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
                 "CONNECTION_POOL_KWARGS": {"max_connections": 100},
