@@ -46,6 +46,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # Application definition
 DJANGO_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -79,6 +80,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "log",
     "base",
+    "websocket",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -113,6 +115,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "django_base.wsgi.application"
+ASGI_APPLICATION = "django_base.asgi.application"
 
 
 # Password validation
@@ -252,10 +255,14 @@ EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 # Redis Cache
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
 if env("DJANGO_REDIS_ENABLE", default=False):
+    REDIS_URL = (
+        f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
+    )
+
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": f"redis://{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}/{env('DJANGO_REDIS_DB')}",
+            "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
                 "CONNECTION_POOL_KWARGS": {"max_connections": 100},
@@ -267,3 +274,26 @@ if env("DJANGO_REDIS_ENABLE", default=False):
     # Using Redis cache session login
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
     SESSION_CACHE_ALIAS = "default"
+
+    # Channel Layer
+    # https://channels.readthedocs.io/en/latest/topics/channel_layers.html?highlight=group_add#configuration
+    # channels_redis 有 bug，暫時不用
+    # CHANNEL_LAYERS = {
+    #     "default": {
+    #         "BACKEND": "channels_redis.core.RedisChannelLayer",
+    #         "CONFIG": {
+    #             "hosts": [f"{REDIS_URL}/7"],
+    #         },
+    #     },
+    # }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }

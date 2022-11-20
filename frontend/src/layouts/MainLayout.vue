@@ -60,8 +60,6 @@ import DrawerMenuHeader from 'src/components/drawer/MenuHeader.vue';
 import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
-// import zhTW from 'quasar/lang/zh-TW'
-// import enUS from 'quasar/lang/en-US'
 
 const appLanguages = languages.filter((lang) =>
   ['zh-TW', 'en-US'].includes(lang.isoName)
@@ -81,6 +79,7 @@ export default defineComponent({
   },
 
   setup() {
+    // quasar
     const $q = useQuasar();
 
     // i18n for app
