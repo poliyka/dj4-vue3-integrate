@@ -10,7 +10,8 @@ if env("DATABASE_URL", default=None):
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
+            # "ENGINE": "django.db.backends.postgresql",
+            "ENGINE": "psqlextra.backend",
             "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')}"},
             "NAME": env("POSTGRES_DB"),
             "USER": env("POSTGRES_USER"),
