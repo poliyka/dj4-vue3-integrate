@@ -255,9 +255,7 @@ EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 # Redis Cache
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
 if env("DJANGO_REDIS_ENABLE", default=False):
-    REDIS_URL = (
-        f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
-    )
+    REDIS_URL = f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
 
     CACHES = {
         "default": {
@@ -278,7 +276,79 @@ if env("DJANGO_REDIS_ENABLE", default=False):
 # Test running middleware
 # https://stackoverflow.com/a/15890638
 TEST_MODE = False
-TEST_RUNNER = 'base.middleware.test_suite_runner.TestSuiteRunner'
+TEST_RUNNER = "base.middleware.test_suite_runner.TestSuiteRunner"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "normal": {
+            "format": "[%(levelname)s] %(asctime)s | %(module)s | %(name)s:%(lineno)d | %(message)s"
+        },
+        "simple": {"format": "[%(levelname)s] %(message)s"},
+    },
+    "filters": {
+        # 'special': {
+        #     '()': 'project.logging.SpecialFilter',
+        #     'foo': 'bar',
+        # },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "normal",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "formatter": "normal",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": BASE_DIR / "../logs/django.log",
+            "formatter": "normal",
+            "when": "midnight", # 每天凌晨
+            "backupCount": 7, # 保留7天
+            "encoding": "utf-8", # 使用utf-8編碼
+            "interval": 1, # 1 day
+        },
+        "error": {
+            "level": "ERROR",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": BASE_DIR / "../logs/django_error.log",
+            "formatter": "normal",
+            "when": "midnight", # 每天凌晨
+            "backupCount": 7, # 保留7天
+            "encoding": "utf-8", # 使用utf-8編碼
+            "interval": 1, # 1 day
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console", "file", "error"],
+        },
+        "django": {
+            "handlers": ["console", "file"],
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["mail_admins", "file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        # 'myproject.custom': {
+        #     'handlers': ['console', 'mail_admins'],
+        #     'level': 'INFO',
+        #     'filters': ['special']
+        # }
+    },
+}
 
 # Partition table manager
 PSQLEXTRA_PARTITIONING_MANAGER = "base.postgresql.partition.manager"
