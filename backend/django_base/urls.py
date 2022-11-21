@@ -27,7 +27,7 @@ urlpatterns = (
     ]
 )
 
-if settings.DEV in ["dev", "stage"]:
+if settings.DEV in ["dev", "stage"] and not settings.TEST_MODE:
     # local
     import debug_toolbar
 

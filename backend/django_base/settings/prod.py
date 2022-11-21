@@ -6,7 +6,7 @@ from .settings import *
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')}"},
+        "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')},public"},
         "NAME": env("POSTGRES_DB"),
         "USER": env("POSTGRES_USER"),
         "PASSWORD": env("POSTGRES_PASSWORD"),

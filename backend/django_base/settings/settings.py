@@ -271,3 +271,8 @@ if env("DJANGO_REDIS_ENABLE", default=False):
     # Using Redis cache session login
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
     SESSION_CACHE_ALIAS = "default"
+
+# Test running middleware
+# https://stackoverflow.com/a/15890638
+TEST_MODE = False
+TEST_RUNNER = 'base.middleware.test_suite_runner.TestSuiteRunner'
