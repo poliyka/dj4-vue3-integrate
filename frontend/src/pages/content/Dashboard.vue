@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import BarChart from 'src/components/chart/BarChart.vue';
+import BarChart from 'components/chart/BarChart.vue';
 
 export default defineComponent({
   name: 'ContentDashboard',

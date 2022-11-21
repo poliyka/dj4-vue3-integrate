@@ -11,7 +11,6 @@
   />
 </template>
 
-<!-- eslint-disable @typescript-eslint/no-empty-function -->
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Bar } from 'vue-chartjs';
@@ -57,7 +56,7 @@ export default defineComponent({
     },
     styles: {
       type: Object as PropType<Partial<CSSStyleDeclaration>>,
-      default: () => {},
+      default: () => { return {} },
     },
     plugins: {
       type: Array as PropType<Plugin<'bar'>[]>,

@@ -1,33 +1,57 @@
 <template>
   <div>
-    <p>{{ title }}</p>
-    <ul>
-      <li v-for="menu in menus" :key="menu.id" @click="increment">
-        {{ menu.id }} - {{ menu.content }}
-      </li>
-    </ul>
-    <p>Count: {{ menuCount }} / {{ meta.totalCount }}</p>
-    <p>Active: {{ active ? 'yes' : 'no' }}</p>
-    <p>Clicks on menus: {{ clickCount }}</p>
-    <q-btn
-      color="deep-orange"
-      glossy
-      label="ChangeMode"
-      @click="toggleMode"
-      icon="recycle"
-    />
-    爺爺今年已經 {{ states.old }} 歲了
-    <button @click="handleAfterBirthday">幫爺爺慶生結束</button>
-    <img :src="image" alt="" />
+    <q-page class="row items-center justify-evenly" height="50">
+      <div>
+        <h5>pinia Count</h5>
+        <p>Clicks on menus: {{ clickCount }}</p>
+        <p>爺爺今年已經 {{ states.old }} 歲了</p>
+        <button @click="handleAfterBirthday">幫爺爺慶生結束</button>
+      </div>
+
+      <div>
+        <h5>Toggle mode</h5>
+        <q-btn
+          color="deep-orange"
+          glossy
+          label="ToggleMode"
+          @click="toggleMode"
+          icon="recycle"
+        />
+      </div>
+
+      <div>
+        <h5>Import image</h5>
+        <img :src="image" alt="" />
+      </div>
+    </q-page>
+
+    <q-page class="row items-center justify-evenly">
+      <div>
+        <h5>i18n</h5>
+        {{ $t('success') }} <br />
+        {{ $t('failed') }} <br />
+        {{ $t('option') }} <br />
+      </div>
+
+      <div>
+        <h5>date calender</h5>
+        <q-date v-model="days" multiple />
+      </div>
+
+      <div>
+        <h5>Chartjs</h5>
+        <BarChart />
+      </div>
+    </q-page>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, Ref, toRefs } from 'vue';
-import { Menu, Meta } from 'src/types/Types';
+import { defineComponent, computed, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { watch, reactive } from 'vue';
 import { injectStrict, statesKey, genKey } from 'src/utils/Injects';
+import BarChart from 'components/chart/BarChart.vue';
 
 import image from '/icons/favicon-128x128.png';
 
@@ -70,32 +94,15 @@ function useClickCount() {
   return { clickCount, increment };
 }
 
-function useDisplayMenu(menus: Ref<Menu[]>) {
-  const menuCount = computed(() => menus.value.length);
-  return { menuCount };
-}
+// function useDisplayMenu(menus: Ref<Menu[]>) {
+//   const menuCount = computed(() => menus.value.length);
+//   return { menuCount };
+// }
 
 export default defineComponent({
-  name: 'ExampleComponent',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    menus: {
-      type: Array as PropType<Menu[]>,
-      default: () => [],
-    },
-    meta: {
-      type: Object as PropType<Meta>,
-      required: true,
-    },
-    active: {
-      type: Boolean,
-    },
-  },
-  setup(props) {
-    const { menus } = toRefs(props);
+  name: 'ContentExample',
+  components: { BarChart },
+  setup() {
     const $q = useQuasar();
     const grandpaStates = injectStrict(statesKey);
     const handleAfterBirthday = injectStrict(genKey);
@@ -113,11 +120,11 @@ export default defineComponent({
     );
     return {
       ...useClickCount(),
-      ...useDisplayMenu(menus),
       states,
       handleAfterBirthday,
       toggleMode,
       image,
+      days: ref(['2019/02/01', '2019/02/10']),
     };
   },
 });

@@ -1,7 +1,11 @@
 import { InjectionKey, inject } from 'vue';
 import type { Ref } from 'vue';
-import type { States } from 'src/types/Types';
 import type { HandleAfterBirthday } from 'src/types/Utils';
+
+interface States {
+  name: string;
+  old: number;
+}
 
 // Prevent inject not define
 export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
