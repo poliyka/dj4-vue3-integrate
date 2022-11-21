@@ -238,7 +238,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create migrations",
       "dependsOn": ["Create db schema"],
       "type": "shell",
-      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make makemigrations",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make pgmakemigrations",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -255,8 +255,18 @@ This is good way to clean up all data and restart new environment when you devel
       }
     },
     {
-      "label": "Create partition",
+      "label": "Pgpartition",
       "dependsOn": ["Migrate DB"],
+      "type": "shell",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make pgpartition",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Init db data",
+      "dependsOn": ["Pgpartition"],
       "type": "shell",
       "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make init-be",
       "group": {
