@@ -55,8 +55,9 @@ import { defineComponent, ref, watch } from 'vue';
 import { useMenuStore } from 'stores/menu';
 import { storeToRefs } from 'pinia';
 
-import DrawerMenuList from 'src/components/drawer/MenuList.vue';
-import DrawerMenuHeader from 'src/components/drawer/MenuHeader.vue';
+import DrawerMenuList from 'components/drawer/MenuList.vue';
+import DrawerMenuHeader from 'components/drawer/MenuHeader.vue';
+
 import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';

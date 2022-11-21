@@ -228,7 +228,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create db schema",
       "dependsOn": ["Remove migrations"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make create-schema",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make create-schema",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -238,7 +238,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create migrations",
       "dependsOn": ["Create db schema"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make pgmakemigrations",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make makemigrations",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -248,7 +248,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Migrate DB",
       "dependsOn": ["Create migrations"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make migrate",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make migrate",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -258,17 +258,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create partition",
       "dependsOn": ["Migrate DB"],
       "type": "shell",
-      "command": "source ${config:python.pythonPath}; make pgpartition",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "Init db data",
-      "dependsOn": ["Create partition"],
-      "type": "shell",
-      "command": "source ${config:python.pythonPath}; make init-be",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make init-be",
       "group": {
         "kind": "build",
         "isDefault": true
