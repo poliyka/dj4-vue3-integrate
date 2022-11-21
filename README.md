@@ -227,7 +227,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create db schema",
       "dependsOn": ["Remove migrations"],
       "type": "shell",
-      "command": "source `echo ${command:python.interpreterPath} | sed 's/python//activate/g'`; make create-schema",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make create-schema",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -237,7 +237,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Create migrations",
       "dependsOn": ["Create db schema"],
       "type": "shell",
-      "command": "source `echo ${command:python.interpreterPath} | sed 's/python//activate/g'`; make makemigrations",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make makemigrations",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -247,7 +247,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Migrate DB",
       "dependsOn": ["Create migrations"],
       "type": "shell",
-      "command": "source `echo ${command:python.interpreterPath} | sed 's/python//activate/g'`; make migrate",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make migrate",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -257,7 +257,7 @@ This is good way to clean up all data and restart new environment when you devel
       "label": "Init db data",
       "dependsOn": ["Migrate DB"],
       "type": "shell",
-      "command": "source `echo ${command:python.interpreterPath} | sed 's/python//activate/g'`; make init-be",
+      "command": "source `echo ${command:python.interpreterPath} | sed 's/python/activate/g'`; make init-be",
       "group": {
         "kind": "build",
         "isDefault": true
