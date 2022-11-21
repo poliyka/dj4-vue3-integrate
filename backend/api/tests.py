@@ -1,3 +1,1 @@
-from django.test import TestCase
-
-# Create your tests here.
+from api.version.v1.tests import *
