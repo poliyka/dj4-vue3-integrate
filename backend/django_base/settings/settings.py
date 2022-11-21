@@ -262,20 +262,20 @@ EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
 if env("DJANGO_REDIS_ENABLE", default=False):
     REDIS_URL = (
-    f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
+        f"redis://:{env('DJANGO_REDIS_PASSWORD')}@{env('DJANGO_REDIS_HOST')}:{env('DJANGO_REDIS_PORT')}"
     )
 
     CACHES = {
-            "default": {
-                "BACKEND": "django_redis.cache.RedisCache",
-                "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
-                "OPTIONS": {
-                    "CLIENT_CLASS": "django_redis.client.DefaultClient",
-                    "CONNECTION_POOL_KWARGS": {"max_connections": 100},
-                    "PASSWORD": env("DJANGO_REDIS_PASSWORD"),
-                },
-            }
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": f"{REDIS_URL}/{env('DJANGO_REDIS_DB')}",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+                "PASSWORD": env("DJANGO_REDIS_PASSWORD"),
+            },
         }
+    }
 
     # Using Redis cache session login
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
