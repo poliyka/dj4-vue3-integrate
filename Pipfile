@@ -33,6 +33,7 @@ django-redis = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
 djangorestframework-simplejwt = "*"
+daphne = "*"
 
 [dev-packages]
 isort = "*"

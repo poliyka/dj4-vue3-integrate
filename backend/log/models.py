@@ -1,6 +1,8 @@
 from base.models import BaseTimeModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from websocket.utils import retrieve_log_data, channels_control_message
+from typing import Any
 
 
 class Log(BaseTimeModel):
@@ -29,13 +31,26 @@ class Log(BaseTimeModel):
         null=True,
         help_text="api path like '/api/v1/xxx'",
     )
-    action = models.CharField(
-        "執行操作", max_length=16, choices=Action.choices, default=Action.SYSTEM
-    )
-    level = models.CharField(
-        "等級", max_length=8, choices=Level.choices, default=Level.INFO
-    )
+    action = models.CharField("執行操作", max_length=16, choices=Action.choices, default=Action.SYSTEM)
+    level = models.CharField("等級", max_length=8, choices=Level.choices, default=Level.INFO)
     message = models.TextField("訊息", blank=True, null=True)
+
+    # On Save event
+    def save(self, *args: Any, **kwargs: Any) -> Any:
+        res = super().save(*args, **kwargs)
+        channels_control_message(
+            "log",
+            {
+                "id": self.id,
+                "user": self.user,
+                "method": self.method,
+                "api": self.api,
+                "action": self.action,
+                "level": self.level,
+                "message": self.message,
+            },
+        )
+        return res
 
     def __str__(self) -> str:
         """String for representing the Model object."""

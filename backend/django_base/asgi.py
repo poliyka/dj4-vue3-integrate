@@ -11,7 +11,11 @@ import os
 from pathlib import Path
 
 import environ
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
+
+from websocket.urls import websocket_urlpatterns
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -21,4 +25,10 @@ environ.Env.read_env(BASE_DIR / ".env")
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"django_base.settings.{env('DEV')}")
 
-application = get_asgi_application()
+application = ProtocolTypeRouter(
+    {
+        "http": get_asgi_application(),
+        # Just HTTP for now. (We can add other protocols later.)
+        "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
+    }
+)
