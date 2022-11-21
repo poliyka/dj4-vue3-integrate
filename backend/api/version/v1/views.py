@@ -1,7 +1,9 @@
+import logging
 from typing import Any
 
 from api.version.v1.serializers.test import UserSerializer
 from api.version.v1.serializers.user_data import UserDataSerializer
+from dj_rest_auth.jwt_auth import JWTCookieAuthentication
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
@@ -13,9 +15,9 @@ from rest_framework.permissions import IsAuthenticated
 
 # https://www.django-rest-framework.org/api-guide/status-codes/
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from dj_rest_auth.jwt_auth import JWTCookieAuthentication
+
+logger = logging.getLogger(__name__)
 
 class UserDataApiView(APIView):
     authentication_classes = [JWTCookieAuthentication]
