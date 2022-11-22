@@ -25,7 +25,7 @@
           style="min-width: 150px"
         />
 
-        <q-btn flat round dense :icon="themeMode" @click="onSwitchMode" />
+        <q-btn flat round dense :icon="themeModeIcon" @click="onSwitchMode" />
       </q-toolbar>
     </q-header>
 
@@ -55,6 +55,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { useMenuStore } from 'stores/menu';
+import { useGlobalStore } from 'stores/global';
 import { storeToRefs } from 'pinia';
 
 import DrawerMenuList from 'components/drawer/MenuList.vue';
@@ -63,10 +64,7 @@ import DrawerMenuHeader from 'components/drawer/MenuHeader.vue';
 import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
-import { EThemeMode } from 'src/utils/Enum';
 import { switchMode } from 'src/utils/Utils';
-// import zhTW from 'quasar/lang/zh-TW'
-// import enUS from 'quasar/lang/en-US'
 
 const appLanguages = languages.filter((lang) =>
   ['zh-TW', 'en-US'].includes(lang.isoName)
@@ -115,15 +113,12 @@ export default defineComponent({
     // use store
     const menuStore = useMenuStore();
     const { menu } = storeToRefs(menuStore);
+    const globalStore = useGlobalStore();
+    const { themeModeIcon } = storeToRefs(globalStore);
 
     // drawer toggle
     const leftDrawerOpen = ref(false);
 
-    // theme mode
-    const themeMode = ref<EThemeMode>(EThemeMode.DarkMode);
-    const onSwitchMode = (): void => {
-      switchMode($q, themeMode);
-    };
 
     return {
       // i18n
@@ -135,8 +130,8 @@ export default defineComponent({
       leftDrawerOpen,
 
       // theme mode
-      themeMode,
-      onSwitchMode,
+      themeModeIcon: themeModeIcon,
+      onSwitchMode: () => switchMode($q, themeModeIcon),
     };
   },
 });

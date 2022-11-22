@@ -1,16 +1,15 @@
-import type { TStatusHandler } from './../types/Utils.d';
-import type { TSwitchMode } from 'src/types/Utils';
-import { EThemeMode } from 'src/utils/Enum';
+import type { TSwitchMode, TStatusHandler } from 'src/types/Utils';
+import { EThemeModeIcon } from 'src/utils/Enum';
 import { LocalStorage, Notify } from 'quasar';
 import _ from 'lodash';
 
-export const switchMode: TSwitchMode = ($q, themeMode) => {
+export const switchMode: TSwitchMode = ($q, themeModeIcon) => {
   // A function that is used to switch between dark and light mode.
   $q.dark.set(!$q.dark.isActive);
   if ($q.dark.isActive) {
-    themeMode.value = EThemeMode.LightMode;
+    themeModeIcon.value = EThemeModeIcon.LightMode;
   } else {
-    themeMode.value = EThemeMode.DarkMode;
+    themeModeIcon.value = EThemeModeIcon.DarkMode;
   }
 };
 

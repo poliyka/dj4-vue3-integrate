@@ -15,7 +15,7 @@
 
           <q-toolbar-title> DVA System Login </q-toolbar-title>
 
-          <q-btn flat round dense :icon="themeMode" @click="onSwitchMode" />
+          <q-btn flat round dense :icon="themeModeIcon" @click="onSwitchMode" />
         </q-toolbar>
       </q-header>
 
@@ -69,14 +69,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { userLoginApi } from 'src/api/accounts';
 import { switchMode } from 'src/utils/Utils';
-import { EThemeMode } from 'src/utils/Enum';
+import { useGlobalStore } from 'src/stores/global';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   name: 'LoginLayout',
@@ -87,7 +88,9 @@ export default defineComponent({
     const router = useRouter();
 
     // Define attr
-    const themeMode = ref<EThemeMode>(EThemeMode.DarkMode);
+    const globalStore = useGlobalStore();
+    const { themeModeIcon } = storeToRefs(globalStore);
+
     const formData = reactive({
       username: '',
       password: '',
@@ -124,18 +127,15 @@ export default defineComponent({
       formData.password = '';
     };
 
-    const onSwitchMode = (): void => {
-      switchMode($q, themeMode);
-    };
-
     return {
       // attr
       formData,
-      themeMode,
+      themeModeIcon,
+
       // validation
       v$,
       // function
-      onSwitchMode,
+      onSwitchMode: () => switchMode($q, themeModeIcon),
       onSubmit,
       onReset,
     };
