@@ -11,28 +11,33 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'home',
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/example',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
+        name: 'example',
+        path: '/example',
+        component: () => import('src/pages/content/Example.vue'),
+      },
+      {
         name: 'dashboard',
         path: '/dashboard',
-        component: () => import('pages/content/dashboard.vue'),
+        component: () => import('src/pages/content/Dashboard.vue'),
       },
       {
         name: 'schedule',
         path: '/schedule',
-        component: () => import('pages/content/schedule.vue'),
+        component: () => import('src/pages/content/Schedule.vue'),
       },
       {
         name: 'jobs',
         path: '/jobs',
-        component: () => import('pages/content/jobs.vue'),
+        component: () => import('src/pages/content/Jobs.vue'),
       },
       {
         name: 'history',
         path: '/history',
-        component: () => import('pages/content/history.vue'),
+        component: () => import('src/pages/content/History.vue'),
       },
     ],
     meta: {
