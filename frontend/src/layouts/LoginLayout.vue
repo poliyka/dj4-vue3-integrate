@@ -115,7 +115,7 @@ export default defineComponent({
         timeout: 1000,
       });
       // 重新導向到首頁
-      router.push({ name: 'dashboard' });
+      router.push({ name: 'example' });
     };
 
     const onReset = (): void => {
@@ -149,7 +149,7 @@ export default defineComponent({
 }
 ._dva-login-layout {
   overflow: auto;
-  min-height: 30em;
+  min-height: 25em;
   max-height: 30em;
   min-width: 30em;
   max-width: 30em;

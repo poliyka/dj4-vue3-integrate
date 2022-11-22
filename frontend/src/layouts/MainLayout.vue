@@ -24,6 +24,8 @@
           options-dense
           style="min-width: 150px"
         />
+
+        <q-btn flat round dense :icon="themeMode" @click="onSwitchMode" />
       </q-toolbar>
     </q-header>
 
@@ -61,6 +63,8 @@ import DrawerMenuHeader from 'components/drawer/MenuHeader.vue';
 import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
+import { EThemeMode } from 'src/utils/Enum';
+import { switchMode } from 'src/utils/Utils';
 // import zhTW from 'quasar/lang/zh-TW'
 // import enUS from 'quasar/lang/en-US'
 
@@ -115,6 +119,12 @@ export default defineComponent({
     // drawer toggle
     const leftDrawerOpen = ref(false);
 
+    // theme mode
+    const themeMode = ref<EThemeMode>(EThemeMode.DarkMode);
+    const onSwitchMode = (): void => {
+      switchMode($q, themeMode);
+    };
+
     return {
       // i18n
       lang,
@@ -123,6 +133,10 @@ export default defineComponent({
       // use
       menu,
       leftDrawerOpen,
+
+      // theme mode
+      themeMode,
+      onSwitchMode,
     };
   },
 });

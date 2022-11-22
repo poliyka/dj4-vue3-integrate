@@ -1,44 +1,14 @@
 <template>
-  <div
-    v-for="(input, index) in state.collection"
-    :key="index"
-    :class="{
-      error: v$.collection.$each.$response.$errors[index].name.length,
-    }"
-  >
-    <input v-model="input.name" type="text" />
-    <div
-      v-for="error in v$.collection.$each.$response.$errors[index].name"
-      :key="error"
-    >
-      {{ error.$message }}
-    </div>
-  </div>
+  <q-page class="row items-center justify-evenly"> Schedule </q-page>
 </template>
 
 <script lang="ts">
-import { helpers, required } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
-import { reactive } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'ContentSchedule',
   setup() {
-    const rules = {
-      collection: {
-        $each: helpers.forEach({
-          name: {
-            required,
-          },
-        }),
-      },
-    };
-    const state = reactive({
-      collection: [{ name: '' }, { name: 'bar' }],
-    });
-    const v$ = useVuelidate(rules, state);
-    return { v$, state };
+    return {};
   },
 });
 </script>

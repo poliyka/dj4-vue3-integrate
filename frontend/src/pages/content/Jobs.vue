@@ -1,7 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    jobs
-  </q-page>
+  <q-page class="row items-center justify-evenly"> Jobs </q-page>
 </template>
 
 <script lang="ts">
@@ -11,8 +9,7 @@ export default defineComponent({
   name: 'ContentJobs',
   // components: { ExampleComponent },
   setup() {
-    return {
-    };
+    return {};
   },
 });
 </script>
