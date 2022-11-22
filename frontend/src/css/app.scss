@@ -1,5 +1,13 @@
 // app global css in SCSS form
+body {
+  font-family: "roboto", "Noto Sans TC", sans-serif;
+}
 
 body.body--dark {
   background: $dark-page;
+}
+
+@font-face {
+  font-family: "Noto Sans TC";
+  src: url(../assets/fonts/NotoSansTC-Medium.otf);
 }
