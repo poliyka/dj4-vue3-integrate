@@ -135,7 +135,7 @@ export default defineComponent({
       // validation
       v$,
       // function
-      onSwitchMode: () => switchMode($q, themeModeIcon),
+      onSwitchMode: () => switchMode($q),
       onSubmit,
       onReset,
     };

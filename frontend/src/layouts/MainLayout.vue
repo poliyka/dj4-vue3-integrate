@@ -131,7 +131,7 @@ export default defineComponent({
 
       // theme mode
       themeModeIcon: themeModeIcon,
-      onSwitchMode: () => switchMode($q, themeModeIcon),
+      onSwitchMode: () => switchMode($q),
     };
   },
 });
