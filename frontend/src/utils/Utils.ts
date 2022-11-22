@@ -1,16 +1,23 @@
-import type { TStatusHandler } from './../types/Utils.d';
-import type { TSwitchMode } from 'src/types/Utils';
-import { EThemeMode } from 'src/utils/Enum';
+import type { TSwitchMode, TStatusHandler } from 'src/types/Utils';
+import { EThemeModeIcon, EChartJSFontColor } from 'src/utils/Enum';
 import { LocalStorage, Notify } from 'quasar';
 import _ from 'lodash';
+import { useGlobalStore } from 'src/stores/global';
+import { storeToRefs } from 'pinia';
 
-export const switchMode: TSwitchMode = ($q, themeMode) => {
+export const switchMode: TSwitchMode = ($q) => {
   // A function that is used to switch between dark and light mode.
   $q.dark.set(!$q.dark.isActive);
+  // global store
+  const globalStore = useGlobalStore()
+  const { themeModeIcon, chartJSFontColor } = storeToRefs(globalStore);
+
   if ($q.dark.isActive) {
-    themeMode.value = EThemeMode.DarkMode;
+    themeModeIcon.value = EThemeModeIcon.LightMode;
+    chartJSFontColor.value = EChartJSFontColor.White;
   } else {
-    themeMode.value = EThemeMode.LightMode;
+    themeModeIcon.value = EThemeModeIcon.DarkMode;
+    chartJSFontColor.value = EChartJSFontColor.Dark;
   }
 };
 

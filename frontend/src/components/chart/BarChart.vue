@@ -1,39 +1,28 @@
 <template>
-  <Bar
-    :chartData="chartData"
-    :chartOptions="chartOptions"
-    :chartId="chartId"
-    :width="width"
-    :height="height"
-    :cssClasses="cssClasses"
-    :styles="styles"
-    :plugins="plugins"
-  />
+  <q-card>
+    <q-card-section>
+      <Bar
+        :chartData="chartData"
+        :chartOptions="chartOptions"
+        :chartId="chartId"
+        :width="width"
+        :height="height"
+        :cssClasses="cssClasses"
+        :styles="styles"
+        :plugins="plugins"
+      />
+    </q-card-section>
+
+    <q-card-section class="q-pt-none"> other message on here </q-card-section>
+  </q-card>
 </template>
 
-<!-- eslint-disable @typescript-eslint/no-empty-function -->
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { Bar } from 'vue-chartjs';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Plugin,
-} from 'chart.js';
-
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
+import { Plugin } from 'chart.js';
+import { useGlobalStore } from 'src/stores/global';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   name: 'BarChart',
@@ -57,7 +46,9 @@ export default defineComponent({
     },
     styles: {
       type: Object as PropType<Partial<CSSStyleDeclaration>>,
-      default: () => {},
+      default: () => {
+        return {};
+      },
     },
     plugins: {
       type: Array as PropType<Plugin<'bar'>[]>,
@@ -65,6 +56,8 @@ export default defineComponent({
     },
   },
   setup() {
+    const globalStore = useGlobalStore();
+    const { chartJSFontColor } = storeToRefs(globalStore);
 
     const MONTHS = [
       'January',
@@ -123,37 +116,40 @@ export default defineComponent({
       ],
     };
 
-    const chartOptions = {
-      responsive: true,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        title: {
-          display: true,
-          text: 'Chart.js Bar Chart',
-          color: 'white',
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: 'white',
+    // const chartOption = computed()
+    const chartOptions = computed(() => {
+      return {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Bar Chart',
+            color: chartJSFontColor.value,
           },
         },
-        x: {
-          ticks: {
-            color: 'white',
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: chartJSFontColor.value,
+            },
           },
-        }
-      },
-    };
+          x: {
+            ticks: {
+              color: chartJSFontColor.value,
+            },
+          },
+        },
+      };
+    });
 
     return {
-        chartData,
-        chartOptions,
-    }
+      chartData,
+      chartOptions,
+    };
   },
 });
 </script>

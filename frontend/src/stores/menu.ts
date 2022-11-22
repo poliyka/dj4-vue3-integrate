@@ -4,6 +4,12 @@ export const useMenuStore = defineStore('menu', {
   state: () => ({
     menu: [
       {
+        label: 'Example',
+        caption: 'example view',
+        icon: 'example',
+        path: '/example',
+      },
+      {
         label: 'Dashboard',
         caption: 'Show all monitor items',
         icon: 'dashboard',
