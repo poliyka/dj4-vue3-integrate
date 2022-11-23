@@ -29,11 +29,12 @@ pydot = "*"
 django-allauth = "*"
 channels = "*"
 dj-rest-auth = "*"
-django-redis = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
 djangorestframework-simplejwt = "*"
 daphne = "*"
+channels-redis = "==3.4.1"
+django-redis = "*"
 
 [dev-packages]
 isort = "*"

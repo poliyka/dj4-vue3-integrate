@@ -29,6 +29,13 @@
         <h5>Chartjs</h5>
         <BarChart />
       </div>
+
+      <q-card>
+        <q-card-section>
+          <h5>Socket Result: When create log</h5>
+          {{ socket.message }}
+        </q-card-section>
+      </q-card>
     </q-page>
   </div>
 </template>
@@ -41,6 +48,7 @@ import { injectStrict, statesKey, genKey } from 'src/utils/Injects';
 import BarChart from 'components/chart/BarChart.vue';
 
 import image from '/icons/favicon-128x128.png';
+import { useSocketStore } from 'src/stores/socket';
 
 export default defineComponent({
   name: 'ContentExample',
@@ -49,6 +57,7 @@ export default defineComponent({
     const $q = useQuasar();
     const grandpaStates = injectStrict(statesKey);
     const handleAfterBirthday = injectStrict(genKey);
+    const socket = useSocketStore();
     const states = reactive({
       old: computed(() => grandpaStates?.value.old),
     });
@@ -66,6 +75,7 @@ export default defineComponent({
       handleAfterBirthday,
       toggleMode,
       image,
+      socket,
       days: ref(['2019/02/01', '2019/02/10']),
     };
   },

@@ -75,6 +75,9 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    # channels
+    "channels",
+    "channels_redis",
 ]
 
 LOCAL_APPS = [
@@ -277,18 +280,13 @@ if env("DJANGO_REDIS_ENABLE", default=False):
     # Channel Layer
     # https://channels.readthedocs.io/en/latest/topics/channel_layers.html?highlight=group_add#configuration
     # channels_redis 有 bug，暫時不用
-    # CHANNEL_LAYERS = {
-    #     "default": {
-    #         "BACKEND": "channels_redis.core.RedisChannelLayer",
-    #         "CONFIG": {
-    #             "hosts": [f"{REDIS_URL}/7"],
-    #         },
-    #     },
-    # }
     CHANNEL_LAYERS = {
         "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer"
-        }
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [f"{REDIS_URL}/7"],
+            },
+        },
     }
 else:
     CHANNEL_LAYERS = {
