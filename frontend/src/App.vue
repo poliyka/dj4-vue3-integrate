@@ -5,8 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { provide, readonly, ref } from 'vue';
-import { statesKey, genKey } from './utils/Injects';
-
+import { statesKey, genKey } from 'src/utils/Injects';
 
 const states = ref({
   name: 'James',

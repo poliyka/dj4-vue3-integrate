@@ -1,26 +1,27 @@
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
-import type { TUserStore } from 'src/types/Types';
+import type { TUser } from 'src/types/Types';
+import _ from 'lodash';
+
+const user: TUser = {
+  profile: { avatar: '', birth: '', gender: '' },
+  lastLogin: '',
+  username: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+};
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     // default user
-    user: reactive<TUserStore>({
-      firstName: '',
-      lastName: '',
-      avatar: '',
-      username: '',
-    }),
+    user: _.cloneDeep(user),
   }),
 
   getters: {},
 
   actions: {
     logout() {
-      this.user.firstName = '';
-      this.user.lastName = '';
-      this.user.avatar = '';
-      this.user.username = '';
+      this.user = _.cloneDeep(user);
     },
   },
 });
