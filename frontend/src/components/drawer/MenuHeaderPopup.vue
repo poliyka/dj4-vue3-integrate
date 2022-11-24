@@ -20,7 +20,7 @@
 
       <div class="column items-center">
         <q-avatar size="72px">
-          <img :src="user.avatar" />
+          <img :src="user.profile.avatar" />
         </q-avatar>
 
         <div class="text-subtitle1 q-mt-md q-mb-xs">

@@ -8,7 +8,7 @@ export const getUserDataApi: TGetUserData = async (user) => {
   user.value.firstName = res.data.first_name;
   user.value.lastName = res.data.last_name;
   user.value.username = res.data.username;
-  user.value.avatar = sourcePathControl(res.data.profile.avatar, defaultAvatar);
+  user.value.profile.avatar = sourcePathControl(res.data.profile.avatar, defaultAvatar);
 
   return res;
 };
