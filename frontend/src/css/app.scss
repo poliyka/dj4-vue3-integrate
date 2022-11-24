@@ -14,7 +14,7 @@ body.body--dark {
 
 // scrollbar
 ::-webkit-scrollbar {
-  width: .5rem;
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-button {
@@ -34,7 +34,6 @@ body.body--dark {
   background-color: $slategray-2;
 
   border: 1px solid $slategray-1;
-
 }
 
 ::-webkit-scrollbar-track {
