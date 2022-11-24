@@ -65,6 +65,8 @@ import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
 import { switchMode } from 'src/utils/Utils';
+import { useUserStore } from 'src/stores/user';
+import { getUserDataApi } from 'src/api/v1/system';
 
 const appLanguages = languages.filter((lang) =>
   ['zh-TW', 'en-US'].includes(lang.isoName)
@@ -118,6 +120,11 @@ export default defineComponent({
 
     // drawer toggle
     const leftDrawerOpen = ref(false);
+
+    // get userData begin
+    const userStore = useUserStore();
+    const { user } = storeToRefs(userStore);
+    getUserDataApi(user).then((res) => res.data)
 
 
     return {

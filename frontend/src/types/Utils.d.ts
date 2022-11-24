@@ -3,12 +3,12 @@ import type { QVueGlobals, QNotifyCreateOptions } from 'quasar';
 import type { AxiosResponse, AxiosInstance } from 'axios';
 import type { LoginFormData, RUserData } from 'src/types/Api';
 import type { Router } from 'vue-router';
-import type { TMonthsConfig, TUserStore } from 'src/types/Types';
+import type { TMonthsConfig, TUser } from 'src/types/Types';
 
 export type TSwitchMode = ($q: QVueGlobals) => void;
 
 export type TGetUserData = (
-  user: Ref<TUserStore>
+  user: Ref<TUser>
 ) => Promise<AxiosResponse<RUserData>>;
 
 export type TUserLogin = (
