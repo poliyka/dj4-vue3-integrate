@@ -11,3 +11,32 @@ body.body--dark {
   font-family: "Noto Sans TC";
   src: url(../assets/fonts/NotoSansTC-Medium.otf);
 }
+
+// scrollbar
+::-webkit-scrollbar {
+  width: .5rem;
+}
+
+::-webkit-scrollbar-button {
+  background: transparent;
+
+  border-radius: 4px;
+  display: none;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+
+  background-color: $slategray-2;
+
+  border: 1px solid $slategray-1;
+
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: transparent;
+}
