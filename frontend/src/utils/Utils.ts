@@ -1,5 +1,15 @@
-import type { TSwitchMode, TStatusHandler } from 'src/types/Utils';
-import { EThemeModeIcon, EChartJSFontColor } from 'src/utils/Enum';
+import type {
+  TSwitchMode,
+  TStatusHandler,
+  TGetMonthsList,
+  TMonthsList,
+} from 'src/types/Utils';
+import {
+  EThemeModeIcon,
+  EChartJSFontColor,
+  EMonths,
+  getEnumList,
+} from 'src/utils/Enum';
 import { LocalStorage, Notify } from 'quasar';
 import _ from 'lodash';
 import { useGlobalStore } from 'src/stores/global';
@@ -9,7 +19,7 @@ export const switchMode: TSwitchMode = ($q) => {
   // A function that is used to switch between dark and light mode.
   $q.dark.set(!$q.dark.isActive);
   // global store
-  const globalStore = useGlobalStore()
+  const globalStore = useGlobalStore();
   const { themeModeIcon, chartJSFontColor } = storeToRefs(globalStore);
 
   if ($q.dark.isActive) {
@@ -96,7 +106,7 @@ export const status401Handler: TStatusHandler = (
         LocalStorage.set('jwtRefreshToken', res.data.refresh);
 
         // 刷新原始 request 的 access_token
-        originalRequest.headers.Authorization = 'Bearer ' + res.data.access
+        originalRequest.headers.Authorization = 'Bearer ' + res.data.access;
 
         // 重送 request (with new access_token)
         return api(originalRequest);
@@ -119,4 +129,40 @@ export const status401Handler: TStatusHandler = (
       message: '網站發生錯誤，請稍後再做嘗試',
     });
   }
+};
+
+export const monthsList: TMonthsList<string | number> = (months, config) => {
+  const cfg = config || {};
+  let count = cfg.count || 12;
+  const section = cfg.short ? 3 : undefined;
+  const season = cfg.season;
+
+  let start = 0;
+  if (typeof season === 'number' && season > 0 && season <= 4) {
+    start = 3 * (season - 1);
+    count = start + 3;
+  }
+
+  const values = [];
+  let value;
+  for (let i = start; i < count; ++i) {
+    value = months[Math.ceil(i) % 12];
+    if (typeof value === 'string') {
+      values.push(value.substring(0, section));
+    } else {
+      values.push(value);
+    }
+  }
+
+  return values;
+};
+
+export const getMonthsNamesList: TGetMonthsList<string> = (config) => {
+  const months = getEnumList(EMonths, 'number', 'keys');
+  return monthsList(months, config) as string[];
+};
+
+export const getMonthsValueList: TGetMonthsList<number> = (config) => {
+  const months = getEnumList(EMonths, 'number', 'values');
+  return monthsList(months, config) as number[];
 };

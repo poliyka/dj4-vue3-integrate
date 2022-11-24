@@ -1,21 +1,16 @@
 import { boot } from 'quasar/wrappers';
+
+// import all the things on the chart.js library not registerables
 import {
   Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
+  registerables
 } from 'chart.js';
 
+import autocolors from 'chartjs-plugin-autocolors';
+
 ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
+  ...registerables,
+  autocolors
 );
 
 export default boot(({ app }) => {
