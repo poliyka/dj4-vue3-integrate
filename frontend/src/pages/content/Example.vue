@@ -32,7 +32,7 @@
 
       <div class="col-4">
         <h5>VxeTable</h5>
-        <VxeTable />
+        <VxeTableExample />
       </div>
 
       <div class="col-4">
@@ -54,14 +54,14 @@ import { useQuasar } from 'quasar';
 import { watch, reactive } from 'vue';
 import { injectStrict, statesKey, genKey } from 'src/utils/Injects';
 import BarChart from 'components/chart/BarChart.vue';
-import VxeTable  from 'components/vxetable/VxeTable.vue';
+import VxeTableExample  from 'components/vxetable/VxeTableExample.vue';
 
 import image from '/icons/favicon-128x128.png';
 import { useSocketStore } from 'src/stores/socket';
 
 export default defineComponent({
   name: 'ContentExample',
-  components: { BarChart, VxeTable},
+  components: { BarChart, VxeTableExample},
   setup() {
     const $q = useQuasar();
     const grandpaStates = injectStrict(statesKey);

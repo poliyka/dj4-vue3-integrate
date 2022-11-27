@@ -2,5 +2,11 @@
   "success": "success",
   "failed": "fail",
   "language": "language",
-  "option": "options"
+  "option": "options",
+  "vxeTable": {
+    "button": {
+      "save": "save"
+    },
+    "content": { "emptyText": "No data to display" }
+  }
 }
