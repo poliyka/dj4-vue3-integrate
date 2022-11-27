@@ -2,5 +2,11 @@
   "failed": "失敗",
   "language": "語言",
   "option": "選項",
-  "success": "成功"
+  "success": "成功",
+  "vxeTable": {
+    "button": {
+      "save": "保存"
+    },
+    "content": { "emptyText": "暫無資料" }
+  }
 }

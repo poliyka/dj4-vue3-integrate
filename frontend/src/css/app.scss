@@ -39,3 +39,20 @@ body.body--dark {
 ::-webkit-scrollbar-track {
   box-shadow: transparent;
 }
+
+// vxe-table
+.vxe-grid .vxe-toolbar {
+  background-color: transparent;
+}
+
+// 取消外框線
+.vxe-table--border-line {
+  border: none !important;
+}
+
+// 取消表頭 wrapper 背景色
+.vxe-table--render-default.border--default .vxe-table--header-wrapper,
+.vxe-table--render-default.border--full .vxe-table--header-wrapper,
+.vxe-table--render-default.border--outer .vxe-table--header-wrapper {
+  background-color: transparent !important;
+}

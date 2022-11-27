@@ -29,7 +29,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer bordered show-if-above side="left" v-model="leftDrawerOpen">
+    <q-drawer
+      behavior="mobile"
+      bordered
+      show-if-above
+      side="left"
+      v-model="leftDrawerOpen"
+    >
       <!-- left drawer list -->
       <q-scroll-area class="_dva-drawer-scroll-area">
         <q-list padding>
@@ -126,8 +132,7 @@ export default defineComponent({
     // get userData begin
     const userStore = useUserStore();
     const { user } = storeToRefs(userStore);
-    getUserDataApi(user).then((res) => res.data)
-
+    getUserDataApi(user).then((res) => res.data);
 
     return {
       // i18n
