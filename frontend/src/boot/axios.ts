@@ -62,7 +62,12 @@ export default boot(({ app, router }) => {
         message: error.message,
       } as QNotifyCreateOptions;
 
+      if (error.message === 'Network Error') {
+        Notify.create({ ...errNotifyKw, message: '伺服器網路發生問題，請稍後再做嘗試' });
+      }
+
       if (error.response) {
+
         switch (error.response.status) {
           case 400:
             const res400 = status400Handler(api, error, router, errNotifyKw);
