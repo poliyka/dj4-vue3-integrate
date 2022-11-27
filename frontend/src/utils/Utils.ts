@@ -5,30 +5,20 @@ import type {
   TMonthsList,
 } from 'src/types/Utils';
 import {
-  EThemeModeIcon,
-  EChartJSFontColor,
   EMonths,
   getEnumList,
 } from 'src/utils/Enum';
 import { LocalStorage, Notify } from 'quasar';
 import _ from 'lodash';
 import { useGlobalStore } from 'src/stores/global';
-import { storeToRefs } from 'pinia';
 
 export const switchMode: TSwitchMode = ($q) => {
   // A function that is used to switch between dark and light mode.
   $q.dark.set(!$q.dark.isActive);
   // global store
   const globalStore = useGlobalStore();
-  const { themeModeIcon, chartJSFontColor } = storeToRefs(globalStore);
-
-  if ($q.dark.isActive) {
-    themeModeIcon.value = EThemeModeIcon.LightMode;
-    chartJSFontColor.value = EChartJSFontColor.White;
-  } else {
-    themeModeIcon.value = EThemeModeIcon.DarkMode;
-    chartJSFontColor.value = EChartJSFontColor.Dark;
-  }
+  // toggle theme mode by store action
+  globalStore.toggleThemeMode($q)
 };
 
 /**
