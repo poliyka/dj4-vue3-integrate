@@ -37,4 +37,4 @@ class ProfileAdmin(admin.ModelAdmin):
     raw_id_fields = ("user",)
 
     def view_name(self, obj: Profile) -> Any:
-        return obj.name
+        return obj.user.first_name
