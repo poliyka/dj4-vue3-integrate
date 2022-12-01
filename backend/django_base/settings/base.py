@@ -75,6 +75,7 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "rolepermissions",
     # partition table
     "psqlextra",
     "django_celery_results",
@@ -288,9 +289,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "normal": {
-            "format": "[%(levelname)s] %(asctime)s | %(module)s | %(name)s:%(lineno)d | %(message)s"
-        },
+        "normal": {"format": "[%(levelname)s] %(asctime)s | %(module)s | %(name)s:%(lineno)d | %(message)s"},
         "simple": {"format": "[%(levelname)s] %(message)s"},
     },
     "filters": {
@@ -319,20 +318,20 @@ LOGGING = {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": BASE_DIR / "../logs/django.log",
             "formatter": "normal",
-            "when": "midnight", # 每天凌晨
-            "backupCount": 7, # 保留7天
-            "encoding": "utf-8", # 使用utf-8編碼
-            "interval": 1, # 1 day
+            "when": "midnight",  # 每天凌晨
+            "backupCount": 7,  # 保留7天
+            "encoding": "utf-8",  # 使用utf-8編碼
+            "interval": 1,  # 1 day
         },
         "error": {
             "level": "ERROR",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": BASE_DIR / "../logs/django_error.log",
             "formatter": "normal",
-            "when": "midnight", # 每天凌晨
-            "backupCount": 7, # 保留7天
-            "encoding": "utf-8", # 使用utf-8編碼
-            "interval": 1, # 1 day
+            "when": "midnight",  # 每天凌晨
+            "backupCount": 7,  # 保留7天
+            "encoding": "utf-8",  # 使用utf-8編碼
+            "interval": 1,  # 1 day
         },
     },
     "loggers": {
