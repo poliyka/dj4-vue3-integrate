@@ -9,7 +9,7 @@ from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from drf_spectacular.utils import extend_schema
-from rest_framework.decorators import APIView
+from rest_framework.views import APIView
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 
@@ -32,7 +32,7 @@ class UserDataApiView(APIView):
     )
     def get(self, request: HttpRequest, *args: Any, **kw: Any) -> JsonResponse:
         User = get_user_model()
-        # flash query prevent cache user
+
         current_user = User.objects.filter(id=request.user.id).first()
         user_data_serializer = UserDataSerializer(current_user)
 
