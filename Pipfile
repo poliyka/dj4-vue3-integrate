@@ -32,13 +32,13 @@ django-redis = "*"
 psycopg2 = "*"
 djangorestframework-simplejwt = "*"
 django-model-utils = "*"
+django-role-permissions = "*"
 
 [dev-packages]
 # Testing
 mypy = "*"
 pytest = "*"
 pytest-sugar = "*"
-
 # Documentation
 sphinx = "*"
 sphinx-autobuild = "*"
@@ -51,7 +51,6 @@ coverage = "*"
 pylint-django = "*"
 pylint-celery = "*"
 pre-commit = "*"
-
 # Django
 factory-boy = "*"
 django-extensions = "*"

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1e0e5a3e207b9c41301dc4712779a13cdfa226df3e45c57b2e454b41c516bdb6"
+            "sha256": "cc022ef4275379d222c81b8b10750d8378a26d3e93c6173b7a20eea3387af1fc"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -342,6 +342,13 @@
             "index": "pypi",
             "version": "==3.7.0"
         },
+        "django-discover-runner": {
+            "hashes": [
+                "sha256:0ba91fe722c256bcbfdeb36fac7eac0f27e5bfda55d98c4c1cf9ab62b5b084fe",
+                "sha256:e05b6da06310ecc857b8950007f45b8968dd5f0b8b718a1095cf466c705fd807"
+            ],
+            "version": "==1.0"
+        },
         "django-environ": {
             "hashes": [
                 "sha256:bff5381533056328c9ac02f71790bd5bf1cea81b1beeb648f28b81c9e83e0a21",
@@ -373,6 +380,13 @@
             ],
             "index": "pypi",
             "version": "==5.2.0"
+        },
+        "django-role-permissions": {
+            "hashes": [
+                "sha256:4e3c11d6f2f6c0c241f7fbfaef1950add834706b598c8303f7b74fc494971035"
+            ],
+            "index": "pypi",
+            "version": "==3.1.1"
         },
         "django-sass-processor": {
             "hashes": [
@@ -439,11 +453,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:20d090e661bbe88a5d801ea5eb3d853564940352120c84c9a14968847aca2893",
-                "sha256:b95b2423ef18d17dcd5977732a0bf0fbbde4937f10dce24ff804581f7f3ca4e9"
+                "sha256:2d5443724f640ce07658ca8ca8bbd40d26b58914e63eec6549727869aa67e2cc",
+                "sha256:c2a2ff9dd8dfd991109b517ab98d5cb465e857acb45f6b643a0e284a9eb2cc76"
             ],
             "index": "pypi",
-            "version": "==15.3.3"
+            "version": "==15.3.4"
         },
         "freezegun": {
             "hashes": [
@@ -1486,11 +1500,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:20d090e661bbe88a5d801ea5eb3d853564940352120c84c9a14968847aca2893",
-                "sha256:b95b2423ef18d17dcd5977732a0bf0fbbde4937f10dce24ff804581f7f3ca4e9"
+                "sha256:2d5443724f640ce07658ca8ca8bbd40d26b58914e63eec6549727869aa67e2cc",
+                "sha256:c2a2ff9dd8dfd991109b517ab98d5cb465e857acb45f6b643a0e284a9eb2cc76"
             ],
             "index": "pypi",
-            "version": "==15.3.3"
+            "version": "==15.3.4"
         },
         "filelock": {
             "hashes": [
