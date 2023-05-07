@@ -8,57 +8,36 @@ if env("DATABASE_URL", default=None):
         "default": env.db(),
     }
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')},public"},
-            "NAME": env("POSTGRES_DB"),
-            "USER": env("POSTGRES_USER"),
-            "PASSWORD": env("POSTGRES_PASSWORD"),
-            "HOST": env("POSTGRES_HOST"),
-            "PORT": env("POSTGRES_PORT"),
-        }
-    }
+    pass
+    # DATABASES = {
+    #     "default": {
+    #         # "ENGINE": "django.db.backends.postgresql",
+    #         "ENGINE": "psqlextra.backend",
+    #         "OPTIONS": {"options": f"-c search_path={env('POSTGRES_SCHEMA')},public"},
+    #         "NAME": env("POSTGRES_DB"),
+    #         "USER": env("POSTGRES_USER"),
+    #         "PASSWORD": env("POSTGRES_PASSWORD"),
+    #         "HOST": env("POSTGRES_HOST"),
+    #         "PORT": env("POSTGRES_PORT"),
+    #     }
+    # }
+
+# APP
+INSTALLED_APPS.extend(["debug_toolbar", "django_extensions"])
 
 # Debug toolbar
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 INTERNAL_IPS = ("127.0.0.1", "localhost")
 
-# Print sql
 MIDDLEWARE.extend(
     [
-        "base.middleware.sql_middleware.SqlPrintingMiddleware",
+        # Print sql
+        # "base.middleware.sql_middleware.SqlPrintingMiddleware",
+        "base.middleware.sql_middleware.ApiPrintingMiddleware",
+        # disable csrf token
+        "base.middleware.disable_csrftoken_middleware.DisableCSRFOnDev",
     ]
 )
-
-# CORS
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = (
-    "http://127.0.0.1:9000",
-    "http://localhost:9000",
-)
-CORS_ALLOW_METHODS = (
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-    "VIEW",
-)
-CORS_ALLOW_HEADERS = [
-    "XMLHttpRequest",
-    "X_FILENAME",
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-]
 
 # schema 圖表化設定
 GRAPH_MODELS = {
@@ -78,4 +57,5 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+    "COMPONENT_SPLIT_REQUEST": True,
 }

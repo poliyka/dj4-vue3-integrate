@@ -52,10 +52,10 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
-    "debug_toolbar",
     "sass_processor",
     "rest_framework",
     "rest_framework.authtoken",
@@ -67,27 +67,33 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "registry",
     "compressor",
-    "django_extensions",
     # Oauth
     "allauth",
     "allauth.account",
-    # "allauth.socialaccount",
+    "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rolepermissions",
+    # partition table
+    # "psqlextra",
+    "django_celery_results",
+    "django_celery_beat",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
     "log",
-    "base",
+    "base"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -108,6 +114,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -144,7 +151,13 @@ TIME_ZONE = "Asia/Taipei"
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
+LANGUAGE_COOKIE_NAME = "locale"
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -184,24 +197,49 @@ STATICFILES_FINDERS = [
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.BasicAuthentication",
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
         # "rest_framework.authentication.SessionAuthentication"
-        # "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        # "rest_framework.authentication.BasicAuthentication",
         # "rest_framework.authentication.TokenAuthentication",
     ),
 }
 
 # JWT
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = "jwt-auth"
-JWT_AUTH_REFRESH_COOKIE = "jwt-refresh-token"
+REST_AUTH = {
+    # "LOGIN_SERIALIZER": "dj_rest_auth.serializers.LoginSerializer",
+    # "TOKEN_SERIALIZER": "dj_rest_auth.serializers.TokenSerializer",
+    # "JWT_SERIALIZER": "dj_rest_auth.serializers.JWTSerializer",
+    # "JWT_SERIALIZER_WITH_EXPIRATION": "dj_rest_auth.serializers.JWTSerializerWithExpiration",
+    # "JWT_TOKEN_CLAIMS_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+    # "USER_DETAILS_SERIALIZER": "dj_rest_auth.serializers.UserDetailsSerializer",
+    # "PASSWORD_RESET_SERIALIZER": "dj_rest_auth.serializers.PasswordResetSerializer",
+    # "PASSWORD_RESET_CONFIRM_SERIALIZER": "dj_rest_auth.serializers.PasswordResetConfirmSerializer",
+    # "PASSWORD_CHANGE_SERIALIZER": "dj_rest_auth.serializers.PasswordChangeSerializer",
+    # "REGISTER_SERIALIZER": "dj_rest_auth.registration.serializers.RegisterSerializer",
+    # "REGISTER_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    # "TOKEN_MODEL": "rest_framework.authtoken.models.Token",
+    # "TOKEN_CREATOR": "dj_rest_auth.utils.default_create_token",
+    # "PASSWORD_RESET_USE_SITES_DOMAIN": False,
+    "SESSION_LOGIN": True,
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "jwt-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "jwt-refresh-token",
+    "JWT_AUTH_REFRESH_COOKIE_PATH": "/",
+    "JWT_AUTH_SECURE": False,
+    "JWT_AUTH_HTTPONLY": False,
+    # "JWT_AUTH_SAMESITE": "Lax",
+    # "JWT_AUTH_RETURN_EXPIRATION": False,
+    # "OLD_PASSWORD_FIELD_ENABLED": False,
+    # "LOGOUT_ON_PASSWORD_CHANGE": False,
+    # "JWT_AUTH_COOKIE_USE_CSRF": False,
+    # "JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED": False,
+}
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(hours=4),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=24),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=24),
+    "ROTATE_REFRESH_TOKENS": True,  # refresh token 每次登入都會更新
+    "BLACKLIST_AFTER_ROTATION": True,  # refresh token 更新後，將舊的 refresh token 加入黑名單
     "UPDATE_LAST_LOGIN": True,
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
@@ -225,6 +263,11 @@ SIMPLE_JWT = {
 }
 
 # All-Auth
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# This setting determines whether the username is stored in lowercase (False) or whether its casing is to be preserved (True). Note that when casing is preserved, potentially expensive __iexact lookups are performed when filter on username. For now, the default is set to True to maintain backwards compatibility.
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
@@ -232,10 +275,14 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# ACCOUNT_ADAPTER = "auth_account.adapter.accountAdapter"
-# to allow logout using GET - this is the exact same configuration from allauth. NOT recommended
-# see: http://django-allauth.readthedocs.io/en/latest/views.html#logout
-ACCOUNT_LOGOUT_ON_GET = True
+SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_UNIQUE_EMAIL = True
 # to use old_password.
 OLD_PASSWORD_FIELD_ENABLED = True
 # to keep the user logged in after password change
@@ -243,12 +290,12 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 
 # Mail service
 # SMTP Configuration
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"  # SMTP伺服器
-EMAIL_PORT = 587  # TLS通訊埠號
-EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
-EMAIL_HOST_USER = "dwqd853@gmail.com"  # 寄件者電子郵件
-EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"  # SMTP伺服器
+# EMAIL_PORT = 587  # TLS通訊埠號
+# EMAIL_USE_TLS = True  # 開啟TLS(傳輸層安全性)
+# EMAIL_HOST_USER = "dwqd853@gmail.com"  # 寄件者電子郵件
+# EMAIL_HOST_PASSWORD = "siffxzyxustfspze"  # Gmail應用程式的密碼
 
 # Redis Cache
 # see: https://django-redis-chs.readthedocs.io/zh_CN/latest/
@@ -291,21 +338,31 @@ LOGGING = {
         "require_debug_true": {
             "()": "django.utils.log.RequireDebugTrue",
         },
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
     },
     "handlers": {
         "console": {
-            "level": "INFO",
+            "level": "DEBUG",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
             "formatter": "normal",
         },
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler",
+        "django_uwsgi": {
+            "filters": ["require_debug_false"],
+            "class": "logging.handlers.WatchedFileHandler",
             "formatter": "normal",
+            "filename": BASE_DIR / "../logs/uwsgi.log",
         },
+        # "mail_admins": {
+        #     "level": "ERROR",
+        #     "class": "django.utils.log.AdminEmailHandler",
+        #     "formatter": "normal",
+        # },
         "file": {
             "level": "INFO",
+            "filters": ["require_debug_true"],
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": BASE_DIR / "../logs/django.log",
             "formatter": "normal",
@@ -316,6 +373,7 @@ LOGGING = {
         },
         "error": {
             "level": "ERROR",
+            "filters": ["require_debug_true"],
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": BASE_DIR / "../logs/django_error.log",
             "formatter": "normal",
@@ -327,21 +385,73 @@ LOGGING = {
     },
     "loggers": {
         "": {
-            "handlers": ["console", "file", "error"],
+            "handlers": ["console", "django_uwsgi", "file", "error"],
         },
         "django": {
-            "handlers": ["console", "file"],
-            "propagate": True,
+            "handlers": ["console", "django_uwsgi", "file", "error"],
+            "level": "INFO",
         },
-        "django.request": {
-            "handlers": ["mail_admins", "file"],
-            "level": "ERROR",
+        "django.server": {
+            "handlers": ["django_uwsgi", "file", "error"],
+            "level": "INFO",
             "propagate": False,
         },
-        # 'myproject.custom': {
-        #     'handlers': ['console', 'mail_admins'],
-        #     'level': 'INFO',
-        #     'filters': ['special']
-        # }
+        "django.request": {
+            "handlers": ["django_uwsgi", "file", "error"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        # "myproject.custom": {
+        #     "handlers": ["console", "mail_admins"],
+        #     "level": "INFO",
+        #     "filters": ["special"],
+        # },
     },
 }
+
+# CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    "http://127.0.0.1:3002",
+    "http://localhost:3002",
+    "http://127.0.0.1:3005",
+    "http://localhost:3005",
+    "http://django:3003",
+    f"http://{env('BACKEND_HOST')}:{env('BACKEND_PORT')}",
+    env("BACKEND_DOMAIN"),
+)
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    "VIEW",
+)
+CORS_ALLOW_HEADERS = [
+    "XMLHttpRequest",
+    "X_FILENAME",
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "X-CSRFTOKEN",
+    "x-requested-with",
+]
+
+
+# Partition table manager
+PSQLEXTRA_PARTITIONING_MANAGER = "log.partition.manager"
+
+
+# Go api server
+GO_API_SERVER_HOST = env("GO_API_SERVER_HOST")
+GO_API_SERVER_PORT = env("GO_API_SERVER_PORT")
+GO_DB_SCHEMA = env("GO_DB_SCHEMA")
+
+# role permission
+ROLEPERMISSIONS_MODULE = "base.roles"

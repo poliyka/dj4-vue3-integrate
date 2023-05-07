@@ -21,7 +21,6 @@ class Command(BaseCommand):
     REG_CREATE_SUPERUSER = "init.create_superuser"
     REG_RSA_PRIVATE_KEY = "init.rsa_private_key"
     REG_RSA_PUBLISH_KEY = "init.rsa_publish_key"
-    REG_TIME_TRAVEL = "init.time_travel"
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         parser.add_argument("-f", "--force", action="store_true", help="force import")
@@ -54,14 +53,6 @@ class Command(BaseCommand):
             self.stdout.write(f"Registry {self.REG_RSA_PUBLISH_KEY}...")
             reg[self.REG_RSA_PUBLISH_KEY] = True
 
-        if self.REG_TIME_TRAVEL not in reg:
-            self.stdout.write(f"Registry {self.REG_TIME_TRAVEL}...")
-            Entry.objects.create(
-                key=self.REG_TIME_TRAVEL,
-                value="2022-10-28 06:00:00",
-                type=Entry.Types.STRING,
-                enabled=False,
-            )
 
     def create_superuser(self) -> None:
         username = os.environ.get("DJANGO_SUPERUSER_USERNAME") or input(
