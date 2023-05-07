@@ -28,7 +28,13 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios', 'lodash', 'chartjs', 'vxetable'],
+    boot: [
+      'i18n',
+      'axios',
+      'lodash',
+      'chartjs',
+      'vxetable'
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -37,7 +43,7 @@ module.exports = configure(function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v6',
+      'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -63,7 +69,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      env: require('dotenv').config().parsed,
+      env: require('dotenv').config({
+        path: path.resolve(__dirname, '../.env'),
+      }).parsed,
       devtool: 'source-map',
       // rawDefine: {}
       // ignorePublicFolder: true,
@@ -94,6 +102,7 @@ module.exports = configure(function (/* ctx */) {
     devServer: {
       // https: true
       open: false, // opens browser window automatically
+      port: 3005,
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
@@ -112,6 +121,7 @@ module.exports = configure(function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Notify',
+        'Dialog',
         'LoadingBar',
         'LocalStorage',
         'SessionStorage',
@@ -120,9 +130,9 @@ module.exports = configure(function (/* ctx */) {
       config: {
         dark: true,
         loadingBar: {
-          skipHijack: true,
+          skipHijack: false,
           color: 'positive',
-          size: '2px',
+          size: '6px',
           position: 'top',
         },
       },

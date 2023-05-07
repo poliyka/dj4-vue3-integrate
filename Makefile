@@ -1,3 +1,6 @@
+include .env
+export $(shell sed 's/=.*//' .env)
+
 PYVENV_PREFIX=pipenv run
 DOCKER_COMPOSE=docker-compose
 
@@ -48,10 +51,10 @@ test-be-path:
 	$(PYVENV_PREFIX) python backend/manage.py test $(p)
 
 shell-be:
-	$(PYVENV_PREFIX) python backend/manage.py shell
+	$(PYVENV_PREFIX) python backend/manage.py shell_plus --print-sql
 
 run-be:
-	$(PYVENV_PREFIX) python backend/manage.py runserver 0.0.0.0:3002
+	$(PYVENV_PREFIX) python backend/manage.py runserver 0.0.0.0:$(BACKEND_PORT)
 
 create-user:
 	$(PYVENV_PREFIX) python backend/manage.py createsuperuser
@@ -62,15 +65,34 @@ create-schema:
 schema-be:
 	$(PYVENV_PREFIX) python backend/manage.py spectacular --file schema.yml
 
-# none: insert demo data
-# -f, --force : force clear origin data
-demo-be:
-	$(PYVENV_PREFIX) python backend/manage.py simulate $(a)
+# Initialize
 
 # none: initialize database
 # -f, --force : force clear registry first
 init-be:
 	$(PYVENV_PREFIX) python backend/manage.py initialize $(a)
+
+init-age:
+	$(PYVENV_PREFIX) python backend/manage.py age_jcs_graph $(a)
+
+init-neo4j:
+	$(PYVENV_PREFIX) python backend/manage.py neo4j_jcs_graph $(a)
+
+# i18n
+# 更新翻譯檔
+# zh_Hant: 繁體中文, zh_Hans: 簡體中文, en: 英文
+build-i18n:
+	cd backend; $(PYVENV_PREFIX) django-admin makemessages -l $(a)
+
+compile-i18n:
+	cd backend; $(PYVENV_PREFIX) django-admin compilemessages
+
+# celery
+run-celery:
+	cd backend; $(PYVENV_PREFIX) celery -A schedule worker -l info
+
+run-celery-beat:
+	cd backend; $(PYVENV_PREFIX) celery -A schedule beat -l info
 
 # db
 migrate:
@@ -78,6 +100,12 @@ migrate:
 
 makemigrations:
 	$(PYVENV_PREFIX) python backend/manage.py makemigrations
+
+pgmakemigrations:
+	$(PYVENV_PREFIX) python backend/manage.py pgmakemigrations
+
+pgpartition:
+	$(PYVENV_PREFIX) python backend/manage.py pgpartition -y
 
 collectstatic:
 	$(PYVENV_PREFIX) python backend/manage.py collectstatic
@@ -90,5 +118,7 @@ rm-migrations:
 
 
 # Schema 關係圖
+# 使用前要先安裝 sudo apt install graphviz
+# 否則會有 FileNotFoundError: [Errno 2] "dot" not found in path.
 erd:
-	$(shell $(PYVENV_PREFIX) python backend/manage.py graph_models -a > ./doc/erd/erd.dot && $(PYVENV_PREFIX) python backend/manage.py graph_models --pydot -a -g -o ./doc/erd/erd.png)
+	$(shell $(PYVENV_PREFIX) python backend/manage.py graph_models -a > doc/erd/erd.dot && $(PYVENV_PREFIX) python backend/manage.py graph_models --pydot -a -g -o doc/erd/erd.png)

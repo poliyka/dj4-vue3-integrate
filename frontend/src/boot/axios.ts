@@ -17,7 +17,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 
 const api = axios.create({
-  baseURL: `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`,
+  baseURL: '/',
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },
