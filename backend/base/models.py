@@ -1,18 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
+from model_utils.models import TimeStampedModel
+from base.choices import I18nChoices
+
+# Unique email
+User._meta.get_field("email")._unique = True
 
 
-class BaseTimeModel(models.Model):
-    """Timestamp interface model"""
-
-    created_at = models.DateTimeField("建立時間", auto_now_add=True)
-    updated_at = models.DateTimeField("最後更新時間", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class Profile(BaseTimeModel):
+class Profile(TimeStampedModel):
     """使用者個人資料"""
 
     class Gender(models.TextChoices):
@@ -29,17 +24,15 @@ class Profile(BaseTimeModel):
     )
 
     # information
-    birth = models.DateField("生日", blank=True, null=True)
-    gender = models.CharField(
-        "性別", max_length=16, choices=Gender.choices, blank=True, null=True
-    )
-    identity = models.CharField(
-        "身分證字號", max_length=16, blank=True, null=True, unique=True
-    )
-    tel = models.CharField("住家電話", max_length=16, blank=True, null=True)
+    title = models.CharField("職稱", max_length=32, blank=True, null=True)
+    gender = models.CharField("性別", max_length=16, choices=Gender.choices, blank=True, null=True)
+    tel = models.CharField("公司電話", max_length=16, blank=True, null=True)
+    tel_ext = models.CharField("分機", max_length=16, blank=True, null=True)
     mobile = models.CharField("行動電話", max_length=32, blank=True, null=True)
-    address = models.CharField("聯絡地址", max_length=256, blank=True, null=True)
-    note = models.TextField("備註", blank=True, null=True)
+
+    # preferences
+    theme_dark = models.BooleanField("深色主題", default=True)
+    language = models.CharField("語言", max_length=16, choices=I18nChoices.choices, default=I18nChoices.ZH_TW)
 
     def __str__(self) -> str:
         """String for representing the Model object."""

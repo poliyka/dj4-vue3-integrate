@@ -1,15 +1,13 @@
 from django.conf import settings
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
-
 
 app_name = "api"
 
 urlpatterns = [
     # rest auth
     path("accounts/", include("dj_rest_auth.urls")),
-    path("accounts/registration/", include("dj_rest_auth.registration.urls")),
+    # path("accounts/registration/", include("dj_rest_auth.registration.urls")),
     # v1
     path("v1/", include("api.version.v1.urls"), name="v1"),
 ]

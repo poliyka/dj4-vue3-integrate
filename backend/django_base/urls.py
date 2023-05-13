@@ -31,13 +31,13 @@ if settings.DEV in ["dev", "stage"] and not settings.TEST_MODE:
     # local
     import debug_toolbar
 
+    static_urls = []
+    for static_url, static_root in settings.FRONTEND_STATIC_ROOT.items():
+        static_urls += static(static_url, document_root=static_root)
+
     urlpatterns.extend(
         (
-            # statics
-            [
-                static(static_url, document_root=static_root)[0]
-                for static_url, static_root in settings.FRONTEND_STATIC_ROOT.items()
-            ]
+            static_urls
             + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
             + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
             # admin

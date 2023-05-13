@@ -2,15 +2,37 @@ from rolepermissions.roles import AbstractUserRole
 
 # https://django-role-permissions.readthedocs.io/en/stable/quickstart.html
 
-class Group1(AbstractUserRole):
+
+# Role permissions:
+# - Admin : All permission
+# - Maintainer: All permission exclude assign Maintainer permission
+# - Developer: Can CRUD
+# - Viewer: Only view
+
+# Saas permissions:
+# - Standard
+# - Gold
+# - Platinum
+# - Enterprise
+
+
+class Operator(AbstractUserRole):
     available_permissions = {
-        'permission1': True,
-        'permission2': True,
+        # 最高權限
+        "Admin": False,
+        # 管理者
+        "Maintainer": False,
+        # 操作者
+        "Developer": False,
+        # read only
+        "Viewer": True,
     }
 
-class Group2(AbstractUserRole):
+
+class Saas(AbstractUserRole):
     available_permissions = {
-        'permission1': True,
-        'permission2': True,
-        'permission3': True,
+        "Standard": True,
+        "Gold": False,
+        "Platinum": False,
+        "Enterprise": False,
     }

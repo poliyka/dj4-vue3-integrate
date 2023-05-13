@@ -27,12 +27,14 @@ admin.site.register(User, UserInlineAdmin)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         "user",
-        "birth",
         "gender",
-        "identity",
-        "address",
-        "created_at",
-        "updated_at",
+        "tel",
+        "tel_ext",
+        "mobile",
+        "theme_dark",
+        "language",
+        "created",
+        "modified",
     )
     raw_id_fields = ("user",)
 

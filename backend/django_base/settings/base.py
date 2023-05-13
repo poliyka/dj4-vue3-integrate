@@ -83,7 +83,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "log",
-    "base"
+    "base",
+    "api",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
