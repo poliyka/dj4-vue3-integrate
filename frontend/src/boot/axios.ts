@@ -27,8 +27,8 @@ const api = axios.create({
 // 在開發環境下才啟用 CORS
 // 並直接模擬登入首頁取得 csrf token
 if (process.env.DEV) {
+  api.defaults.baseURL = process.env.BACKEND_DOMAIN
   api.defaults.withCredentials = true;
-  api.get('', { withCredentials: true });
 }
 
 export default boot(({ app, router }) => {

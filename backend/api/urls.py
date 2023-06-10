@@ -10,6 +10,7 @@ urlpatterns = [
     # path("accounts/registration/", include("dj_rest_auth.registration.urls")),
     # v1
     path("v1/", include("api.version.v1.urls"), name="v1"),
+    path("v2/", include("api.version.v2.urls"), name="v2"),
 ]
 
 
